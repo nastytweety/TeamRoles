@@ -48,10 +48,14 @@ namespace TeamRoles.Models
 
     public class LoginViewModel
     {
-        [Required]
+        /*[Required]
         [Display(Name = "Email")]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; }*/
+
+        [Required]
+        [Display(Name = "Username")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -64,6 +68,17 @@ namespace TeamRoles.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "UserRole")]
+        public string UserRoles { get; set; }
+
+        [Required]
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
+
+        [Display(Name = "Profile Picture")]
+        public string ProfilePic { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

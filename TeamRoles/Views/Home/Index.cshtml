@@ -1,31 +1,94 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity;
+@using TeamRoles.Models.Extensions;
+@using TeamRoles.Models;
+@model  TeamRoles.Models.Post
+@{
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
+<!--<div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
     <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-lg-4">
+            <div class="card">
+                <img alt="Card image cap" class="card-img-top img-fluid" src="@User.Identity.GetUrlPicture()" width="200" height="200" />
+                <div class="card-block">
+                    <h4 class="card-title"> @User.Identity.GetUserName() </h4>
+
+                    <p class="card-text">
+                        @if (User.IsInRole("Teacher"))
+                        {
+                            <p>Teacher</p>
+                        }
+                        else if (User.IsInRole("Student"))
+                        {
+                            <p>Student</p>
+                        }
+                    </p>
+                    </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-lg-4">
+            @using (Html.BeginForm("Create", "Posts", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group purple-border">
+
+                        <textarea class="form-control purple-border" id="PostText" style="min-width: 100%" name="PostText" type="text" placeholder="Write something here..." rows="5"></textarea>
+                        <!--@Html.ValidationMessageFor(model => model.PostText, "", new { @class = "text-danger" })-->
+                        <input type="hidden" id="UserID" name="UserID" value='@User.Identity.GetUserId()' />
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="text-right">
+                                <input type="submit" value="Post" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    @if (ViewBag.Posts != null)
+    {
+        foreach (var post in ViewBag.Posts)
+        {
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+
+                <div class="col-md-4">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @post.UserName
+                                </td>
+                                <td>
+                                    @post.PostDate
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">@post.PostText</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+        }
+    }
+
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>

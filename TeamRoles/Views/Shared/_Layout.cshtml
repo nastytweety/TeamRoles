@@ -1,39 +1,102 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity;
+@*using TeamRoles.Models.Extensions;*@
+@using TeamRoles.Models;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - eν-τάξει</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+    @if (User.IsInRole("Teacher"))
+    {
+        <nav class="navbar navbar-fixed-top bg-primary">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("eν-τάξει", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
+                    @Html.ActionLink("CreateCourse", "Create", "Courses", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
+                    @Html.ActionLink("MyCourses", "Index", "Courses", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
+                    @Html.ActionLink("Teachers", "Index", "Teacher", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    @Html.Partial("_LoginPartial")
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+        </nav>
+    }
+    else if (User.IsInRole("Student"))
+    {
+        <nav class="navbar navbar-fixed-top bg-primary">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("eν-τάξει", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
+                    @Html.ActionLink("MyCourses", "Index_Selected", "Courses", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
+                    @Html.ActionLink("View Teachers", "Index", "Teacher", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    @Html.Partial("_LoginPartial")
+                </div>
             </div>
-        </div>
-    </div>
+        </nav>
+    }
+    else if (User.IsInRole("Admin"))
+    {
+        <nav class="navbar navbar-fixed-top bg-primary">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("eν-τάξει", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
+                    @Html.ActionLink("Students", "Admin_Index", "Student", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
+                    @Html.ActionLink("Teachers", "Admin_Index", "Teacher", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
+                    @Html.ActionLink("Courses", "Admin_Index", "Courses", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </nav>
+    }
+    else if (!User.Identity.IsAuthenticated)
+    {
+        <nav class="navbar navbar-fixed-top bg-primary">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("eν-τάξει", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </nav>
+    }
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - eν-τάξει</p>
         </footer>
     </div>
 
@@ -42,3 +105,5 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+
