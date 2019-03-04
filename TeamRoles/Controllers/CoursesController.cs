@@ -27,6 +27,7 @@ namespace TeamRoles.Controllers
             return View(Courses);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Admin_Index()
         {
             return View(db.Courses.ToList());
@@ -97,6 +98,15 @@ namespace TeamRoles.Controllers
         {
             if (ModelState.IsValid)
             {
+                ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
+                List<Course> courses = user.Courses.ToList();
+                foreach(var c in courses)
+                {
+                    if(c.CourseName == course.CourseName)
+                    {
+                        return RedirectToAction("Error");
+                    }
+                }
                 course.ApplicationUsers.Add(db.Users.Find(User.Identity.GetUserId()));
                 db.Courses.Add(course);
                 db.SaveChanges();
@@ -186,6 +196,11 @@ namespace TeamRoles.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
     }
 }

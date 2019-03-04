@@ -45,6 +45,7 @@ namespace TeamRoles.Controllers
             return View(usersInRole);
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Admin_Index()
         {
             List<ApplicationUser> Users = db.Users.ToList();
