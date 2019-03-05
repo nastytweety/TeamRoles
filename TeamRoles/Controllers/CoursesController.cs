@@ -120,7 +120,7 @@ namespace TeamRoles.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult Create([Bind(Include = "CourseId,CourseName")] Course course)
+        public ActionResult Create([Bind(Include = "CourseId,CourseName,CourseDescription,CoursePic")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -178,7 +178,7 @@ namespace TeamRoles.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CourseId,CourseName")] Course course)
+        public ActionResult Edit([Bind(Include = "CourseId,CourseName,CourseDescription,CoursePic")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -227,6 +227,32 @@ namespace TeamRoles.Controllers
         public ActionResult Error()
         {
             return View();
+        }
+
+        public ActionResult CourseHome(int? id)
+        {
+            Course course = db.Courses.Find(id);
+            Index_SelectedViewModel model = new Index_SelectedViewModel();
+
+            model.CourseName = course.CourseName;
+            model.CoursePic = course.CoursePic;
+            model.CourseDescription = course.CourseDescription;
+            List<ApplicationUser> alluser = course.ApplicationUsers.ToList();
+            foreach (var us in alluser)
+            {
+                Course list_course = new Course();
+                    var isInStudentRole = _userManager.IsInRole(us.Id, "Student");
+                    if (isInStudentRole)
+                    {
+                        list_course.ApplicationUsers.Add(us);
+                        model.Courses.Add(list_course);
+                    }
+                    else
+                    {
+                        model.Teacher = us;
+                    }
+            }
+            return View(model);
         }
     }
 }

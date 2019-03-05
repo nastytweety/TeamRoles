@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNet.Identity;
+@using TeamRoles.Models.Extensions;
+@using TeamRoles.Models
+@model TeamRoles.Models.Index_SelectedViewModel
+@{
+    ViewBag.Title = "CourseHome";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-lg-4">
+            <div class="card">
+                <img alt="Card image cap" class="card-img-top img-fluid" src="@Model.CoursePic" width="100" height="100" />
+                <div class="card-block">
+                    <h4 class="card-title"> @Model.CourseName </h4>
+
+                    <p class="card-text">
+                    <p>@Model.CourseDescription</p>
+                    <p>Teacher</p>
+                    <p>@Model.Teacher.UserName</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-lg-4">
+            <table class="table">
+                <tr>
+                    <th>
+                        Students
+                    </th>
+                    @if (User.IsInRole("Teacher"))
+                    {
+                        <th>
+                            Options
+                        </th>
+                    }
+                    </tr>
+                @foreach (var item in Model.Courses)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApplicationUsers.First().UserName)
+                        </td>
+                        @if(User.IsInRole("Teacher"))
+                        {
+                        <td>
+                            @Html.ActionLink("Details", "Student", new { id = new ApplicationUser() }) |
+                            @Html.ActionLink("Delete", "Student", new { id = new ApplicationUser() })
+                        </td>
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    <a href="/Courses">Back to List</a>
+</div>
+

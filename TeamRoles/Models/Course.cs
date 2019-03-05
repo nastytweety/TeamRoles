@@ -14,6 +14,8 @@ namespace TeamRoles.Models
 
         public int CourseId { get; set; }
         public string CourseName { get; set; }
+        public string CourseDescription { get; set; }
+        public string CoursePic { get; set; }
 
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
     }
