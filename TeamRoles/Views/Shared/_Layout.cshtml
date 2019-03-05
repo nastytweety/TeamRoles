@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity;
-@*using TeamRoles.Models.Extensions;*@
+@using TeamRoles.Models.Extensions;
 @using TeamRoles.Models;
 <!DOCTYPE html>
 <html>
@@ -12,86 +12,79 @@
 
 </head>
 <body>
-    @if (User.IsInRole("Teacher"))
-    {
-        <nav class="navbar navbar-fixed-top bg-primary">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("eν-τάξει", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
-                    @Html.ActionLink("CreateCourse", "Create", "Courses", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
-                    @Html.ActionLink("MyCourses", "Index", "Courses", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
-                    @Html.ActionLink("Teachers", "Index", "Teacher", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    @Html.Partial("_LoginPartial")
-                </div>
-            </div>
-        </nav>
-    }
-    else if (User.IsInRole("Student"))
-    {
-        <nav class="navbar navbar-fixed-top bg-primary">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("eν-τάξει", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
-                    @Html.ActionLink("MyCourses", "Index_Selected", "Courses", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
-                    @Html.ActionLink("View Teachers", "Index", "Teacher", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    @Html.Partial("_LoginPartial")
-                </div>
-            </div>
-        </nav>
-    }
-    else if (User.IsInRole("Admin"))
-    {
-        <nav class="navbar navbar-fixed-top bg-primary">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("eν-τάξει", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
-                    @Html.ActionLink("Students", "Admin_Index", "Student", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
-                    @Html.ActionLink("Teachers", "Admin_Index", "Teacher", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
-                    @Html.ActionLink("Courses", "Admin_Index", "Courses", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    @Html.Partial("_LoginPartial")
-                </div>
-            </div>
-        </nav>
-    }
-    else if (!User.Identity.IsAuthenticated)
-    {
-        <nav class="navbar navbar-fixed-top bg-primary">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("eν-τάξει", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style = "color:white" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    @Html.Partial("_LoginPartial")
-                </div>
-            </div>
-        </nav>
-    }
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <a class="navbar-brand" href="/Home/Index">eν-τάξει</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                @if (!User.Identity.IsAuthenticated)
+                {
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> Home </a> @*Plhrofories Gia thn Efarmogh (carousel and ... )*@
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> About </a> @* Plhrofories gia ta atoma pisw ap thn efarmogh ( bootcamp team project ) *@
+                    </li>
+                }
+                else if (User.IsInRole("Teacher"))
+                {
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Teacher/Index">Teachers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Courses/Index">Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Courses/Create">Create Course</a>
+                    </li>
+                }
+                else if (User.IsInRole("Student"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Teacher/Index">Teachers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Courses/Index_Selected">Courses</a>
+                    </li>
+                }
+                else if (User.IsInRole("Admin"))
+                {
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Teacher/Admin_Index">Teachers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Student/Admin_Index">Students</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Courses/Admin_Index">Courses</a>
+                    </li>
+                }
+            </ul>
+            <span>
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-nav mr-auto" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <a class="nav-link" href="/Manage/Index">@User.Identity.GetUserName()</a>
+                        <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()"> Log off </a>
+                    }
+                }
+                else
+                {
+                    <div class="navbar-nav mr-auto">
+                        <a class="nav-link" href="/Account/Register"> Register </a>
+                        <a class="nav-link" href="/Account/Login"> Log in </a>
+                    </div>
+                }
+            </span>
+        </div>
+    </nav>
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -105,5 +98,4 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
-
 

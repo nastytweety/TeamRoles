@@ -17,7 +17,13 @@ namespace TeamRoles.Controllers
     public class CoursesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserManager<ApplicationUser> _userManager;
 
+        public CoursesController()
+        {
+            db = new ApplicationDbContext();
+            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+        }
         // GET: Courses
         public ActionResult Index()
         {
@@ -36,8 +42,28 @@ namespace TeamRoles.Controllers
         public ActionResult Index_Selected()
         {
             ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            List<ApplicationUser> teachers = new List<ApplicationUser>();
+            Index_SelectedViewModel model = new Index_SelectedViewModel();
             List<Course> Courses = new List<Course>();
-            return View(user.Courses.ToList());
+            List<Course> ViewCourses = new List<Course>();
+            Courses = user.Courses.ToList();
+            
+
+            foreach (var course in Courses)
+            {
+                List<ApplicationUser> alluser = course.ApplicationUsers.ToList();
+                course.ApplicationUsers.Clear();
+                foreach (var us in alluser)
+                {
+                    var isInRole = _userManager.IsInRole(us.Id, "Teacher");
+                    if (isInRole)
+                    {
+                        course.ApplicationUsers.Add(us);
+                        model.Courses.Add(course);
+                    }
+                }
+            }
+            return View(model);
         }
 
         public ActionResult Index_ToSelect(string id)

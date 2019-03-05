@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TeamRoles.Models.Course>
+﻿@model TeamRoles.Models.Index_SelectedViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -10,16 +10,23 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CourseName)
+            CourseName
         </th>
-        <th></th>
+        <th>
+            Teacher
+        </th>
+        <th>
+            Options
+        </th>
     </tr>
-
-    @foreach (var item in Model)
+    @foreach (var item in Model.Courses)
     {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.CourseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUsers.First().UserName)
             </td>
             <td>
                 @Html.ActionLink("Details", "Details", new { id = item.CourseId }) |

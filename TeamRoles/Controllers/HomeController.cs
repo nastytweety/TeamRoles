@@ -42,8 +42,7 @@ namespace TeamRoles.Controllers
             {
                 Posts = db.Posts.ToList();
             }
-            ViewBag.Posts = Posts.AsEnumerable().Reverse();
-            return View();
+            return View(Posts.AsEnumerable().Reverse().ToList());
         }
 
         public ActionResult About()
