@@ -18,7 +18,7 @@ namespace TeamRoles.Controllers
 {
     public class ApplicationUsersController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db;
         private UserManager<ApplicationUser> _userManager;
 
         public ApplicationUsersController()

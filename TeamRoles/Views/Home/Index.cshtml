@@ -81,9 +81,15 @@
                                     <td>
                                         @post.PostDate
                                     </td>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                    <td>
+                                        @Html.ActionLink("Delete", "Delete","Posts", new { id = post.PostId},null)
+                                    </td>
+                                    }
                                 </tr>
                                 <tr>
-                                    <td colspan="2">@post.PostText</td>
+                                    <td colspan="3">@post.PostText</td>
                                 </tr>
                             </tbody>
                         </table>

@@ -178,8 +178,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
+    <Compile Include="Controllers\UploadFilesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -327,9 +329,17 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Courses\CourseHome.cshtml" />
+    <Content Include="Views\UploadFiles\Index.cshtml" />
+    <Content Include="Views\Roles\ManageUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="FilesUpload\" />
+    <Folder Include="Users\admin\" />
+    <Folder Include="Users\george\" />
+    <Folder Include="Users\kostas\" />
+    <Folder Include="Users\nikos\" />
+    <Folder Include="Users\yuly\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

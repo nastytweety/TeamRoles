@@ -35,23 +35,26 @@
                             Options
                         </th>
                     }
-                    </tr>
+                </tr>
                 @foreach (var item in Model.Courses)
                 {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.ApplicationUsers.First().UserName)
                         </td>
-                        @if(User.IsInRole("Teacher"))
+                        @if (User.IsInRole("Teacher"))
                         {
-                        <td>
-                            @Html.ActionLink("Details", "Student", new { id = new ApplicationUser() }) |
-                            @Html.ActionLink("Delete", "Student", new { id = new ApplicationUser() })
-                        </td>
+                            <td>
+                                @Html.ActionLink("Details", "Student", new { id = new ApplicationUser() }) |
+                                @Html.ActionLink("Delete", "Student", new { id = new ApplicationUser() })
+                            </td>
                         }
                     </tr>
                 }
             </table>
+        </div>
+        <div class="col-md-4 col-lg-4">
+            @Html.ActionLink("Upload Files", "Index", "UploadFiles", new { coursename = Model.CourseName }, null)
         </div>
     </div>
     <a href="/Courses">Back to List</a>

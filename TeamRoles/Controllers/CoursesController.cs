@@ -16,7 +16,7 @@ namespace TeamRoles.Controllers
     [Authorize]
     public class CoursesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db;
         private UserManager<ApplicationUser> _userManager;
 
         public CoursesController()

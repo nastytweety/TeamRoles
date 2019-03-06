@@ -4,6 +4,7 @@ using Microsoft.Owin;
 using TeamRoles.Models;
 using Owin;
 using System.Security.Claims;
+using System.IO;
 
 [assembly: OwinStartupAttribute(typeof(TeamRoles.Startup))]
 namespace TeamRoles
@@ -49,7 +50,8 @@ namespace TeamRoles
                 if (chkUser.Succeeded)
                 {
                     var result1 = UserManager.AddToRole(user.Id, "Admin");
-
+                    var dir = new System.IO.DirectoryInfo(System.AppDomain.CurrentDomain.BaseDirectory + "Users\\Admin");
+                    DirectoryInfo di = Directory.CreateDirectory(dir.ToString());
                 }
             }
 

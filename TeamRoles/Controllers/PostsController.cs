@@ -121,7 +121,9 @@ namespace TeamRoles.Controllers
             {
                 return HttpNotFound();
             }
-            return View(post);
+            db.Posts.Remove(post);
+            db.SaveChanges();
+            return RedirectToAction("Index","Home");
         }
 
         // POST: Posts/Delete/5
