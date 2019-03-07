@@ -201,14 +201,24 @@
     <Compile Include="Migrations\201903050900024_CourseFields.Designer.cs">
       <DependentUpon>201903050900024_CourseFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903061655501_Requests.cs" />
+    <Compile Include="Migrations\201903061655501_Requests.Designer.cs">
+      <DependentUpon>201903061655501_Requests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903071255086_request2.cs" />
+    <Compile Include="Migrations\201903071255086_request2.Designer.cs">
+      <DependentUpon>201903071255086_request2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Extensions\IdentityExtensions.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Index_SelectedViewModel.cs" />
+    <Compile Include="Models\GenericRequest.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\RequestViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -263,6 +273,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Users\vlakofatsa\Math100\43648080_600806957005171_3175039236239785984_n.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -331,6 +342,9 @@
     <Content Include="Views\Courses\CourseHome.cshtml" />
     <Content Include="Views\UploadFiles\Index.cshtml" />
     <Content Include="Views\Roles\ManageUsers.cshtml" />
+    <Content Include="Views\Courses\Request.cshtml" />
+    <Content Include="Views\Home\Requests.cshtml" />
+    <Content Include="Views\Courses\RequestSent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -358,6 +372,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903050900024_CourseFields.resx">
       <DependentUpon>201903050900024_CourseFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903061655501_Requests.resx">
+      <DependentUpon>201903061655501_Requests.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903071255086_request2.resx">
+      <DependentUpon>201903071255086_request2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

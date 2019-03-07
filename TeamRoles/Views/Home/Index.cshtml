@@ -1,10 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity;
 @using TeamRoles.Models.Extensions;
 @using TeamRoles.Models;
-@model  IEnumerable<TeamRoles.Models.Post>
-@{
-    ViewBag.Title = "Home Page";
-}
+
+@model  IEnumerable <TeamRoles.Models.Post>
+
 
 <!--<div class="jumbotron">
     <h1>ASP.NET</h1>
@@ -47,7 +46,6 @@
                         <div class="form-group purple-border">
 
                             <textarea class="form-control purple-border" id="PostText" style="min-width: 100%" name="PostText" type="text" placeholder="Write something here..." rows="5"></textarea>
-                            @*Html.ValidationMessageFor(model => model.PostText, "", new { @class = "text-danger" })*@
                             <input type="hidden" id="UserID" name="UserID" value='@User.Identity.GetUserId()' />
 
                         </div>
@@ -70,7 +68,7 @@
                 <div class="row">
                     <div class="col-md-4">
                     </div>
-
+                    
                     <div class="col-md-4">
                         <table class="table table-hover">
                             <tbody>

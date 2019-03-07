@@ -30,9 +30,11 @@ namespace TeamRoles.Controllers
         {
             ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             List<Post> Posts = new List<Post>();
+
+
             if (User.IsInRole("Teacher"))
             {
-                Posts = db.Posts.Where(p=>p.UserRole == "Teacher").ToList();
+                Posts = db.Posts.Where(p => p.UserRole == "Teacher").ToList();
             }
             else if (User.IsInRole("Student"))
             {
@@ -45,20 +47,6 @@ namespace TeamRoles.Controllers
             return View(Posts.AsEnumerable().Reverse().ToList());
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -66,6 +54,50 @@ namespace TeamRoles.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult Requests()
+        {
+            ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            List<GenericRequest> requests = user.Requests.ToList();
+            List<RequestViewModel> viewmodelrequestes = Convert(requests);
+            return View(viewmodelrequestes);
+        }
+
+        public ActionResult AcceptRequest(int? id)
+        {
+            GenericRequest req = db.Requests.Find(id);
+            if(req.Type == "JoinCourse")
+            {
+                Course course = db.Courses.Find(req.Courseid);
+                ApplicationUser student = db.Users.Find(req.User2id);
+                course.ApplicationUsers.Add(student);
+                db.Courses.Attach(course);
+                db.Entry(course).State = EntityState.Modified;
+                db.Requests.Remove(req);
+                db.SaveChanges();
+                return RedirectToAction("Requests", "Home");
+            }
+            return View();
+        }
+
+        public ActionResult DeclineRequest(int? id)
+        {
+            GenericRequest req = db.Requests.Find(id);
+            db.Requests.Remove(req);
+            db.SaveChanges();
+            return RedirectToAction("Requests", "Home");
+        }
+
+        public List<RequestViewModel> Convert(List<GenericRequest> requests)
+        {
+            List<RequestViewModel> requestlist = new List<RequestViewModel>();
+            foreach(var req in requests)
+            {
+                RequestViewModel temp = new RequestViewModel(req.ReqId,req.User1id,req.User2id,req.Courseid);
+                requestlist.Add(temp);
+            }
+            return requestlist;
         }
 
     }

@@ -89,5 +89,32 @@ namespace TeamRoles.Controllers
             }
             return View(applicationUser);
         }
+
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser applicationUser = db.Users.Find(id);
+            if (applicationUser == null)
+            {
+                return HttpNotFound();
+            }
+            db.Users.Remove(applicationUser);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult DeleteFromCourse(string id, string coursename)
+        {
+            ApplicationUser student = db.Users.Find(id);
+            Course course = db.Courses.FirstOrDefault(c => c.CourseName == coursename);
+            student.Courses.Remove(course);
+            db.Entry(student).State = EntityState.Modified;
+            db.SaveChanges();
+            
+            return RedirectToAction("CourseHome","Courses", new { id = db.Courses.FirstOrDefault(c => c.CourseName == coursename).CourseId } );
+        }
     }
 }

@@ -14,10 +14,12 @@ namespace TeamRoles.Models
         {
             Courses = new HashSet<Course>();
             Posts = new HashSet<Post>();
+            Requests = new HashSet<GenericRequest>();
         }
         public string ProfilePic { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<GenericRequest> Requests { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -33,6 +35,8 @@ namespace TeamRoles.Models
     {
         public DbSet<Course> Courses { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<GenericRequest> Requests { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

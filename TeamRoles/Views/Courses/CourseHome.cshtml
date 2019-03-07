@@ -45,8 +45,8 @@
                         @if (User.IsInRole("Teacher"))
                         {
                             <td>
-                                @Html.ActionLink("Details", "Student", new { id = new ApplicationUser() }) |
-                                @Html.ActionLink("Delete", "Student", new { id = new ApplicationUser() })
+                                @Html.ActionLink("Details", "Details","Student", new { id = item.ApplicationUsers.First().Id , coursename = Model.CourseName },null) |
+                                @Html.ActionLink("Delete", "DeleteFromCourse","Student", new { id = item.ApplicationUsers.First().Id , coursename=Model.CourseName },null)
                             </td>
                         }
                     </tr>

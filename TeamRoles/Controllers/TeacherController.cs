@@ -15,6 +15,7 @@ using Owin;
 using TeamRoles.Models;
 namespace TeamRoles.Controllers
 {
+    [Authorize]
     public class TeacherController : Controller
     {
         private ApplicationDbContext db;
@@ -25,38 +26,17 @@ namespace TeamRoles.Controllers
             db = new ApplicationDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
         }
+
         // GET: Teacher
         public ActionResult Index()
         {
-            List<ApplicationUser> Users = db.Users.ToList();
-            List<ApplicationUser> usersInRole = new List<ApplicationUser>();
-
-            foreach (var user in Users)
-            {
-                var isInRole = _userManager.IsInRole(user.Id, "Teacher");
-                if (isInRole)
-                {
-                    usersInRole.Add(user);
-                }
-            }
-            return View(usersInRole);
+            return View(FindTeachers());
         }
 
         [Authorize(Roles = "Admin")]
         public ActionResult Admin_Index()
         {
-            List<ApplicationUser> Users = db.Users.ToList();
-            List<ApplicationUser> usersInRole = new List<ApplicationUser>();
-
-            foreach (var user in Users)
-            {
-                var isInRole = _userManager.IsInRole(user.Id, "Teacher");
-                if (isInRole)
-                {
-                    usersInRole.Add(user);
-                }
-            }
-            return View(usersInRole);
+            return View(FindTeachers());
         }
 
         public ActionResult Details(string id)
@@ -85,6 +65,22 @@ namespace TeamRoles.Controllers
                 return HttpNotFound();
             }
             return View(applicationUser);
+        }
+
+        public List<ApplicationUser> FindTeachers()
+        {
+            List<ApplicationUser> Users = db.Users.ToList();
+            List<ApplicationUser> usersInRole = new List<ApplicationUser>();
+
+            foreach (var user in Users)
+            {
+                var isInRole = _userManager.IsInRole(user.Id, "Teacher");
+                if (isInRole)
+                {
+                    usersInRole.Add(user);
+                }
+            }
+            return (usersInRole);
         }
     }
 }

@@ -10,6 +10,9 @@ using TeamRoles.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace TeamRoles.Controllers
 {
@@ -144,18 +147,21 @@ namespace TeamRoles.Controllers
 
         public ActionResult Join(int id)
         {
-            ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
             Course course = db.Courses.Find(id);
+            ApplicationUser teacher = FindTeacher(course);
+            ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
 
-            if (ModelState.IsValid)
-            {
-                course.ApplicationUsers = new List<ApplicationUser>();
-                course.ApplicationUsers.Add(student);
-                db.Courses.Attach(course);
-                db.Entry(course).State = EntityState.Modified;
-                db.SaveChanges();
-            }
-            return RedirectToAction("Index_Selected", "Courses");
+            GenericRequest req = new GenericRequest();
+            req.User1id = teacher.Id;
+            req.User2id = student.Id;
+            req.Courseid = course.CourseId;
+            req.Type = "JoinCourse";
+            req.ApplicationUsers.Add(teacher);
+            teacher.Requests.Add(req);
+            db.Requests.Add(req);
+            db.SaveChanges();
+
+            return RedirectToAction("RequestSent", "Courses");
         }
 
         // GET: Courses/Edit/5
@@ -234,13 +240,15 @@ namespace TeamRoles.Controllers
             Course course = db.Courses.Find(id);
             Index_SelectedViewModel model = new Index_SelectedViewModel();
 
-            model.CourseName = course.CourseName;
-            model.CoursePic = course.CoursePic;
-            model.CourseDescription = course.CourseDescription;
-            List<ApplicationUser> alluser = course.ApplicationUsers.ToList();
-            foreach (var us in alluser)
+            if(ModelState.IsValid)
             {
-                Course list_course = new Course();
+                model.CourseName = course.CourseName;
+                model.CoursePic = course.CoursePic;
+                model.CourseDescription = course.CourseDescription;
+                List<ApplicationUser> alluser = course.ApplicationUsers.ToList();
+                foreach (var us in alluser)
+                {
+                    Course list_course = new Course();
                     var isInStudentRole = _userManager.IsInRole(us.Id, "Student");
                     if (isInStudentRole)
                     {
@@ -251,8 +259,30 @@ namespace TeamRoles.Controllers
                     {
                         model.Teacher = us;
                     }
+                }
+                return View(model);
             }
-            return View(model);
+            return RedirectToAction("Index");
+
+        }
+
+        public ApplicationUser FindTeacher(Course course)
+        {
+            List<ApplicationUser> alluser = course.ApplicationUsers.ToList();
+            foreach (var us in alluser)
+            {
+                var isInRole = _userManager.IsInRole(us.Id, "Teacher");
+                if (isInRole)
+                {
+                    return us;
+                }
+            }
+            return null;
+        }
+
+        public ActionResult RequestSent()
+        {
+            return View();
         }
     }
 }
