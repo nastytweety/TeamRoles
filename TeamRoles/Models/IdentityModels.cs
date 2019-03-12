@@ -20,6 +20,7 @@ namespace TeamRoles.Models
         public virtual ICollection<Course> Courses { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<GenericRequest> Requests { get; set; }
+        public virtual ICollection<Child> Children { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -36,6 +37,7 @@ namespace TeamRoles.Models
         public DbSet<Course> Courses { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<GenericRequest> Requests { get; set; }
+        public DbSet<Child> Children { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

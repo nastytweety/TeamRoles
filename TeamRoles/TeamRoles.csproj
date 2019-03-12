@@ -209,8 +209,29 @@
     <Compile Include="Migrations\201903071255086_request2.Designer.cs">
       <DependentUpon>201903071255086_request2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903071834043_Parent.cs" />
+    <Compile Include="Migrations\201903071834043_Parent.Designer.cs">
+      <DependentUpon>201903071834043_Parent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903080817312_Parents.cs" />
+    <Compile Include="Migrations\201903080817312_Parents.Designer.cs">
+      <DependentUpon>201903080817312_Parents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903081137442_Parent3.cs" />
+    <Compile Include="Migrations\201903081137442_Parent3.Designer.cs">
+      <DependentUpon>201903081137442_Parent3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903081646308_Parents1.cs" />
+    <Compile Include="Migrations\201903081646308_Parents1.Designer.cs">
+      <DependentUpon>201903081646308_Parents1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903081705364_Parents2.cs" />
+    <Compile Include="Migrations\201903081705364_Parents2.Designer.cs">
+      <DependentUpon>201903081705364_Parents2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Child.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Extensions\IdentityExtensions.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -345,6 +366,11 @@
     <Content Include="Views\Courses\Request.cshtml" />
     <Content Include="Views\Home\Requests.cshtml" />
     <Content Include="Views\Courses\RequestSent.cshtml" />
+    <Content Include="Views\Student\RequestSent.cshtml" />
+    <Content Include="Views\Home\JoinRequests.cshtml" />
+    <Content Include="Views\Home\AcceptParentRequests.cshtml" />
+    <Content Include="Views\Student\Parent_Index.cshtml" />
+    <Content Include="Views\Courses\Index_StudentId.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -352,6 +378,8 @@
     <Folder Include="Users\admin\" />
     <Folder Include="Users\george\" />
     <Folder Include="Users\kostas\" />
+    <Folder Include="Users\kyriakos\" />
+    <Folder Include="Users\mpampas\" />
     <Folder Include="Users\nikos\" />
     <Folder Include="Users\yuly\" />
   </ItemGroup>
@@ -378,6 +406,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903071255086_request2.resx">
       <DependentUpon>201903071255086_request2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903071834043_Parent.resx">
+      <DependentUpon>201903071834043_Parent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903080817312_Parents.resx">
+      <DependentUpon>201903080817312_Parents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903081137442_Parent3.resx">
+      <DependentUpon>201903081137442_Parent3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903081646308_Parents1.resx">
+      <DependentUpon>201903081646308_Parents1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903081705364_Parents2.resx">
+      <DependentUpon>201903081705364_Parents2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

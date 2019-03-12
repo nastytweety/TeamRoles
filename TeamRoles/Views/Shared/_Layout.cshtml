@@ -32,10 +32,6 @@
                 }
                 else if (User.IsInRole("Teacher"))
                 {
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Teacher/Index">Teachers</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Courses/Index">Courses</a>
                     </li>
@@ -75,6 +71,18 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Home/Requests">Requests</a>
+                    </li>
+                }
+                else if (User.IsInRole("Parent"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Student/Index">Students</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Student/Parent_Index">MyChildren</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Requests">Requests Sent</a>
                     </li>
                 }
             </ul>

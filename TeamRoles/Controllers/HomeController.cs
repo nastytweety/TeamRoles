@@ -56,12 +56,45 @@ namespace TeamRoles.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult Requests()
+        public ActionResult JoinRequests()
         {
             ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             List<GenericRequest> requests = user.Requests.ToList();
-            List<RequestViewModel> viewmodelrequestes = Convert(requests);
-            return View(viewmodelrequestes);
+            List<RequestViewModel> viewmodelrequests = Convert(requests);
+            return View(viewmodelrequests);
+        }
+
+        public ActionResult AcceptParentRequests()
+        {
+            ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            List<GenericRequest> requests = user.Requests.ToList();
+            List<RequestViewModel> viewmodelrequests = Convert(requests);
+            return View(viewmodelrequests);
+        }
+
+        public ActionResult AdminRoleRequests()
+        {
+            ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            List<GenericRequest> requests = user.Requests.ToList();
+            List<RequestViewModel> viewmodelrequests = Convert(requests);
+            return View(viewmodelrequests);
+        }
+
+        public ActionResult Requests()
+        {
+            if(User.IsInRole("Teacher"))
+            {
+                return RedirectToAction("JoinRequests");
+            }
+            else if(User.IsInRole("Student"))
+            {
+                return RedirectToAction("AcceptParentRequests");
+            }
+            else if(User.IsInRole("Admin"))
+            {
+                return RedirectToAction("AdminRoleRequests");
+            }
+            return View();
         }
 
         public ActionResult AcceptRequest(int? id)
@@ -76,7 +109,23 @@ namespace TeamRoles.Controllers
                 db.Entry(course).State = EntityState.Modified;
                 db.Requests.Remove(req);
                 db.SaveChanges();
-                return RedirectToAction("Requests", "Home");
+                return RedirectToAction("JoinRequests", "Home");
+            }
+            else if(req.Type ==  "ParentStudent")
+            {
+                ApplicationUser parent = db.Users.Find(req.User1id);
+                ApplicationUser student = db.Users.Find(req.User2id);
+                Child temp = new Child();
+                temp.Childid = student.Id;
+                temp.Parent.Add(parent);
+                db.Children.Add(temp);
+                db.Requests.Remove(req);
+                db.SaveChanges();
+                return RedirectToAction("AcceptParentRequests", "Home");
+            }
+            else
+            {
+                return RedirectToAction("JoinRequests", "Home");
             }
             return View();
         }
@@ -84,9 +133,24 @@ namespace TeamRoles.Controllers
         public ActionResult DeclineRequest(int? id)
         {
             GenericRequest req = db.Requests.Find(id);
-            db.Requests.Remove(req);
-            db.SaveChanges();
-            return RedirectToAction("Requests", "Home");
+            if (req.Type == "JoinCourse")
+            {
+                db.Requests.Remove(req);
+                db.SaveChanges();
+                return RedirectToAction("JoinRequests", "Home");
+            }
+            else if (req.Type == "ParentStudent")
+            {
+                db.Requests.Remove(req);
+                db.SaveChanges();
+                return RedirectToAction("AcceptParentRequests", "Home");
+            }
+            else
+            {
+                db.Requests.Remove(req);
+                db.SaveChanges();
+                return RedirectToAction("JoinRequests", "Home");
+            }
         }
 
         public List<RequestViewModel> Convert(List<GenericRequest> requests)
@@ -94,7 +158,7 @@ namespace TeamRoles.Controllers
             List<RequestViewModel> requestlist = new List<RequestViewModel>();
             foreach(var req in requests)
             {
-                RequestViewModel temp = new RequestViewModel(req.ReqId,req.User1id,req.User2id,req.Courseid);
+                RequestViewModel temp = new RequestViewModel(req.ReqId,req.User1id,req.User2id,req.Courseid,req.Type);
                 requestlist.Add(temp);
             }
             return requestlist;

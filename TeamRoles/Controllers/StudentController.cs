@@ -16,6 +16,7 @@ using TeamRoles.Models;
 
 namespace TeamRoles.Controllers
 {
+    [Authorize]
     public class StudentController : Controller
     {
 
@@ -31,35 +32,39 @@ namespace TeamRoles.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            List<ApplicationUser> Users = db.Users.ToList();
-            List<ApplicationUser> usersInRole = new List<ApplicationUser>();
+            return View(FindStudent());
+        }
 
-            foreach (var user in Users)
+        [Authorize(Roles = "Parent")]
+        public ActionResult Parent_Index()
+        {
+            ApplicationUser parent = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            List<Child> children = parent.Children.ToList();
+            List<ApplicationUser> childrenlist = new List<ApplicationUser>();
+            foreach(var child in children)
             {
-                var isInRole = _userManager.IsInRole(user.Id, "Student");
-                if (isInRole)
-                {
-                    usersInRole.Add(user);
-                }
+                childrenlist.Add(db.Users.Find(child.Childid));
             }
-            return View(usersInRole);
+            return View(childrenlist);
+        }
+
+        [Authorize(Roles = "Parent")]
+        public ActionResult DeleteFromChild(string id)
+        {
+            ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
+            Child child = db.Children.Where(ch=>ch.Childid == id).SingleOrDefault();
+            parent.Children.Remove(child);
+            db.Children.Remove(child);
+            db.Entry(parent).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Parent_Index");
         }
 
         [Authorize(Roles = "Admin")]
         public ActionResult Admin_Index()
         {
-            List<ApplicationUser> Users = db.Users.ToList();
-            List<ApplicationUser> usersInRole = new List<ApplicationUser>();
-
-            foreach (var user in Users)
-            {
-                var isInRole = _userManager.IsInRole(user.Id, "Student");
-                if (isInRole)
-                {
-                    usersInRole.Add(user);
-                }
-            }
-            return View(usersInRole);
+            return View(FindStudent());
         }
 
         public ActionResult Details(string id)
@@ -106,7 +111,7 @@ namespace TeamRoles.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult DeleteFromCourse(string id, string coursename)
+        public ActionResult RemoveFromCourse(string id, string coursename)
         {
             ApplicationUser student = db.Users.Find(id);
             Course course = db.Courses.FirstOrDefault(c => c.CourseName == coursename);
@@ -115,6 +120,38 @@ namespace TeamRoles.Controllers
             db.SaveChanges();
             
             return RedirectToAction("CourseHome","Courses", new { id = db.Courses.FirstOrDefault(c => c.CourseName == coursename).CourseId } );
+        }
+
+        public List<ApplicationUser> FindStudent()
+        {
+            List<ApplicationUser> Users = db.Users.ToList();
+            List<ApplicationUser> usersInRole = new List<ApplicationUser>();
+
+            foreach (var user in Users)
+            {
+                var isInRole = _userManager.IsInRole(user.Id, "Student");
+                if (isInRole)
+                {
+                    usersInRole.Add(user);
+                }
+            }
+            return usersInRole;
+        }
+
+        public ActionResult ParentConnect(string id)
+        {
+            ApplicationUser student = db.Users.Find(id);
+            ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
+
+            GenericRequest req = new GenericRequest();
+            req.User1id = parent.Id;
+            req.User2id = student.Id;
+            req.Type = "ParentStudent";
+            req.ApplicationUsers.Add(student);
+            student.Requests.Add(req);
+            db.Requests.Add(req);
+            db.SaveChanges();
+            return View("RequestSent");
         }
     }
 }

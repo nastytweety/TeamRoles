@@ -46,7 +46,7 @@
                         {
                             <td>
                                 @Html.ActionLink("Details", "Details","Student", new { id = item.ApplicationUsers.First().Id , coursename = Model.CourseName },null) |
-                                @Html.ActionLink("Delete", "DeleteFromCourse","Student", new { id = item.ApplicationUsers.First().Id , coursename=Model.CourseName },null)
+                                @Html.ActionLink("Delete", "RemoveFromCourse","Student", new { id = item.ApplicationUsers.First().Id , coursename=Model.CourseName },null)
                             </td>
                         }
                     </tr>

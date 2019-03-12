@@ -36,7 +36,14 @@ namespace TeamRoles.Controllers
             return View(Courses);
         }
 
-        [Authorize(Roles = "Admin")]
+        public ActionResult Index_StudentId(string id)
+        {
+            ApplicationUser student = db.Users.Find(id);
+            return View(student.Courses.ToList());
+        }
+
+
+       [Authorize(Roles = "Admin")]
         public ActionResult Admin_Index()
         {
             return View(db.Courses.ToList());
@@ -278,6 +285,16 @@ namespace TeamRoles.Controllers
                 }
             }
             return null;
+        }
+
+        public ActionResult StudentRemoveCourse(int? id)
+        {
+            ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
+            Course course = db.Courses.Find(id);
+            student.Courses.Remove(course);
+            db.Entry(student).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index_Selected");
         }
 
         public ActionResult RequestSent()

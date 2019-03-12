@@ -1,4 +1,6 @@
-﻿@model IEnumerable<TeamRoles.Models.ApplicationUser>
+﻿@using Microsoft.AspNet.Identity;
+@using TeamRoles.Models.Extensions;
+@model IEnumerable<TeamRoles.Models.ApplicationUser>
 
 @{
     ViewBag.Title = "Index";
@@ -23,19 +25,31 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+    <tr>
+        <td>
+            <img src="@Html.DisplayFor(modelItem => item.ProfilePic)" width="100" height="100" />
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+
+        @if (User.IsInRole("Parent"))
+        {
             <td>
-                <img src="@Html.DisplayFor(modelItem => item.ProfilePic)" width="100" height="100" />
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+
+                @Html.ActionLink("Request Connection", "ParentConnect", new { id = item.Id })
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
+        }
+        else
+        {
             <td>
                 @Html.ActionLink("Details", "Details", new { id = item.Id })
             </td>
+        }
         </tr>
     }
 

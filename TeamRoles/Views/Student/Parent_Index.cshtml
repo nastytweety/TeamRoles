@@ -1,0 +1,44 @@
+﻿@model IEnumerable<TeamRoles.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Parent_Index";
+}
+
+<h2>Parent_Index</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProfilePic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <img src="@Html.DisplayFor(modelItem => item.ProfilePic)" width="100" height="100" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.ActionLink("View Courses", "Index_StudentId", "Courses", new { id = item.Id }, null) |
+                @Html.ActionLink("Delete", "DeleteFromChild", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+

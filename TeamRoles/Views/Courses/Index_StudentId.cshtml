@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNet.Identity;
+@using TeamRoles.Models.Extensions;
+@using TeamRoles.Models;
+@model IEnumerable<TeamRoles.Models.Course>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseName)
+            </td>
+            <td>
+                @if(User.IsInRole("Parent"))
+                {
+                <p>
+                    @Html.ActionLink("View Grades", "Edit", new { id = item.CourseId }) |
+                    @Html.ActionLink("View Absences", "CourseHome", new { id = item.CourseId })
+                </p>
+                }
+                else
+                {
+                <p>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CourseId }) |
+                    @Html.ActionLink("Details", "CourseHome", new { id = item.CourseId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.CourseId })
+                </p>
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+<a href="/Home">Back to Home</a>
+
