@@ -7,13 +7,14 @@ namespace TeamRoles.Models
 {
     public class RequestViewModel
     {
-        public RequestViewModel(int reqid,string id1,string id2, int courseid,string reqtype)
+        public RequestViewModel(int reqid,string id1,string id2, int courseid,string reqtype,string role)
         {
             ApplicationDbContext db = new ApplicationDbContext();
             this.ReqId = reqid;
             this.User1 = db.Users.Find(id1);
             this.User2 = db.Users.Find(id2);
             this.Course = db.Courses.Find(courseid);
+            this.Role = role;
             this.Type = reqtype;
         }
 

@@ -125,9 +125,10 @@ namespace TeamRoles.Controllers
             }
             else
             {
-                return RedirectToAction("JoinRequests", "Home");
+                db.Requests.Remove(req);
+                db.SaveChanges();
+                return RedirectToAction("AdminRoleRequests", "Home");
             }
-            return View();
         }
 
         public ActionResult DeclineRequest(int? id)
@@ -147,9 +148,11 @@ namespace TeamRoles.Controllers
             }
             else
             {
+                ApplicationUser deleted = db.Users.Find(req.User1id);
+                db.Users.Remove(deleted);
                 db.Requests.Remove(req);
                 db.SaveChanges();
-                return RedirectToAction("JoinRequests", "Home");
+                return RedirectToAction("AdminRoleRequests", "Home");
             }
         }
 
@@ -158,7 +161,7 @@ namespace TeamRoles.Controllers
             List<RequestViewModel> requestlist = new List<RequestViewModel>();
             foreach(var req in requests)
             {
-                RequestViewModel temp = new RequestViewModel(req.ReqId,req.User1id,req.User2id,req.Courseid,req.Type);
+                RequestViewModel temp = new RequestViewModel(req.ReqId,req.User1id,req.User2id,req.Courseid,req.Type,req.Role);
                 requestlist.Add(temp);
             }
             return requestlist;

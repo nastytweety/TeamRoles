@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TeamRoles.Models;
+using System.Collections.Generic;
+using System.Data.Entity.Validation;
 
 namespace TeamRoles.Controllers
 {
@@ -163,6 +165,8 @@ namespace TeamRoles.Controllers
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
                     var dir = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + model.UserName);
                     DirectoryInfo di = Directory.CreateDirectory(dir.ToString());
+                    CreateRequest(user.Id,model.UserRoles);
+                   
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -431,6 +435,50 @@ namespace TeamRoles.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        private void CreateRequest(string Id,string Role )
+        {
+            GenericRequest req = new GenericRequest();
+            req.User1id = Id;
+            req.Role = Role;
+            req.Type = "AdminRole";
+
+            List<ApplicationUser> Users = db.Users.ToList();
+            var manager = new ApplicationUserManager(new Microsoft.AspNet.Identity.EntityFramework.UserStore<ApplicationUser>(db));
+            foreach (var auser in Users)
+            {
+                //ViewBag.RolesForThisUser = manager.GetRoles(user.Id);
+                var isInRole = manager.IsInRole(auser.Id, "Admin");
+                if (isInRole)
+                {
+                    req.ApplicationUsers.Add(auser);
+                    auser.Requests.Add(req);
+                }
+            }
+
+            try
+            {
+                db.Requests.Add(req);
+                db.SaveChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            {
+                Exception raise = dbEx;
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        string message = string.Format("{0}:{1}",
+                            validationErrors.Entry.Entity.ToString(),
+                            validationError.ErrorMessage);
+                        // raise a new exception nesting
+                        // the current instance as InnerException
+                        raise = new InvalidOperationException(message, raise);
+                    }
+                }
+                throw raise;
+            }
         }
 
         #region Helpers

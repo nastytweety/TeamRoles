@@ -35,6 +35,7 @@ namespace TeamRoles.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Course> Courses { get; set; }
+        public DbSet<Grade> Grades { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<GenericRequest> Requests { get; set; }
         public DbSet<Child> Children { get; set; }

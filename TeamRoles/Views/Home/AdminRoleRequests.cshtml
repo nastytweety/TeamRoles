@@ -1,0 +1,56 @@
+﻿@using Microsoft.AspNet.Identity;
+@using TeamRoles.Models.Extensions;
+@using TeamRoles.Models;
+@model IEnumerable<TeamRoles.Models.RequestViewModel>
+@{
+    ViewBag.Title = "Join Course Requests";
+}
+
+<h2>Join Course Requests</h2>
+
+@if (Model != null)
+{
+    foreach (var req in Model)
+    {
+        <div class="row">
+            <div class="col-md-4">
+            </div>
+
+            <div class="col-md-4">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <td>
+                                @req.User1.UserName
+                            </td>
+                            <td>
+                                @req.Role
+                            </td>
+                            <td>
+                                @Html.ActionLink("Accept Role", "AcceptRequest", "Home", new { id = req.ReqId }, null)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Decline and Delete", "DeclineRequest", "Home", new { id = req.ReqId }, null)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+
+        <div class="col-md-4">
+            <h2>
+                There are no requests
+            </h2>
+        </div>
+    </div>
+}
+
+
