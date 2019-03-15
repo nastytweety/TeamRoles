@@ -27,6 +27,10 @@
                     {
                         <p>Student</p>
                     }
+                    else if (User.IsInRole("Parent"))
+                    {
+                        <p>Parent</p>
+                    }
                     else if (User.IsInRole("Admin"))
                     {
                         <p>Admin</p>

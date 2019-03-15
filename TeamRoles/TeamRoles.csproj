@@ -229,22 +229,24 @@
     <Compile Include="Migrations\201903081705364_Parents2.Designer.cs">
       <DependentUpon>201903081705364_Parents2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903131222543_Grades.cs" />
-    <Compile Include="Migrations\201903131222543_Grades.Designer.cs">
-      <DependentUpon>201903131222543_Grades.cs</DependentUpon>
+    <Compile Include="Migrations\201903141722260_Enrollment.cs" />
+    <Compile Include="Migrations\201903141722260_Enrollment.Designer.cs">
+      <DependentUpon>201903141722260_Enrollment.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Child.cs" />
     <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\Enrollment.cs" />
     <Compile Include="Models\Extensions\IdentityExtensions.cs" />
-    <Compile Include="Models\Grade.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Index_SelectedViewModel.cs" />
     <Compile Include="Models\GenericRequest.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\RequestViewModel.cs" />
+    <Compile Include="Models\SetGradeViewModel.cs" />
+    <Compile Include="Models\TeacherViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -377,6 +379,8 @@
     <Content Include="Views\Student\Parent_Index.cshtml" />
     <Content Include="Views\Courses\Index_StudentId.cshtml" />
     <Content Include="Views\Home\AdminRoleRequests.cshtml" />
+    <Content Include="Views\Teacher\Grades.cshtml" />
+    <Content Include="Views\Student\Student_Index_ToSelect.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -428,8 +432,8 @@
     <EmbeddedResource Include="Migrations\201903081705364_Parents2.resx">
       <DependentUpon>201903081705364_Parents2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903131222543_Grades.resx">
-      <DependentUpon>201903131222543_Grades.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903141722260_Enrollment.resx">
+      <DependentUpon>201903141722260_Enrollment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

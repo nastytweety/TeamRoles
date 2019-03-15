@@ -16,6 +16,9 @@
             Teacher
         </th>
         <th>
+            Grade
+        </th>
+        <th>
             Options
         </th>
     </tr>
@@ -27,6 +30,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ApplicationUsers.First().UserName)
+            </td>
+            <td>
+                @*Html.DisplayFor(modelItem => item.Grade.NumericGrade)*@
             </td>
             <td>
                 @Html.ActionLink("Details", "CourseHome", new { id = item.CourseId }) |

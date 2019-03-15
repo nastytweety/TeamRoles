@@ -7,6 +7,11 @@
 <h2>Index</h2>
 
 
+@using (Html.BeginForm("Index", "Teacher", FormMethod.Get))
+{
+    @Html.TextBox("searching")
+    <input type="submit" value="Search" />
+}
 <table class="table">
     <tr>
         <th>
@@ -25,7 +30,7 @@
     {
         <tr>
             <td>
-                <img src="@Html.DisplayFor(modelItem => item.ProfilePic)" width="100" height="100"/>
+                <img src="@Html.DisplayFor(modelItem => item.ProfilePic)" width="100" height="100" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)

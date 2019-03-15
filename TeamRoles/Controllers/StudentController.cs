@@ -36,12 +36,26 @@ namespace TeamRoles.Controllers
         }
 
         [Authorize(Roles = "Parent")]
+        public ActionResult Student_Index_ToSelect()
+        { ///omoios kwdikas me ton katw
+            List<ApplicationUser> list = FindStudent();
+            ApplicationUser parent = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            List<Child> children = parent.Children.ToList();
+            List<ApplicationUser> childrenlist = new List<ApplicationUser>();
+            foreach (var child in children)
+            {
+                childrenlist.Add(db.Users.Find(child.Childid));
+            }
+            return View(list.Except(childrenlist));
+        }
+
+        [Authorize(Roles = "Parent")]
         public ActionResult Parent_Index()
         {
             ApplicationUser parent = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             List<Child> children = parent.Children.ToList();
             List<ApplicationUser> childrenlist = new List<ApplicationUser>();
-            foreach(var child in children)
+            foreach (var child in children)
             {
                 childrenlist.Add(db.Users.Find(child.Childid));
             }
@@ -52,7 +66,7 @@ namespace TeamRoles.Controllers
         public ActionResult DeleteFromChild(string id)
         {
             ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
-            Child child = db.Children.Where(ch=>ch.Childid == id).SingleOrDefault();
+            Child child = db.Children.Where(ch => ch.Childid == id).SingleOrDefault();
             parent.Children.Remove(child);
             db.Children.Remove(child);
             db.Entry(parent).State = EntityState.Modified;
@@ -118,8 +132,8 @@ namespace TeamRoles.Controllers
             student.Courses.Remove(course);
             db.Entry(student).State = EntityState.Modified;
             db.SaveChanges();
-            
-            return RedirectToAction("CourseHome","Courses", new { id = db.Courses.FirstOrDefault(c => c.CourseName == coursename).CourseId } );
+
+            return RedirectToAction("CourseHome", "Courses", new { id = db.Courses.FirstOrDefault(c => c.CourseName == coursename).CourseId });
         }
 
         public List<ApplicationUser> FindStudent()
@@ -153,5 +167,6 @@ namespace TeamRoles.Controllers
             db.SaveChanges();
             return View("RequestSent");
         }
+        
     }
 }

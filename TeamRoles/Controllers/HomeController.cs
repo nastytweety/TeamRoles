@@ -40,6 +40,10 @@ namespace TeamRoles.Controllers
             {
                 Posts = user.Posts.Where(p => p.UserRole == "Student").ToList();
             }
+            else if (User.IsInRole("Parent"))
+            {
+                Posts = user.Posts.Where(p => p.UserRole == "Parent").ToList();
+            }
             else if (User.IsInRole("Admin"))
             {
                 Posts = db.Posts.ToList();

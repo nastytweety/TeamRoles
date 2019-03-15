@@ -247,12 +247,14 @@ namespace TeamRoles.Controllers
             Course course = db.Courses.Find(id);
             Index_SelectedViewModel model = new Index_SelectedViewModel();
 
-            if(ModelState.IsValid)
+            if(ModelState.IsValid && course!=null)
             {
                 model.CourseName = course.CourseName;
                 model.CoursePic = course.CoursePic;
                 model.CourseDescription = course.CourseDescription;
                 List<ApplicationUser> alluser = course.ApplicationUsers.ToList();
+                List<Enrollment> enrollments = course.Enrollments.ToList();
+
                 foreach (var us in alluser)
                 {
                     Course list_course = new Course();
@@ -261,6 +263,7 @@ namespace TeamRoles.Controllers
                     {
                         list_course.ApplicationUsers.Add(us);
                         model.Courses.Add(list_course);
+                       // model.Grades.Add(us.Enrollments.Where(p => p.CourseId == course.CourseId).FirstOrDefault().Grade);
                     }
                     else
                     {
