@@ -1,0 +1,31 @@
+﻿@model TeamRoles.Models.GetSubmitViewModel
+
+@{
+    ViewBag.Title = "GetSubmits";
+}
+
+<h2>GetSubmits</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.filenames)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.filenames) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item)
+        </td>
+        <td>
+            @Html.ActionLink("Download", "DownloadFile", new { filename=item , coursename = Model.coursename, username = Model.username, mode = Model.mode }) |
+            @Html.ActionLink("Delete", "DeleteFile", new { filename= item , coursename = Model.coursename, username = Model.username, mode = Model.mode })
+        </td>
+    </tr>
+}
+
+</table>

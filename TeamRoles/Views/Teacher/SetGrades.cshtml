@@ -3,7 +3,7 @@
     ViewBag.Title = "Grades";
 }
 
-@using (Html.BeginForm("Grades", "Teacher", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("SetGrades", "Teacher", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     <h4>Set Grade.</h4>

@@ -13,6 +13,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
 using TeamRoles.Models;
+using System.IO;
+
 namespace TeamRoles.Controllers
 {
     [Authorize]
@@ -68,6 +70,33 @@ namespace TeamRoles.Controllers
             return View(applicationUser);
         }
 
+        public ActionResult Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser teacher = db.Users.Find(id);
+            if (teacher == null)
+            {
+                return HttpNotFound();
+            }
+            try
+            {
+                var path = teacher.Path;
+                Directory.Delete(path.ToString(), true);
+                db.Users.Remove(teacher);
+                db.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
+           
+            return RedirectToAction("Index");
+        }
+
+
         public ApplicationUser FindTeacher(int CourseId)
         {
             Course course = db.Courses.Find(CourseId);
@@ -101,7 +130,7 @@ namespace TeamRoles.Controllers
             return (usersInRole);
         }
 
-        public ActionResult Grades(string id, string coursename, string teacherid)
+        public ActionResult SetGrades(string id, string coursename, string teacherid)
         {
             ApplicationUser student = db.Users.Find(id);
             ApplicationUser teacher = db.Users.Find(teacherid);
@@ -115,24 +144,19 @@ namespace TeamRoles.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult Grades(SetGradeViewModel model)
+        public ActionResult SetGrades(SetGradeViewModel model)
         {
             ApplicationUser student = db.Users.Where(s => s.UserName == model.StudentName).SingleOrDefault();
             ApplicationUser teacher = db.Users.Where(s => s.UserName == model.TeacherName).SingleOrDefault();
             Course course = teacher.Courses.Where(c => c.CourseName == model.CourseName).SingleOrDefault();
+            Enrollment enrol = course.Enrollments.Where(u=>u.UserId == student.Id).SingleOrDefault();
 
-            Enrollment enrol = new Enrollment();
-            enrol.Grade = model.NumericGrade;
-            enrol.CourseId = course.CourseId;
-            enrol.Course = course;
-            enrol.UserId = student.Id;
-            enrol.User = student;
-
-            if(!CheckIfGradeIsSet(enrol))
+            if(enrol!=null)
             {
                 try
                 {
-                    db.Enrollments.Add(enrol);
+                    enrol.Grade = model.NumericGrade;
+                    db.Entry(enrol).State = EntityState.Modified;
                     db.SaveChanges();
                 }
                 catch (Exception e)
@@ -141,33 +165,6 @@ namespace TeamRoles.Controllers
                 }
             }
             return RedirectToAction("CourseHome", "Courses", new { id = course.CourseId });
-
-        }
-
-        public bool CheckIfGradeIsSet(Enrollment enrol)
-        {
-            List<Enrollment> listofenrol = db.Enrollments.Where(e=>e.CourseId == enrol.CourseId).ToList();
-
-            foreach(var singleenrol in listofenrol)
-            {
-                if (singleenrol.User.Id.Equals(enrol.User.Id))
-                {
-                    try
-                    {
-                        singleenrol.Grade = enrol.Grade;
-                        db.Entry(singleenrol).State = EntityState.Modified;
-                        db.SaveChanges();
-                        return true;
-                    }
-                    catch (Exception e)
-                    {
-                        throw e;
-                    
-                    }
-                   
-                }
-            }
-            return false;
         }
 
     }

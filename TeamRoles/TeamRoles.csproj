@@ -174,6 +174,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationUsersController.cs" />
+    <Compile Include="Controllers\AssignmentsController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -233,12 +234,30 @@
     <Compile Include="Migrations\201903141722260_Enrollment.Designer.cs">
       <DependentUpon>201903141722260_Enrollment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903151106378_Path.cs" />
+    <Compile Include="Migrations\201903151106378_Path.Designer.cs">
+      <DependentUpon>201903151106378_Path.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903151742010_Assignments.cs" />
+    <Compile Include="Migrations\201903151742010_Assignments.Designer.cs">
+      <DependentUpon>201903151742010_Assignments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903160823224_Assignments1.cs" />
+    <Compile Include="Migrations\201903160823224_Assignments1.Designer.cs">
+      <DependentUpon>201903160823224_Assignments1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903160849249_Assignments2.cs" />
+    <Compile Include="Migrations\201903160849249_Assignments2.Designer.cs">
+      <DependentUpon>201903160849249_Assignments2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Child.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Enrollment.cs" />
     <Compile Include="Models\Extensions\IdentityExtensions.cs" />
+    <Compile Include="Models\GetSubmitViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Index_SelectedViewModel.cs" />
     <Compile Include="Models\GenericRequest.cs" />
@@ -301,6 +320,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Users\nikos\Math100\43648080_600806957005171_3175039236239785984_n.jpg" />
     <Content Include="Users\vlakofatsa\Math100\43648080_600806957005171_3175039236239785984_n.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -379,18 +399,29 @@
     <Content Include="Views\Student\Parent_Index.cshtml" />
     <Content Include="Views\Courses\Index_StudentId.cshtml" />
     <Content Include="Views\Home\AdminRoleRequests.cshtml" />
-    <Content Include="Views\Teacher\Grades.cshtml" />
+    <Content Include="Views\Teacher\SetGrades.cshtml" />
     <Content Include="Views\Student\Student_Index_ToSelect.cshtml" />
+    <Content Include="Views\Assignments\CreateAssignment.cshtml" />
+    <Content Include="Views\Assignments\Error.cshtml" />
+    <Content Include="Views\Assignments\ListAssignments.cshtml" />
+    <Content Include="Users\nikos\Math100\1489058_SOR.pdf" />
+    <Content Include="Users\nikos\Math100\Υλικό Υπολογιστή.doc" />
+    <Content Include="Users\nikos\Math100\Submits\1489058_SOR.pdf" />
+    <Content Include="Views\UploadFiles\UploadAnswear.cshtml" />
+    <Content Include="Views\UploadFiles\GetSubmits.cshtml" />
+    <Content Include="Views\Assignments\Delete.cshtml" />
+    <Content Include="Views\Assignments\Edit.cshtml" />
+    <Content Include="Views\Courses\CourseGrades.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="FilesUpload\" />
     <Folder Include="Users\admin\" />
     <Folder Include="Users\george\" />
-    <Folder Include="Users\kostas\" />
+    <Folder Include="Users\kostas\Javascript\" />
+    <Folder Include="Users\kostas\Java\" />
     <Folder Include="Users\kyriakos\" />
     <Folder Include="Users\mpampas\" />
-    <Folder Include="Users\nikos\" />
     <Folder Include="Users\yuly\" />
   </ItemGroup>
   <ItemGroup>
@@ -434,6 +465,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903141722260_Enrollment.resx">
       <DependentUpon>201903141722260_Enrollment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903151106378_Path.resx">
+      <DependentUpon>201903151106378_Path.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903151742010_Assignments.resx">
+      <DependentUpon>201903151742010_Assignments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903160823224_Assignments1.resx">
+      <DependentUpon>201903160823224_Assignments1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903160849249_Assignments2.resx">
+      <DependentUpon>201903160849249_Assignments2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

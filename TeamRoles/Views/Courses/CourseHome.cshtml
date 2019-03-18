@@ -47,7 +47,7 @@
                         <td>
                             @Html.ActionLink("Details", "Details", "Student", new { id = item.ApplicationUsers.First().Id }, null) |
                             @Html.ActionLink("Delete", "RemoveFromCourse", "Student", new { id = item.ApplicationUsers.First().Id, coursename = Model.CourseName }, null)|
-                            @Html.ActionLink("Set Grade", "Grades", "Teacher", new { id = item.ApplicationUsers.First().Id, coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)
+                            @Html.ActionLink("Set Grade", "SetGrades", "Teacher", new { id = item.ApplicationUsers.First().Id, coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)
                         </td>
                         }
                     </tr>
@@ -56,10 +56,16 @@
             </table>
         </div>
         <div class="col-md-4 col-lg-4">
-            @Html.ActionLink("Upload Files", "Index", "UploadFiles", new { coursename = Model.CourseName }, null)
-            
+            @if (User.IsInRole("Teacher"))
+            {
+                ;
+                @Html.ActionLink("Create Assignment", "CreateAssignment", "Assignments", new { coursename = Model.CourseName }, null)
+                @Html.ActionLink("View Grades", "CourseGrades", "Courses", new { coursename = Model.CourseName,teacherid = Model.Teacher.Id }, null)
+
+            }
+            @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { coursename = Model.CourseName }, null)
+        </div>
         </div>
     </div>
     <a href="/Courses">Back to List</a>
-</div>
 

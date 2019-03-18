@@ -36,6 +36,7 @@
         <table class="table">
             <tr>
                 <th>Course Title</th>
+                <th>Teacher</th>
                 <th>Grade</th>
             </tr>
             @foreach (var item in Model.Enrollments)
@@ -45,7 +46,17 @@
                     @Html.DisplayFor(modelItem => item.Course.CourseName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Grade)
+                    @Html.DisplayFor(modelItem => item.Course.TeacherName)
+                </td>
+                <td>
+                    @if (item.Grade == -1)
+                    {
+                        <p>Not Set</p>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Grade)
+                    }
                 </td>
             </tr>
             }

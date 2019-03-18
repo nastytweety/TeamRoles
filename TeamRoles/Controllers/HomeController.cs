@@ -10,7 +10,7 @@ using TeamRoles.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
-
+using System.IO;
 
 namespace TeamRoles.Controllers
 {
@@ -110,9 +110,25 @@ namespace TeamRoles.Controllers
                 ApplicationUser student = db.Users.Find(req.User2id);
                 course.ApplicationUsers.Add(student);
                 db.Courses.Attach(course);
-                db.Entry(course).State = EntityState.Modified;
-                db.Requests.Remove(req);
-                db.SaveChanges();
+
+                Enrollment enrol = new Enrollment();
+                enrol.Grade = -1;
+                enrol.CourseId = course.CourseId;
+                enrol.Course = course;
+                enrol.UserId = student.Id;
+                enrol.User = student;
+
+                try
+                {
+                    db.Entry(course).State = EntityState.Modified;
+                    db.Requests.Remove(req);
+                    db.Enrollments.Add(enrol);
+                    db.SaveChanges();
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
                 return RedirectToAction("JoinRequests", "Home");
             }
             else if(req.Type ==  "ParentStudent")

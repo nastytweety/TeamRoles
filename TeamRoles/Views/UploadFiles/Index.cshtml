@@ -1,4 +1,6 @@
-﻿@model List<string>
+﻿@using Microsoft.AspNet.Identity;
+@using TeamRoles.Models.Extensions;
+@model List<string>
 @{
 
     ViewBag.Title = "Index";
@@ -26,7 +28,7 @@
 
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal bd-example-modal-lg fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -44,7 +46,10 @@
                                             <td> @ViewBag.MessageForList</td>
                                             <td> @i.ToString() </td>
                                             <td> @Html.ActionLink("Download", "DownloadFile", new { text = @i.ToString() }) </td>
-                                            <td> @Html.ActionLink("Delete", "DeleteFile", new { text = @i.ToString() }) </td>
+                                            @if (User.IsInRole("Teacher"))
+                                            {
+                                                <td> @Html.ActionLink("Delete", "DeleteFile", new { text = @i.ToString() }) </td>
+                                            }
                                         </tr>
                                     </tbody>
                                 }

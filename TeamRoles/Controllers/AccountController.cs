@@ -158,13 +158,18 @@ namespace TeamRoles.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, ProfilePic = model.ProfilePic};
+                var path = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + model.UserName);
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, ProfilePic = model.ProfilePic, Path = path.ToString()};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
-                    var dir = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + model.UserName);
-                    DirectoryInfo di = Directory.CreateDirectory(dir.ToString());
+                    //var dir = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + model.UserName);
+                    if(model.UserRoles == "Teacher")
+                    {
+                        DirectoryInfo di = Directory.CreateDirectory(path.ToString());
+                    }
+                    
                     CreateRequest(user.Id,model.UserRoles);
                    
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);

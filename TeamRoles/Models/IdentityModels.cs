@@ -15,7 +15,10 @@ namespace TeamRoles.Models
             Courses = new HashSet<Course>();
             Posts = new HashSet<Post>();
             Requests = new HashSet<GenericRequest>();
+            Enrollments = new HashSet<Enrollment>();
+            Children = new HashSet<Child>();
         }
+        public string Path { get; set; }
         public string ProfilePic { get; set; }
         public virtual ICollection<Enrollment> Enrollments { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
@@ -40,6 +43,7 @@ namespace TeamRoles.Models
         public DbSet<GenericRequest> Requests { get; set; }
         public DbSet<Child> Children { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

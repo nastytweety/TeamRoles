@@ -6,11 +6,11 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using TeamRoles.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System.IO;
+using System.IO;   
+using TeamRoles.Models;
 
 namespace TeamRoles.Controllers
 {
@@ -19,17 +19,16 @@ namespace TeamRoles.Controllers
     public class UploadFilesController : Controller
     {
 
-        private ApplicationDbContext db;
+        /*private ApplicationDbContext db;
         private UserManager<ApplicationUser> _userManager;
-        private static string _coursename { get; set; }
 
         public UploadFilesController()
         {
             db = new ApplicationDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
-        }
+        }*/
             // GET: UploadFiles
-        public ActionResult Index(string coursename)
+       /* public ActionResult Index(string coursename)
         {
             _coursename = coursename;
             try
@@ -91,13 +90,38 @@ namespace TeamRoles.Controllers
                 return View(items);
             }
 
-        }
+        }*/
 
-        public ActionResult Download()
+        [HttpPost]
+        public ActionResult UploadAnswear(HttpPostedFileBase file,string coursename,string teachername)
         {
             try
             {
-                var dir = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + User.Identity.GetUserName() + "\\" + _coursename);
+                if (file.ContentLength > 0)
+                {
+                    string filename = Path.GetFileName(file.FileName);
+                    string filepath = Path.Combine(Server.MapPath("~/Users\\" + teachername + "\\" + coursename +"\\Submits\\"), filename);
+                    file.SaveAs(filepath);
+                }
+
+                ViewBag.Message = "Uploaded Filed Saved.";
+                ViewBag.Coursename = coursename;
+                return View();
+            }
+            catch
+            {
+                ViewBag.Message = "Uploaded Filed not Saved.";
+                ViewBag.Coursename = coursename;
+                return View();
+            }
+
+        }
+
+        public ActionResult GetSubmits(string coursename, string username)
+        {
+            try
+            {
+                var dir = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename+"\\Submits\\");
 
                 System.IO.FileInfo[] fileNames = dir.GetFiles();
 
@@ -107,8 +131,12 @@ namespace TeamRoles.Controllers
                 {
                     items.Add(file.Name);
                 }
-
-                return View(items);
+                GetSubmitViewModel model = new GetSubmitViewModel();
+                model.filenames.AddRange(items);
+                model.username = username;
+                model.coursename = coursename;
+                model.mode = "submits";
+                return View(model);
             }
             catch
             {
@@ -117,24 +145,44 @@ namespace TeamRoles.Controllers
             }
         }
 
-
-        public ActionResult DownloadFile(string text)
+        
+        public ActionResult DownloadFile(string filename, string coursename, string username, string mode)
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + User.Identity.GetUserName() + "\\" + _coursename;
+            string path = "";
 
-            byte[] fileBytes = System.IO.File.ReadAllBytes(path + text);
+            if (mode=="assignments")
+            {
+                path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename + "\\";
+            }
+            else if(mode=="submits")
+            {
+                path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename + "\\Submits\\" ;
+            }
+            
 
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, text);
+            byte[] fileBytes = System.IO.File.ReadAllBytes(path + filename);
+
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, filename);
         }
 
 
-        public ActionResult DeleteFile(string text)
+
+        public ActionResult DeleteFile(string filename, string coursename, string username, string mode)
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + User.Identity.GetUserName() + "\\" + _coursename;
+            string path = "";
 
-            System.IO.File.Delete(path + text);
+            if (mode == "assignments")
+            {
+                path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename + "\\";
+            }
+            else if (mode == "submits")
+            {
+                path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename + "\\Submits\\";
+            }
 
-            return RedirectToAction("Index");
+            System.IO.File.Delete(path + filename);
+
+            return RedirectToAction("ListAssignments","Assignments",new { coursename = coursename });
         }
     }
 }

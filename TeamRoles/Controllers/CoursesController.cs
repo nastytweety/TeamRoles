@@ -134,8 +134,8 @@ namespace TeamRoles.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
-                List<Course> courses = user.Courses.ToList();
+                ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
+                List<Course> courses = teacher.Courses.ToList();
                 foreach(var c in courses)
                 {
                     if(c.CourseName == course.CourseName)
@@ -144,8 +144,21 @@ namespace TeamRoles.Controllers
                     }
                 }
                 course.ApplicationUsers.Add(db.Users.Find(User.Identity.GetUserId()));
-                db.Courses.Add(course);
-                db.SaveChanges();
+                course.TeacherId = User.Identity.GetUserId();
+                course.TeacherName = db.Users.Find(User.Identity.GetUserId()).UserName.ToString();
+                try
+                {
+                    db.Courses.Add(course);
+                    db.SaveChanges();
+                    var path = teacher.Path + "\\" + course.CourseName;
+                    DirectoryInfo di = Directory.CreateDirectory(path.ToString());
+                    path = teacher.Path + "\\" + course.CourseName + "\\Submits\\";
+                    di = Directory.CreateDirectory(path.ToString());
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
                 return RedirectToAction("Index");
             }
 
@@ -295,14 +308,37 @@ namespace TeamRoles.Controllers
             ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
             Course course = db.Courses.Find(id);
             student.Courses.Remove(course);
-            db.Entry(student).State = EntityState.Modified;
-            db.SaveChanges();
+            try
+            {
+                db.Entry(student).State = EntityState.Modified;
+                db.SaveChanges();
+                var path = student.Path + "\\" + course.CourseName;
+                Directory.Delete(path.ToString(),true);
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
             return RedirectToAction("Index_Selected");
         }
 
         public ActionResult RequestSent()
         {
             return View();
+        }
+
+        public ActionResult CourseGrades(string coursename, string teacherid)
+        {
+            if(coursename!=null & teacherid!=null)
+            {
+                List<Course> courselist = db.Courses.Where(t => t.TeacherId == teacherid).ToList();
+                Course course = courselist.Where(c => c.CourseName == coursename).SingleOrDefault();
+                return View(course.Enrollments.ToList());
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
         }
     }
 }

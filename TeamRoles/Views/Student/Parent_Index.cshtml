@@ -33,7 +33,7 @@
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
-                @Html.ActionLink("View Courses", "Index_StudentId", "Courses", new { id = item.Id }, null) |
+                @Html.ActionLink("View Student Details", "Details", "Student", new { id = item.Id }, null) |
                 @Html.ActionLink("Delete", "DeleteFromChild", new { id = item.Id })
             </td>
         </tr>

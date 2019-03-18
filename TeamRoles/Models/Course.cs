@@ -12,13 +12,18 @@ namespace TeamRoles.Models
         public Course()
         {
             this.ApplicationUsers = new HashSet<ApplicationUser>();
+            this.Enrollments = new HashSet<Enrollment>();
+            this.Assignments = new HashSet<Assignment>();
         }
         public int CourseId { get; set; }
         public string CourseName { get; set; }
         public string CourseDescription { get; set; }
         public string CoursePic { get; set; }
+        public string TeacherName { get; set; }
+        public string TeacherId { get; set; }
 
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
         public virtual ICollection<Enrollment> Enrollments { get; set; }
+        public virtual ICollection<Assignment> Assignments { get; set; }
     }
 }

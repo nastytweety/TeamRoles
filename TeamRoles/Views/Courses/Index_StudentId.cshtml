@@ -14,6 +14,9 @@
         <th>
             @Html.DisplayNameFor(model => model.CourseName)
         </th>
+        <th>
+            <p>Teacher</p>
+        </th>
         <th></th>
     </tr>
 
@@ -24,10 +27,13 @@
                 @Html.DisplayFor(modelItem => item.CourseName)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.TeacherName)
+            </td>
+            <td>
                 @if(User.IsInRole("Parent"))
                 {
                 <p>
-                    @Html.ActionLink("View Grades", "Edit", new { id = item.CourseId }) |
+                    @Html.ActionLink("View Grades", "Grades","Teacher", new { id = item.CourseId },null) |
                     @Html.ActionLink("View Absences", "CourseHome", new { id = item.CourseId })
                 </p>
                 }
