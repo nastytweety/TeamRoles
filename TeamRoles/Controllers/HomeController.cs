@@ -187,5 +187,10 @@ namespace TeamRoles.Controllers
             return requestlist;
         }
 
+        public ActionResult Chat()
+        {
+            return View();
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace TeamRoles.Models
 {
@@ -73,10 +74,14 @@ namespace TeamRoles.Models
         public string UserRoles { get; set; }
 
         [Required]
+        [Display(Name = "Profile Picture")]
+        public HttpPostedFileBase ImageFile { get; set; }
+
+        [Required]
         [Display(Name = "UserName")]
         public string UserName { get; set; }
 
-        [Display(Name = "Profile Picture")]
+        //[Display(Name = "Profile Picture")]
         public string ProfilePic { get; set; }
 
         [Required]

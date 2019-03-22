@@ -17,6 +17,7 @@ namespace TeamRoles
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             //app.CreatePerOwinContext<AppRoleManager>(AppRoleManager.Create);
             createRolesandUsers();
+            app.MapSignalR();
         }
 
         private void createRolesandUsers()

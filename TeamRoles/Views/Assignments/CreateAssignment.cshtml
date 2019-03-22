@@ -33,6 +33,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
+                        <!--<input type="date" name="bday" id="DueDate">-->
                         @Html.TextAreaFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
                     </div>

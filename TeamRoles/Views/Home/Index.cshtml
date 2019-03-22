@@ -2,7 +2,7 @@
 @using TeamRoles.Models.Extensions;
 @using TeamRoles.Models;
 
-@model  IEnumerable <TeamRoles.Models.Post>
+@model  IEnumerable<TeamRoles.Models.Post>
 
 
 <!--<div class="jumbotron">
@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-md-4 col-lg-4">
             <div class="card">
-                <img alt="Card image cap" class="card-img-top img-fluid" src="@User.Identity.GetUrlPicture()" width="100" height="100" />
+                <img alt="Card image cap" class="card-img-top img-fluid" src="~/Users/@User.Identity.GetUserName()/@Url.Content(@User.Identity.GetUrlPicture())" width="100" height="100" />
                 <div class="card-block">
                     <h4 class="card-title"> @User.Identity.GetUserName() </h4>
 
@@ -39,6 +39,7 @@
                     </div>
                 </div>
             </div>
+
 
             <div class="col-md-4 col-lg-4">
                 @using (Html.BeginForm("Create", "Posts", FormMethod.Post))
@@ -72,7 +73,7 @@
                 <div class="row">
                     <div class="col-md-4">
                     </div>
-                    
+
                     <div class="col-md-4">
                         <table class="table table-hover">
                             <tbody>
@@ -85,9 +86,9 @@
                                     </td>
                                     @if (User.IsInRole("Admin"))
                                     {
-                                    <td>
-                                        @Html.ActionLink("Delete", "Delete","Posts", new { id = post.PostId},null)
-                                    </td>
+                                        <td>
+                                            @Html.ActionLink("Delete", "Delete", "Posts", new { id = post.PostId }, null)
+                                        </td>
                                     }
                                 </tr>
                                 <tr>
@@ -105,4 +106,160 @@
 
     </div>
 
+    </div>
 
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            /* Button used to open the chat form - fixed at the bottom of the page */
+            .open-button {
+                background-color: #555;
+                color: white;
+                padding: 16px 20px;
+                border: none;
+                cursor: pointer;
+                opacity: 0.8;
+                position: fixed;
+                bottom: 23px;
+                right: 28px;
+                width: 280px;
+            }
+
+            /* The popup chat - hidden by default */
+            .chat-popup {
+                display: none;
+                position: fixed;
+                bottom: 0;
+                right: 15px;
+                border: 3px solid #f1f1f1;
+                z-index: 9;
+            }
+
+            /* Add styles to the form container */
+            .form-container {
+                max-width: 300px;
+                padding: 10px;
+                background-color: white;
+            }
+
+                /* Full-width textarea */
+                .form-container textarea {
+                    width: 100%;
+                    padding: 15px;
+                    margin: 5px 0 22px 0;
+                    border: none;
+                    background: #f1f1f1;
+                    resize: none;
+                    min-height: 200px;
+                }
+
+                    /* When the textarea gets focus, do something */
+                    .form-container textarea:focus {
+                        background-color: #ddd;
+                        outline: none;
+                    }
+
+                /* Set a style for the submit/send button */
+                .form-container .btn {
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 16px 20px;
+                    border: none;
+                    cursor: pointer;
+                    width: 100%;
+                    margin-bottom: 10px;
+                    opacity: 0.8;
+                }
+
+                /* Add a red background color to the cancel button */
+                .form-container .cancel {
+                    background-color: red;
+                }
+
+                /* Add some hover effects to buttons */
+                .form-container .btn:hover, .open-button:hover {
+                    opacity: 1;
+                }
+        </style>
+    </head>
+    <body>
+
+        <button class="open-button" onclick="openForm()">Chat</button>
+
+        <div class="chat-popup" id="myForm">
+            <form action="/action_page.php" class="form-container">
+                <h1>Chat</h1>
+
+                <label for="msg"><b>Message</b></label>
+                <textarea placeholder="Type message.." name="msg" id="message" required></textarea>
+               
+                <input type="hidden" id="displayname" />
+                <button type="submit" id="sendmessage" class="btn">Send</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </form>
+        </div>
+
+        <script>
+            function openForm() {
+                document.getElementById("myForm").style.display = "block";
+            }
+
+            function closeForm() {
+                document.getElementById("myForm").style.display = "none";
+            }
+        </script>
+        @section scripts {
+            <!--Script references. -->
+            <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
+            <!--Reference the SignalR library. -->
+            <script src="~/Scripts/jquery.signalR-2.4.0.min.js"></script>
+            <!--Reference the autogenerated SignalR hub script. -->
+            <script src="~/signalr/hubs"></script>
+            <!--SignalR script to update the chat page and send messages.-->
+            <script>
+        $(function () {
+            // Reference the auto-generated proxy for the hub.
+            var chat = $.connection.chatHub;
+            // Create a function that the hub can call back to display messages.
+            chat.client.addNewMessageToPage = function (name, message) {
+                // Add the message to the page.
+                $('#message').append('<li><strong>' + htmlEncode(name)
+                    + '</strong>: ' + htmlEncode(message) + '</li>');
+            };
+            //IPrincipal.Identity.Name
+            //chatHub.server.
+            // Get the user name and store it to prepend to messages.
+            $('#displayname').val('@User.Identity.Name');
+                //prompt('Enter your name:', ''));
+            // Set initial focus to message input box.
+            $('#message').focus();
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    // Call the Send method on the hub.
+                    chat.server.send($('#displayname').val(), $('#message').val());
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('').focus();
+                });
+            });
+        });
+        // This optional function html-encodes messages for display in the page.
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+               // select * from Book where 
+            </script>
+        }
+    </body>
+</html>

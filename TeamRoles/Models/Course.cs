@@ -21,6 +21,8 @@ namespace TeamRoles.Models
         public string CoursePic { get; set; }
         public string TeacherName { get; set; }
         public string TeacherId { get; set; }
+        [NotMapped]
+        public HttpPostedFileBase ImageFile { get; set; }
 
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
         public virtual ICollection<Enrollment> Enrollments { get; set; }
