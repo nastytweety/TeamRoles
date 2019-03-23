@@ -10,6 +10,25 @@
     <title>@ViewBag.Title - eν-τάξει</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/MasterLayoutF.css")
+    @Styles.Render("~/Content/MasterLayout.js")
+    @Styles.Render("~/Content/MasterLayout.css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Styles.Render("~/Content/core.min.css")
+    @Styles.Render("~/Content/font-awesome.min.css")
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald:300">
+    @*<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">*@
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" rel="stylesheet">
+    @*Styles.Render("~/Content/Birds.css")
+
+        @RenderSection("adminstyles", required: false)
+        @RenderSection("GodStyle", required: false)*@
+    @RenderSection("styles", required: false)
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
 </head>
 <body>
@@ -42,7 +61,7 @@
                         <a class="nav-link" href="/Home/Requests">Requests</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/Chat2">Chat</a>
+                        <a class="nav-link" href="/Chat/Index">Chat</a>
                     </li>
                 }
                 else if (User.IsInRole("Student"))
@@ -57,7 +76,7 @@
                         <a class="nav-link" href="/Home/Requests">Requests</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/Chat2">Chat</a>
+                        <a class="nav-link" href="/Chat/Index">Chat</a>
                     </li>
                 }
                 else if (User.IsInRole("Admin"))
@@ -79,7 +98,7 @@
                         <a class="nav-link" href="/Home/Requests">Requests</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/Chat">Chat2</a>
+                        <a class="nav-link" href="/Chat/Index">Chat2</a>
                     </li>
                 }
                 else if (User.IsInRole("Parent"))
@@ -94,7 +113,7 @@
                         <a class="nav-link" href="/Home/Requests">Requests Sent</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Home/Chat">Chat2</a>
+                        <a class="nav-link" href="/Chat/Index">Chat2</a>
                     </li>
                 }
             </ul>

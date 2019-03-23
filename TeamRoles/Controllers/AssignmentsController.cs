@@ -15,6 +15,7 @@ using TeamRoles.Models;
 
 namespace TeamRoles.Controllers
 {
+    [Authorize]
     public class AssignmentsController : Controller
     {
         private ApplicationDbContext db;
@@ -40,7 +41,10 @@ namespace TeamRoles.Controllers
             assignment.AssignmentFile.SaveAs(fileName);
             assignment.TeacherName = teacher.UserName;
             assignment.Path = fileName;
-
+            ////////
+            var path = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + teacher.UserName + course.CourseName+"\\Submits\\"+assignment.AssignmentName);
+            DirectoryInfo di = Directory.CreateDirectory(path.ToString());
+            ///////
             if (ModelState.IsValid)
             {
                 foreach (var a in assignments)

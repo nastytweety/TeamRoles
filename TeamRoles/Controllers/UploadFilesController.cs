@@ -93,14 +93,14 @@ namespace TeamRoles.Controllers
         }*/
 
         [HttpPost]
-        public ActionResult UploadAnswear(HttpPostedFileBase file,string coursename,string teachername)
+        public ActionResult UploadAnswear(HttpPostedFileBase file,string coursename,string teachername,string assignment)
         {
             try
             {
                 if (file.ContentLength > 0)
                 {
                     string filename = Path.GetFileName(file.FileName);
-                    string filepath = Path.Combine(Server.MapPath("~/Users\\" + teachername + "\\" + coursename +"\\Submits\\"), filename);
+                    string filepath = Path.Combine(Server.MapPath("~/Users\\" + teachername + "\\" + coursename +"\\Submits\\" + assignment), filename);
                     file.SaveAs(filepath);
                 }
 
@@ -117,11 +117,11 @@ namespace TeamRoles.Controllers
 
         }
 
-        public ActionResult GetSubmits(string coursename, string username)
+        public ActionResult GetSubmits(string coursename, string username, string assignment)
         {
             try
             {
-                var dir = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename+"\\Submits\\");
+                var dir = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename+"\\Submits\\"+assignment);
 
                 System.IO.FileInfo[] fileNames = dir.GetFiles();
 
@@ -146,7 +146,7 @@ namespace TeamRoles.Controllers
         }
 
         
-        public ActionResult DownloadFile(string filename, string coursename, string username, string mode)
+        public ActionResult DownloadFile(string filename, string coursename, string username, string assignment, string mode)
         {
             string path = "";
 
@@ -156,7 +156,7 @@ namespace TeamRoles.Controllers
             }
             else if(mode=="submits")
             {
-                path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename + "\\Submits\\" ;
+                path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename + "\\Submits\\" + assignment;
             }
             
 
@@ -167,7 +167,7 @@ namespace TeamRoles.Controllers
 
 
 
-        public ActionResult DeleteFile(string filename, string coursename, string username, string mode)
+        public ActionResult DeleteFile(string filename, string coursename, string username, string assignment, string mode)
         {
             string path = "";
 
@@ -177,7 +177,7 @@ namespace TeamRoles.Controllers
             }
             else if (mode == "submits")
             {
-                path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename + "\\Submits\\";
+                path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename + "\\Submits\\" + assignment;
             }
 
             System.IO.File.Delete(path + filename);

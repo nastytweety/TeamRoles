@@ -15,9 +15,9 @@
                     {
                         if (user.UserName != "ChatBot" && user.UserName != User.Identity.Name)
                         {
-                            <div id="@user.UserName" avatar="@user.ProfilePic" class="user">
+                            <div id="@user.UserName" avatar="~/Users/@user.UserName/@user.ProfilePic" class="user">
                                 <div class="avatar">
-                                    <img src="@user.ProfilePic">
+                                    <img src="~/Users/@user.UserName/@user.ProfilePic">
                                     @*<div class="status off"></div>*@
                                 </div>
                                 <div class="name">@user.UserName</div>
@@ -44,7 +44,7 @@
 @section scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
-    <script src="~/Scripts/jquery.signalR-2.2.3.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.0.js"></script>
     <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/moment.js"></script>
     <script>
@@ -102,7 +102,7 @@
                         }
                         chatBodyElement.append(messageDiv);
                         //appened scrolling
-                        scrollToBottom();
+                        scrollToBottom(); 
                     });
                 });
             });
