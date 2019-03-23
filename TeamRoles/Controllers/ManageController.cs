@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -13,11 +16,14 @@ namespace TeamRoles.Controllers
     [Authorize]
     public class ManageController : Controller
     {
+
+        private ApplicationDbContext db;
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
         public ManageController()
         {
+            db = new ApplicationDbContext();
         }
 
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -333,7 +339,44 @@ namespace TeamRoles.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        // GET: ApplicationUsers/Edit/5
+        public ActionResult Edit(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser applicationUser = db.Users.Find(id);
+            if (applicationUser == null)
+            {
+                return HttpNotFound();
+            }
+            return View(applicationUser);
+        }
+
+        // POST: ApplicationUsers/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(ApplicationUser applicationUser, HttpPostedFileBase ImageFile)
+        {
+            if (ImageFile != null)
+            {
+                applicationUser.ProfilePic = Path.GetFileName(applicationUser.ImageFile.FileName);
+                string fileName = Path.Combine(Server.MapPath("~/Users/" + applicationUser.UserName + "/"), applicationUser.ProfilePic);
+                applicationUser.ImageFile.SaveAs(fileName);
+            }
+
+            if (ModelState.IsValid)
+            {
+                db.Entry(applicationUser).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(applicationUser);
+        }
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
