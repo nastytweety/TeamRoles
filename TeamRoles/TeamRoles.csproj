@@ -293,6 +293,10 @@
     <Compile Include="Migrations\201903230856312_messages.Designer.cs">
       <DependentUpon>201903230856312_messages.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903231836521_merge-george.cs" />
+    <Compile Include="Migrations\201903231836521_merge-george.Designer.cs">
+      <DependentUpon>201903231836521_merge-george.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -664,6 +668,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903230856312_messages.resx">
       <DependentUpon>201903230856312_messages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903231836521_merge-george.resx">
+      <DependentUpon>201903231836521_merge-george.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
