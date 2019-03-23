@@ -21,8 +21,10 @@ namespace TeamRoles.Models
         public string CourseName { get; set; }
         [Required]
         public string CourseDescription { get; set; }
-        [Required]
+
+        //[Required]
         public string CoursePic { get; set; }
+
         public string TeacherName { get; set; }
         public string TeacherId { get; set; }
         [NotMapped]

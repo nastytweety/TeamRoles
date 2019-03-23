@@ -130,7 +130,7 @@ namespace TeamRoles.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult Create([Bind(Include = "ImageFile,CourseId,CourseName,CourseDescription,CoursePic")] Course course)
+        public ActionResult Create(Course course)
         {
             if (ModelState.IsValid)
             {
@@ -138,7 +138,7 @@ namespace TeamRoles.Controllers
                 List<Course> courses = teacher.Courses.ToList();
 
                 course.CoursePic = Path.GetFileName(course.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Users/"), course.CoursePic);
+                string fileName = Path.Combine(Server.MapPath("~/Images/"), course.CoursePic);
                 course.ImageFile.SaveAs(fileName);
 
 
@@ -211,14 +211,15 @@ namespace TeamRoles.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CourseId,ImageFile,CourseName,CourseDescription,CoursePic")] Course course)
+        public ActionResult Edit([Bind(Include = "CourseId,CourseName,CourseDescription,CoursePic,ImageFile")] Course course,HttpPostedFileBase ImageFile)
         {
             if (course.ImageFile != null)
             {
                 course.CoursePic = Path.GetFileName(course.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Users/"), course.CoursePic);
+                string fileName = Path.Combine(Server.MapPath("~/Images/"), course.CoursePic);
                 course.ImageFile.SaveAs(fileName);
             }
+
             if (ModelState.IsValid)
             {
                 db.Entry(course).State = EntityState.Modified;

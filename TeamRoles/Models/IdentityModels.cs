@@ -25,7 +25,9 @@ namespace TeamRoles.Models
             MessagesReceived = new List<Message>();
         }
         public string Path { get; set; }
+
         public string ProfilePic { get; set; }
+
         [InverseProperty("Sender")]
         public ICollection<Message> MessagesSent { get; set; }
         [InverseProperty("Receiver")]
