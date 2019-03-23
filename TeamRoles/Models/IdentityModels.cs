@@ -21,9 +21,15 @@ namespace TeamRoles.Models
             Requests = new HashSet<GenericRequest>();
             Enrollments = new HashSet<Enrollment>();
             Children = new HashSet<Child>();
+            MessagesSent = new List<Message>();
+            MessagesReceived = new List<Message>();
         }
         public string Path { get; set; }
         public string ProfilePic { get; set; }
+        [InverseProperty("Sender")]
+        public ICollection<Message> MessagesSent { get; set; }
+        [InverseProperty("Receiver")]
+        public ICollection<Message> MessagesReceived { get; set; }
 
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
@@ -53,6 +59,7 @@ namespace TeamRoles.Models
         public DbSet<Child> Children { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

@@ -185,6 +185,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationUsersController.cs" />
     <Compile Include="Controllers\AssignmentsController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -197,6 +198,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\ChatHub.cs" />
+    <Compile Include="Hubs\ConnectionMapping.cs" />
+    <Compile Include="Hubs\MessageRepository.cs" />
+    <Compile Include="Hubs\UserRepository.cs" />
     <Compile Include="Migrations\201903021110388_Initial.cs" />
     <Compile Include="Migrations\201903021110388_Initial.Designer.cs">
       <DependentUpon>201903021110388_Initial.cs</DependentUpon>
@@ -269,6 +273,10 @@
     <Compile Include="Migrations\201903221653111_profile-fix.Designer.cs">
       <DependentUpon>201903221653111_profile-fix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903221943469_fix-datetime.cs" />
+    <Compile Include="Migrations\201903221943469_fix-datetime.Designer.cs">
+      <DependentUpon>201903221943469_fix-datetime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -281,6 +289,7 @@
     <Compile Include="Models\Index_SelectedViewModel.cs" />
     <Compile Include="Models\GenericRequest.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\RequestViewModel.cs" />
     <Compile Include="Models\SetGradeViewModel.cs" />
@@ -550,6 +559,8 @@
     <Content Include="Views\Home\Chat.cshtml" />
     <Content Include="Views\Shared\carouzel.cshtml" />
     <Content Include="Views\Shared\_Carouzel.cshtml" />
+    <Content Include="Views\Home\Chat2.cshtml" />
+    <Content Include="Views\Chat\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -622,6 +633,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903221653111_profile-fix.resx">
       <DependentUpon>201903221653111_profile-fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903221943469_fix-datetime.resx">
+      <DependentUpon>201903221943469_fix-datetime.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

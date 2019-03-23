@@ -18,7 +18,7 @@ namespace TeamRoles.Models
         public string AssignmentName { get; set; }
         public string Filename { get; set; }
         public string Path { get; set; }
-        public string DueDate { get; set; }
+        public DateTime DueDate { get; set; }
         public int Points { get; set; }
         public string CourseName { get; set; }
         public string TeacherName { get; set; }

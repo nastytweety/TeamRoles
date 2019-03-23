@@ -15,9 +15,13 @@ namespace TeamRoles.Models
             this.Enrollments = new HashSet<Enrollment>();
             this.Assignments = new HashSet<Assignment>();
         }
+       
         public int CourseId { get; set; }
+        [Required]
         public string CourseName { get; set; }
+        [Required]
         public string CourseDescription { get; set; }
+        [Required]
         public string CoursePic { get; set; }
         public string TeacherName { get; set; }
         public string TeacherId { get; set; }
