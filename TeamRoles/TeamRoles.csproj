@@ -561,6 +561,7 @@
     <Content Include="Views\Shared\_Carouzel.cshtml" />
     <Content Include="Views\Home\Chat2.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
+    <Content Include="Views\Manage\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

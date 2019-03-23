@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Web;
 
 namespace TeamRoles.Models
@@ -49,11 +50,6 @@ namespace TeamRoles.Models
 
     public class LoginViewModel
     {
-        /*[Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }*/
-
         [Required]
         [Display(Name = "Username")]
         public string UserName { get; set; }
@@ -73,15 +69,16 @@ namespace TeamRoles.Models
         [Display(Name = "UserRole")]
         public string UserRoles { get; set; }
 
-        [Required]
+//        [Required] <--- Auto edw giati to thes 
         [Display(Name = "Profile Picture")]
+        [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
 
         [Required]
         [Display(Name = "UserName")]
         public string UserName { get; set; }
 
-        //[Display(Name = "Profile Picture")]
+        [Display(Name = "Profile Picture")]
         public string ProfilePic { get; set; }
 
         [Required]
