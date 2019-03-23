@@ -565,6 +565,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="FilesUpload\" />
+    <Folder Include="Images\" />
     <Folder Include="Users\admin\" />
     <Folder Include="Users\george\" />
     <Folder Include="Users\kostas\Javascript\" />
