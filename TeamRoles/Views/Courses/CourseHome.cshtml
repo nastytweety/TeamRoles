@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-4 col-lg-4">
             <div class="card">
-                <img alt="Card image cap" class="card-img-top img-fluid" src="~/Images/@Url.Content(Model.CoursePic)" width="100" height="100" />
+                <img alt="Card image cap" class="card-img-top img-fluid" src="~/Users/@Model.Teacher.UserName/@Model.CourseName/@Url.Content(Model.CoursePic)" width="100" height="100" />
                 <div class="card-block">
                     <h4 class="card-title"> @Model.CourseName </h4>
 
@@ -56,10 +56,10 @@
         <div class="col-md-4 col-lg-4">
             @if (User.IsInRole("Teacher"))
             {
-                ;
-                @Html.ActionLink("Create Assignment", "CreateAssignment", "Assignments", new { coursename = Model.CourseName }, null)
-                @Html.ActionLink("View Grades", "CourseGrades", "Courses", new { coursename = Model.CourseName,teacherid = Model.Teacher.Id }, null)
 
+                @Html.ActionLink("Create Assignment", "CreateAssignment", "Assignments", new { coursename = Model.CourseName }, null)
+                @Html.ActionLink("View Grades", "CourseGrades", "Courses", new { coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)
+             
             }
             @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { coursename = Model.CourseName }, null)
         </div>

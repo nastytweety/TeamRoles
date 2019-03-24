@@ -130,6 +130,7 @@ namespace TeamRoles.Controllers
             return (usersInRole);
         }
 
+        [Authorize(Roles = "Teacher")]
         public ActionResult SetGrades(string id, string coursename, string teacherid)
         {
             ApplicationUser student = db.Users.Find(id);

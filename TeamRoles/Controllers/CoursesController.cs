@@ -137,12 +137,6 @@ namespace TeamRoles.Controllers
                 ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
                 List<Course> courses = teacher.Courses.ToList();
 
-                course.CoursePic = Path.GetFileName(course.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Images/"), course.CoursePic);
-                course.ImageFile.SaveAs(fileName);
-
-
-
                 foreach (var c in courses)
                 {
                     if(c.CourseName == course.CourseName)
@@ -153,6 +147,7 @@ namespace TeamRoles.Controllers
                 course.ApplicationUsers.Add(db.Users.Find(User.Identity.GetUserId()));
                 course.TeacherId = User.Identity.GetUserId();
                 course.TeacherName = db.Users.Find(User.Identity.GetUserId()).UserName.ToString();
+                course.CoursePic = Path.GetFileName(course.ImageFile.FileName);
                 try
                 {
                     db.Courses.Add(course);
@@ -166,6 +161,11 @@ namespace TeamRoles.Controllers
                 {
                     throw e;
                 }
+
+                
+                string fileName = Path.Combine(Server.MapPath("~/Users/" + teacher.UserName + "/" + course.CourseName + "/"), course.CoursePic);
+                course.ImageFile.SaveAs(fileName);
+
                 return RedirectToAction("Index");
             }
 
@@ -250,8 +250,20 @@ namespace TeamRoles.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Course course = db.Courses.Find(id);
-            db.Courses.Remove(course);
-            db.SaveChanges();
+            TeacherController t = new TeacherController();
+            ApplicationUser teacher = t.FindTeacher(id);
+
+            try
+            {
+                var path = teacher.Path + "\\" + course.CourseName;
+                Directory.Delete(path.ToString(), true);
+                db.Courses.Remove(course);
+                db.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
             return RedirectToAction("Index");
         }
 
