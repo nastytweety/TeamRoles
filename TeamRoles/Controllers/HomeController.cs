@@ -28,27 +28,7 @@ namespace TeamRoles.Controllers
 
         public ActionResult Index()
         {
-            ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            List<Post> Posts = new List<Post>();
-
-
-            if (User.IsInRole("Teacher"))
-            {
-                Posts = db.Posts.Where(p => p.UserRole == "Teacher").ToList();
-            }
-            else if (User.IsInRole("Student"))
-            {
-                Posts = user.Posts.Where(p => p.UserRole == "Student").ToList();
-            }
-            else if (User.IsInRole("Parent"))
-            {
-                Posts = user.Posts.Where(p => p.UserRole == "Parent").ToList();
-            }
-            else if (User.IsInRole("Admin"))
-            {
-                Posts = db.Posts.ToList();
-            }
-            return View(Posts.AsEnumerable().Reverse().ToList());
+            return View(db.Posts.AsEnumerable().Reverse().ToList());
         }
 
         protected override void Dispose(bool disposing)

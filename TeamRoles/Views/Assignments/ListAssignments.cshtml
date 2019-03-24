@@ -38,7 +38,7 @@
             @Html.DisplayFor(modelItem => item.AssignmentName)
         </td>
         <td>
-            @Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.CourseName, username = item.TeacherName, mode="assignments" }, null)
+            @Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.CourseName, username = item.TeacherName, assignment= item.AssignmentName, mode="assignments" }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DueDate)
@@ -62,7 +62,7 @@
                 @Html.ActionLink("Delete", "Delete", new { id = item.AssignmentId})|
             </td>
             <td>
-                @Html.ActionLink("View Student Submits", "GetSubmits", "UploadFiles", new { filename = item.Filename, coursename = item.CourseName, username = item.TeacherName, mode = "submits" }, null)
+                @Html.ActionLink("View Student Submits", "GetSubmits", "UploadFiles", new { coursename = item.CourseName, username = item.TeacherName, assignment=item.AssignmentName}, null)
             </td>
         }
         else if (User.IsInRole("Student"))
@@ -78,6 +78,7 @@
                         <div class="form-group">
                             @Html.Hidden("coursename", item.Courses)
                             @Html.Hidden("teachername", item.TeacherName)
+                            @Html.Hidden("assignment", item.AssignmentName)
                             <div class="col-md-10">
                                 <input type="file" name="file" required />
                                 <div class="form-group">
