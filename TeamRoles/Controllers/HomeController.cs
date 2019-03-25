@@ -26,6 +26,12 @@ namespace TeamRoles.Controllers
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
         }
 
+        [AllowAnonymous]
+        public ActionResult HomePage()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
             return View(db.Posts.AsEnumerable().Reverse().ToList());

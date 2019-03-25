@@ -15,8 +15,8 @@ namespace TeamRoles.Controllers
 {
     public class PostsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-        private UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext db;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public PostsController()
         {
@@ -29,21 +29,7 @@ namespace TeamRoles.Controllers
         {
             return View(db.Posts.ToList());
         }
-
-        // GET: Posts/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Post post = db.Posts.Find(id);
-            if (post == null)
-            {
-                return HttpNotFound();
-            }
-            return View(post);
-        }
+        
 
         // GET: Posts/Create
         public ActionResult Create()
@@ -51,31 +37,25 @@ namespace TeamRoles.Controllers
             return View();
         }
 
-        // POST: Posts/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(string PostText, string UserID)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View();
+
+            Post x = new Post {PostText = PostText, PostDate = DateTime.Now}; 
+            var user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            if (user != null)
             {
-                Post x = new Post();
-                x.PostText = PostText;
-                x.PostDate = DateTime.Today.Date;
-                ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-                if (user != null)
-                {
-                    x.ProfilePic = user.ProfilePic;
-                    x.UserName = user.UserName;
-                    x.UserRole = _userManager.GetRoles(user.Id).FirstOrDefault();
-                    x.ApplicationUsers.Add(db.Users.Find(User.Identity.GetUserId()));
-                }
-                db.Posts.Add(x);
-                db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                x.ProfilePic = user.ProfilePic;
+                x.UserName = user.UserName;
+                x.UserRole = _userManager.GetRoles(user.Id).FirstOrDefault();
+                x.ApplicationUsers.Add(db.Users.Find(User.Identity.GetUserId()));
             }
-            return View();
+            db.Posts.Add(x);
+            db.SaveChanges();
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Posts/Edit/5

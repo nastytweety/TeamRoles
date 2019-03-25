@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -12,8 +10,8 @@ namespace TeamRoles.Controllers
     [Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
-        private ApplicationDbContext db;
         private UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext db;
 
         public RolesController()
         {
@@ -21,11 +19,11 @@ namespace TeamRoles.Controllers
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
         }
 
-        // GET: Roles
-        public ActionResult Index()
-        {
-            return View(db.Roles.ToList());
-        }
+//        // GET: Roles
+//        public ActionResult Index()
+//        {
+//            return View(db.Roles.ToList());
+//        }
 
 
         public ActionResult Create()
@@ -34,42 +32,48 @@ namespace TeamRoles.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(IdentityRole Role)
         {
-            try
-            {
-                db.Roles.Add(new IdentityRole()
+            var roles = db.Roles.ToList();
+            foreach (var role in roles)
+                if (role.Name.Equals(Role.Name) || Role.Name == null)
                 {
-                    Name = collection["RoleName"]
-                });
-                db.SaveChanges();
-                ViewBag.ResultMessage = "Role created successfully !";
-                return View("Create");
-            }
-            catch
-            {
-                return View();
-            }
+                    ViewBag.Message = "This Role already exists";
+
+                    return View();
+                }
+
+            db.Roles.Add(Role);
+            db.SaveChanges();
+            return RedirectToAction("ManageUsers");
         }
 
-        public ActionResult Delete(string RoleName)
+        public ActionResult Delete(string roleName)
         {
-            var thisRole = db.Roles.Where(r => r.Name.Equals(RoleName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            var list = db.Roles.OrderBy(r => r.Name).ToList()
+                .Select(rr => new SelectListItem {Value = rr.Name.ToString(), Text = rr.Name}).ToList();
+            ViewBag.Roles = list;
+
+            var thisRole =
+                db.Roles.FirstOrDefault(r => r.Name.Equals(roleName, StringComparison.CurrentCultureIgnoreCase));
             db.Roles.Remove(thisRole);
             db.SaveChanges();
-            return RedirectToAction("Create");
+
+            ViewBag.DeleteMessage = "Role Deleted";
+
+            return RedirectToAction("ManageUsers");
         }
 
 
-        // GET: /Roles/Edit/5
-        public ActionResult Edit(string roleName)
-        {
-            var thisRole = db.Roles.Where(r => r.Name.Equals(roleName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+//        // GET: /Roles/Edit/5
+//        public ActionResult Edit(string roleName)
+//        {
+//            var thisRole = db.Roles.Where(r => r.Name.Equals(roleName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+//
+//            return View(thisRole);
+//        }
 
-            return View(thisRole);
-        }
-
-        //
+        /*//
         // POST: /Roles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -86,14 +90,14 @@ namespace TeamRoles.Controllers
             {
                 return View();
             }
-        }
+        }*/
 
 
         public ActionResult ManageUsers()
         {
             // prepopulat roles for the view dropdown
             var list = db.Roles.OrderBy(r => r.Name).ToList().Select(rr =>
-            new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+                new SelectListItem {Value = rr.Name.ToString(), Text = rr.Name}).ToList();
             ViewBag.Roles = list;
             return View();
         }
@@ -102,15 +106,21 @@ namespace TeamRoles.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RoleAddToUser(string UserName, string RoleName)
         {
-            ApplicationUser user = db.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            var user = db.Users.FirstOrDefault(u =>
+                u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase));
+
+            var list = db.Roles.OrderBy(r => r.Name).ToList()
+                .Select(rr => new SelectListItem {Value = rr.Name.ToString(), Text = rr.Name}).ToList();
+            ViewBag.Roles = list;
+
+//            if (user == null || RoleName == null)
+//            {
+//                ViewBag.Message = "Role cannot created !";
+//                return View("ManageUsers");
+//            }
+
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
             manager.AddToRole(user.Id, RoleName);
-
-            //ViewBag.ResultMessage = "Role created successfully !";
-
-            // prepopulat roles for the view dropdown
-            var list = db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
-            ViewBag.Roles = list;
 
             return View("ManageUsers");
         }
@@ -119,17 +129,21 @@ namespace TeamRoles.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult GetRoles(string UserName)
         {
-            if (!string.IsNullOrWhiteSpace(UserName))
+            if (!string.IsNullOrWhiteSpace(UserName)) //TODO Advise
             {
-                ApplicationUser user = db.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                var user = db.Users.FirstOrDefault(u =>
+                    u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase));
                 var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
 
                 ViewBag.RolesForThisUser = manager.GetRoles(user.Id);
 
                 // prepopulat roles for the view dropdown
-                var list = db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+                var list = db.Roles.OrderBy(r => r.Name).ToList()
+                    .Select(rr => new SelectListItem {Value = rr.Name.ToString(), Text = rr.Name}).ToList();
                 ViewBag.Roles = list;
             }
+
+//            ViewBag.ResultMessage = "Cannot view Roles !";
 
             return View("ManageUsers");
         }
@@ -141,23 +155,28 @@ namespace TeamRoles.Controllers
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
 
-            ApplicationUser user = db.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            var user = db.Users.FirstOrDefault(u =>
+                u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase));
 
-            if (manager.IsInRole(user.Id, RoleName))
+            /*if (user == null || RoleName == null)
+            {
+                ViewBag.Message1 = "Wrong check again !";
+            }
+            else if (manager.IsInRole(user.Id, RoleName))
             {
                 manager.RemoveFromRole(user.Id, RoleName);
-                ViewBag.ResultMessage = "Role removed from this user successfully !";
+                ViewBag.Message2 = "Role removed from this user successfully !";
             }
             else
             {
-                ViewBag.ResultMessage = "This user doesn't belong to selected role.";
-            }
+                ViewBag.Message3 = "This user doesn't belong to selected role.";
+            }*/
             // prepopulat roles for the view dropdown
-            var list = db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            var list = db.Roles.OrderBy(r => r.Name).ToList()
+                .Select(rr => new SelectListItem {Value = rr.Name.ToString(), Text = rr.Name}).ToList();
             ViewBag.Roles = list;
 
             return View("ManageUsers");
         }
-
     }
 }

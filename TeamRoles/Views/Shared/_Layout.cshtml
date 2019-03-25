@@ -10,140 +10,143 @@
     <title>@ViewBag.Title - eν-τάξει</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/MasterLayoutF.css")
+    
+
+    @*@Styles.Render("~/Content/MasterLayoutF.css")
     @Styles.Render("~/Content/MasterLayout.js")
-    @Styles.Render("~/Content/MasterLayout.css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Styles.Render("~/Content/core.min.css")
+    @Styles.Render("~/Content/MasterLayout.css")*@
+   
+
+    @*@Styles.Render("~/Content/core.min.css")
     @Styles.Render("~/Content/font-awesome.min.css")
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald:300">
-    @*<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">*@
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" rel="stylesheet">
-    @*Styles.Render("~/Content/Birds.css")
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" rel="stylesheet">*@
+    
 
-        @RenderSection("adminstyles", required: false)
-        @RenderSection("GodStyle", required: false)*@
-    @RenderSection("styles", required: false)
+    @*@RenderSection("styles", required: false)*@
 
+    @*
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    *@
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-        <a class="navbar-brand" href="/Home/Index">eν-τάξει</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto">
-                @if (!User.Identity.IsAuthenticated)
-                {
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <a class="navbar-brand" href="/Home/Index">eν-τάξει</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+            @if (!User.Identity.IsAuthenticated)
+            {
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"> Home </a> @*Plhrofories Gia thn Efarmogh (carousel and ... )*@
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"> About </a> @* Plhrofories gia ta atoma pisw ap thn efarmogh ( bootcamp team project ) *@
-                    </li>
-                }
-                else if (User.IsInRole("Teacher"))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Courses/Index">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Courses/Create">Create Course</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Home/Requests">Requests</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Chat/Index">Chat</a>
-                    </li>
-                }
-                else if (User.IsInRole("Student"))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Teacher/Index">Teachers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Courses/Index_Selected">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Home/Requests">Requests</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Chat/Index">Chat</a>
-                    </li>
-                }
-                else if (User.IsInRole("Admin"))
-                {
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/HomePage"> Home </a> 
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"> About </a> @* Plhrofories gia ta atoma pisw ap thn efarmogh ( bootcamp team project ) *@
+                </li>
+            }
+            else if (User.IsInRole("Teacher"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="/Courses/Index">Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Courses/Create">Create Course</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/Requests">Requests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Chat/Index">Chat</a>
+                </li>
+            }
+            else if (User.IsInRole("Student"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="/Teacher/Index">Teachers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Courses/Index_Selected">Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/Requests">Requests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Chat/Index">Chat</a>
+                </li>
+            }
+            else if (User.IsInRole("Admin"))
+            {
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Teacher/Admin_Index">Teachers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Student/Admin_Index">Students</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Courses/Admin_Index">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Roles/ManageUsers">Roles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Home/Requests">Requests</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Chat/Index">Chat2</a>
-                    </li>
-                }
-                else if (User.IsInRole("Parent"))
+                <li class="nav-item">
+                    <a class="nav-link" href="/Teacher/Admin_Index">Teachers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Student/Admin_Index">Students</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Courses/Admin_Index">Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Roles/ManageUsers">Roles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/Requests">Requests</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Chat/Index">Chat2</a>
+                </li>
+            }
+            else if (User.IsInRole("Parent"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="/Student/Student_Index_ToSelect">Students</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Student/Parent_Index">MyChildren</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/Requests">Requests Sent</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Chat/Index">Chat2</a>
+                </li>
+            }
+        </ul>
+        <span>
+            @if (Request.IsAuthenticated)
+            {
+                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-nav mr-auto" }))
                 {
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Student/Student_Index_ToSelect">Students</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Student/Parent_Index">MyChildren</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Home/Requests">Requests Sent</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Chat/Index">Chat2</a>
-                    </li>
+                    @Html.AntiForgeryToken()
+                    <a class="nav-link" href="/Manage/Index">@User.Identity.GetUserName()</a>
+                    <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()"> Log off </a>
                 }
-            </ul>
-            <span>
-                @if (Request.IsAuthenticated)
-                {
-                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-nav mr-auto" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <a class="nav-link" href="/Manage/Index">@User.Identity.GetUserName()</a>
-                        <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()"> Log off </a>
-                    }
-                }
-                else
-                {
-                    <div class="navbar-nav mr-auto">
-                        <a class="nav-link" href="/Account/Register"> Register </a>
-                        <a class="nav-link" href="/Account/Login"> Log in </a>
-                    </div>
-                }
-            </span>
-        </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - eν-τάξει</p>
-        </footer>
+            }
+            else
+            {
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-link" href="/Account/Register"> Register </a>
+                    <a class="nav-link" href="/Account/Login"> Log in </a>
+                </div>
+            }
+        </span>
     </div>
+</nav>
+
+
+@*<div class="container body-content">*@
+
+    @RenderBody()
+
+    <hr/>
+    <footer>
+        <p class="fixed-bottom"> &copy; @DateTime.Now.Year - eν-τάξει </p>
+    </footer>
+@*</div>*@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
