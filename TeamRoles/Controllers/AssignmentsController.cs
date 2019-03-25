@@ -42,7 +42,7 @@ namespace TeamRoles.Controllers
             assignment.TeacherName = teacher.UserName;
             assignment.Path = fileName;
             ////////
-            var path = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + teacher.UserName + course.CourseName+"\\Submits\\"+assignment.AssignmentName);
+            var path = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + teacher.UserName +"\\"+ course.CourseName+"\\Submits\\"+assignment.AssignmentName);
             DirectoryInfo di = Directory.CreateDirectory(path.ToString());
             ///////
             if (ModelState.IsValid)

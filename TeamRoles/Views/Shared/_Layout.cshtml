@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - eν-τάξει</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Site.css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/MasterLayoutF.css")
@@ -98,7 +99,7 @@
                         <a class="nav-link" href="/Home/Requests">Requests</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Chat/Index">Chat2</a>
+                        <a class="nav-link" href="/Chat/Index">Chat</a>
                     </li>
                 }
                 else if (User.IsInRole("Parent"))
@@ -113,7 +114,7 @@
                         <a class="nav-link" href="/Home/Requests">Requests Sent</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Chat/Index">Chat2</a>
+                        <a class="nav-link" href="/Chat/Index">Chat</a>
                     </li>
                 }
             </ul>

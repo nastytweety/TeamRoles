@@ -554,7 +554,6 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Courses\CourseHome.cshtml" />
-    <Content Include="Views\UploadFiles\Index.cshtml" />
     <Content Include="Views\Roles\ManageUsers.cshtml" />
     <Content Include="Views\Courses\Request.cshtml" />
     <Content Include="Views\Home\Requests.cshtml" />
@@ -587,7 +586,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Images\" />
     <Folder Include="Users\admin\" />
     <Folder Include="Users\george\" />
     <Folder Include="Users\kostas\Javascript\" />

@@ -22,3 +22,7 @@ select,
 textarea {
     max-width: 280px;
 }
+
+html, body {
+    min-height: 100vh;
+}

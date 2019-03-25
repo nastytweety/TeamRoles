@@ -64,7 +64,6 @@ $(document).ready(function(){
             }
 
                 <div>
-                    @*Html.ActionLink("Back to List", "ListAssignments", "Assignments", new { }, null)*@
                     @using (Html.BeginForm("ListAssignments", "Assignments", FormMethod.Post, null))
                     {
                         @Html.HiddenFor(model => model.CourseName)
