@@ -92,6 +92,9 @@
                                     @if (User.IsInRole("Admin"))
                                     {
                                         <td>
+                                            @Html.ActionLink("Edit", "Edit", "Posts", new { id = post.PostId }, null)
+                                        </td>
+                                        <td>
                                             @Html.ActionLink("Delete", "Delete", "Posts", new { id = post.PostId }, null)
                                         </td>
                                     }

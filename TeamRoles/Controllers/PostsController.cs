@@ -51,7 +51,7 @@ namespace TeamRoles.Controllers
                 x.ProfilePic = user.ProfilePic;
                 x.UserName = user.UserName;
                 x.UserRole = _userManager.GetRoles(user.Id).FirstOrDefault();
-                x.ApplicationUsers.Add(db.Users.Find(User.Identity.GetUserId()));
+                x.ApplicationUser = db.Users.Find(User.Identity.GetUserId());
             }
             db.Posts.Add(x);
             db.SaveChanges();

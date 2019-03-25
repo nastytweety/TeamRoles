@@ -22,7 +22,6 @@ namespace TeamRoles.Models
         [Required]
         public string CourseDescription { get; set; }
 
-        //[Required]
         public string CoursePic { get; set; }
 
         public string TeacherName { get; set; }
