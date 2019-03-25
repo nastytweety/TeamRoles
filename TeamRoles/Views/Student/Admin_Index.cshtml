@@ -1,4 +1,7 @@
-﻿@model IEnumerable<TeamRoles.Models.ApplicationUser>
+﻿@using Microsoft.AspNet.Identity
+@using TeamRoles.Models.Extensions
+@model IEnumerable<TeamRoles.Models.ApplicationUser>
+
 @{
     ViewBag.Title = "Admin_Index";
 }
@@ -24,7 +27,8 @@
     {
         <tr>
             <td>
-                <img src="@Html.DisplayFor(modelItem => item.ProfilePic)" width="100" height="100" />
+                <img src="~/Users/@item.UserName/@Url.Content(item.ProfilePic)" width="100" height="100"/>
+                
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
