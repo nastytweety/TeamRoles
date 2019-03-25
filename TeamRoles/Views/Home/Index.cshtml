@@ -22,18 +22,23 @@
                         @if (User.IsInRole("Teacher"))
                         {
                         <p>Teacher</p>
-                    }
+                        }
                     else if (User.IsInRole("Student"))
                     {
                         <p>Student</p>
+                        using (Html.BeginForm("Index", "Teacher", FormMethod.Get))
+                        {
+                            @Html.TextBox("searching")<input type="submit" value="Search" />
+                        }
+
                     }
                     else if (User.IsInRole("Parent"))
                     {
-                        <p>Parent</p>
+                    <p>Parent</p>
                     }
                     else if (User.IsInRole("Admin"))
                     {
-                        <p>Admin</p>
+                    <p>Admin</p>
                     }
                         </p>
                     </div>
