@@ -308,6 +308,18 @@
     <Compile Include="Migrations\201903251006184_Requests-one-to-many.Designer.cs">
       <DependentUpon>201903251006184_Requests-one-to-many.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903251021573_Posts-fix.cs" />
+    <Compile Include="Migrations\201903251021573_Posts-fix.Designer.cs">
+      <DependentUpon>201903251021573_Posts-fix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903251051422_Assignment-without-coursename.cs" />
+    <Compile Include="Migrations\201903251051422_Assignment-without-coursename.Designer.cs">
+      <DependentUpon>201903251051422_Assignment-without-coursename.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903251216192_Assignment-without-teachername.cs" />
+    <Compile Include="Migrations\201903251216192_Assignment-without-teachername.Designer.cs">
+      <DependentUpon>201903251216192_Assignment-without-teachername.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -317,7 +329,7 @@
     <Compile Include="Models\Extensions\IdentityExtensions.cs" />
     <Compile Include="Models\GetSubmitViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Index_SelectedViewModel.cs" />
+    <Compile Include="Models\CourseViewModel.cs" />
     <Compile Include="Models\GenericRequest.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
@@ -686,6 +698,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903251006184_Requests-one-to-many.resx">
       <DependentUpon>201903251006184_Requests-one-to-many.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903251021573_Posts-fix.resx">
+      <DependentUpon>201903251021573_Posts-fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903251051422_Assignment-without-coursename.resx">
+      <DependentUpon>201903251051422_Assignment-without-coursename.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903251216192_Assignment-without-teachername.resx">
+      <DependentUpon>201903251216192_Assignment-without-teachername.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -53,7 +53,7 @@ namespace TeamRoles.Controllers
         {
             ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             List<ApplicationUser> teachers = new List<ApplicationUser>();
-            Index_SelectedViewModel model = new Index_SelectedViewModel();
+            CourseViewModel model = new CourseViewModel();
             List<Course> Courses = new List<Course>();
             List<Course> ViewCourses = new List<Course>();
             Courses = user.Courses.ToList();
@@ -284,7 +284,7 @@ namespace TeamRoles.Controllers
         public ActionResult CourseHome(int? id)
         {
             Course course = db.Courses.Find(id);
-            Index_SelectedViewModel model = new Index_SelectedViewModel();
+            CourseViewModel model = new CourseViewModel();
 
             if(ModelState.IsValid && course!=null)
             {
@@ -327,6 +327,24 @@ namespace TeamRoles.Controllers
                 }
             }
             return null;
+        }
+
+        public void RemoveAssignments(Course course)
+        {
+            List<Assignment> listofassignments = new List<Assignment>();
+            listofassignments = db.Assignments.Where(c => c.Course.CourseId == course.CourseId).ToList();
+            foreach(var assignment in listofassignments)
+            {
+                try
+                {
+                    db.Assignments.Remove(assignment);
+                    db.SaveChanges();
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
+            }
         }
 
         public ActionResult StudentRemoveCourse(int? id)

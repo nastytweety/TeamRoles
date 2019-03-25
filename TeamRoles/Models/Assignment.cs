@@ -9,6 +9,10 @@ namespace TeamRoles.Models
 {
     public class Assignment
     {
+        public Assignment()
+        {
+            this.Course = new Course();
+        }
         [Key]
         public int AssignmentId { get; set; }
         public string AssignmentName { get; set; }
@@ -16,8 +20,8 @@ namespace TeamRoles.Models
         public string Path { get; set; }
         public DateTime DueDate { get; set; }
         public int Points { get; set; }
-        public string CourseName { get; set; }
-        public string TeacherName { get; set; }
+        //public string CourseName { get; set; }
+        //public string TeacherName { get; set; }
         [NotMapped]
         public HttpPostedFileBase AssignmentFile { get; set; }
 

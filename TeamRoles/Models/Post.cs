@@ -13,9 +13,6 @@ namespace TeamRoles.Models
         public int PostId { get; set; }
         public string PostText { get; set; }
         public DateTime PostDate { get; set; }
-        public string UserName { get; set; }
-        public string UserRole { get; set; }
-        public string ProfilePic { get; set; }
 
         public virtual ApplicationUser ApplicationUser { get; set; }
     }
