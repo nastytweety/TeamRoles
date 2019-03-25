@@ -23,6 +23,12 @@ textarea {
     max-width: 280px;
 }
 
+/*TODO Allages gia tis Photos*/
+#testing {  
+    max-width: 200px;
+    margin: 0 auto;
+}
+
 html, body {
     min-height: 100vh;
 }

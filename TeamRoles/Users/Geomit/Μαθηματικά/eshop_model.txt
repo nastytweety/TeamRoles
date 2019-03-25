@@ -1,0 +1,110 @@
+Requirements --- Prwta apo ola 
+
+Database ====---->  Products - Users - UserRoles - Orders - Cart ( Vasika Entities ) 
+
+
+
+public class Product {
+	public int id {get; set;}
+	public string name {get; set;}
+	public double price {get; set;}	
+}
+
+
+public class User {
+	public int id {get; set;}
+	public string name {get; set;}
+	public string username {get; private set;}
+	public string password {get; private set;}	
+}
+
+public class UserRole {
+	public int id {get; set;}
+	public int user_id {get; set;}
+	public string description {get; set;}
+}
+
+
+public class Orders {    // se pragmatiko E-shop to in sta ID den mas ftanei ... Long tha htan pio swsto 
+	public int id {get; set;}
+	public int user_id {get; set;}
+	public int product_id {get; set;}
+	public DateTime date {get; set;}
+	public int quantity {get; set;}
+}
+
+public class Cart { 
+	public int id {get; set;}
+	public int order_id {get; set;}
+}
+
+ctrl-/ kai ctrl-. -----> install-package EntityFramework
+
+- enan folder DAL 
+- ekei mia 
+
+public class AplicationDbContext : System.Data.Entity.DbContext
+{
+	System.Data.Entity.DbSet<Models.User> Users { get; set; } //To Users Tha einai to onoma tou pinaka sthn vash 	
+}
+
+- Vazw ta Migration ctrl-/ ctrl-. 
+
+enable-migrations // Mas dinei thn dunatotita na paroume oti exoume ftiaxei sto project mas kai na to steiloume mesa se mia vash
+
+add-migration Initial 
+
+-AutomaticMigrationsEnabled = false; - to theloume false gia na mporoume na to peirazoume sthn sunexeia 
+To kanoume True kai epeita - update database kai dhmiourgeite automata ... an oxi 
+
+Web.Config --> Katw ap to </configSections> grafw 
+
+<connectionStrings>
+    <add name="ApplicationDbContext" 
+	 connectionString="Data Source=LAPTOP-GEOMIT\SQLEXPRESS;
+         Initial Catalog=eShop;Integrated Security=True;" 
+         providerName="System.Data.SqlClient"/>
+  </connectionStrings>
+
+kai meta update database
+
+
+Add folder - Controllers 
+Add new controlle(empty) - HomeController
+
+dexi click sto (return)view - add View kai ekei vazoume to default html arxeio pou theloume 
+
+Se periptwsh pou valw controller me View xwris Razor Syntax mas gurizei 2 ekdoseis pisw opote crasharei... kanoume auta:
+
+- Clean 
+- Build 
+- Close VS 
+
+- Install-Package MIcrosoft.AspNet.MVC 
+
+- Clean 
+- build 
+- Close VS 
+
+- Open VS 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

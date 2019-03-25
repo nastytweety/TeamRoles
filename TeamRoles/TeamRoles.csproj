@@ -427,6 +427,9 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\slide-1.jpg" />
+    <Content Include="Images\slide-2.jpg" />
+    <Content Include="Images\slide-3.jpg" />
     <Content Include="Scripts\angular-moment.js" />
     <Content Include="Scripts\angular-moment.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -490,9 +493,6 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Users\nikos\Math100\43648080_600806957005171_3175039236239785984_n.jpg" />
     <Content Include="Users\vlakofatsa\Math100\43648080_600806957005171_3175039236239785984_n.jpg" />
-    <Content Include="Views\Shared\slide-1.jpg" />
-    <Content Include="Views\Shared\slide-2.jpg" />
-    <Content Include="Views\Shared\slide-3.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -578,11 +578,12 @@
     <Content Include="Views\Assignments\Edit.cshtml" />
     <Content Include="Views\Courses\CourseGrades.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
-    <Content Include="Views\Shared\carouzel.cshtml" />
-    <Content Include="Views\Shared\_Carouzel.cshtml" />
+    <Content Include="Views\Shared\_Carousel.cshtml" />
     <Content Include="Views\Home\Chat2.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Manage\Edit.cshtml" />
+    <Content Include="Views\Home\HomePage.cshtml" />
+    <Content Include="Views\Roles\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
