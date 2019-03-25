@@ -75,15 +75,17 @@ namespace TeamRoles.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PostId,PostText,PostDate,Login,Role,ProfilePic")] Post post)
+        public ActionResult Edit([Bind(Include = "PostId,PostText,PostDate")] Post post)
         {
+            Post posttobeupdated = db.Posts.Find(post.PostId);
+            posttobeupdated.PostText = post.PostText;
+            posttobeupdated.PostDate = post.PostDate;
             if (ModelState.IsValid)
             {
-                db.Entry(post).State = EntityState.Modified;
+                db.Entry(posttobeupdated).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            return View(post);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Posts/Delete/5
