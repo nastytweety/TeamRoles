@@ -54,7 +54,7 @@ namespace TeamRoles.Controllers
                         return RedirectToAction("Error");
                     }
                 }
-                assignment.Courses.Add(course);
+                assignment.Course = course;
                 db.Assignments.Add(assignment);
                 db.SaveChanges();
                 //return RedirectToAction("Index");

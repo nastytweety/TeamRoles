@@ -296,6 +296,10 @@
     <Compile Include="Migrations\201903231836521_merge-george.Designer.cs">
       <DependentUpon>201903231836521_merge-george.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903250913520_Assignments-one-to-many.cs" />
+    <Compile Include="Migrations\201903250913520_Assignments-one-to-many.Designer.cs">
+      <DependentUpon>201903250913520_Assignments-one-to-many.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -315,6 +319,7 @@
     <Compile Include="Models\TeacherViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CoursesRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -664,6 +669,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903231836521_merge-george.resx">
       <DependentUpon>201903231836521_merge-george.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903250913520_Assignments-one-to-many.resx">
+      <DependentUpon>201903250913520_Assignments-one-to-many.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

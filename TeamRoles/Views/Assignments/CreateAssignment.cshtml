@@ -5,11 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script>
-$(document).ready(function(){
-        $("#myModal").modal('show');
-    });
-    </script>
+
 <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -78,4 +74,9 @@ $(document).ready(function(){
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryvl")
+<script>
+    $(document).ready(function () {
+        $("#myModal").modal('show');
+    });
+</script>
 }

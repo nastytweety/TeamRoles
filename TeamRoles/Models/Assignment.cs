@@ -9,10 +9,6 @@ namespace TeamRoles.Models
 {
     public class Assignment
     {
-        public Assignment()
-        {
-            this.Courses = new HashSet<Course>();
-        }
         [Key]
         public int AssignmentId { get; set; }
         public string AssignmentName { get; set; }
@@ -25,6 +21,6 @@ namespace TeamRoles.Models
         [NotMapped]
         public HttpPostedFileBase AssignmentFile { get; set; }
 
-        public virtual ICollection<Course> Courses { get; set; }
+        public virtual Course Course { get; set; }
     }
 }
