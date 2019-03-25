@@ -304,6 +304,10 @@
     <Compile Include="Migrations\201903250943217_Posts-one-to-many.Designer.cs">
       <DependentUpon>201903250943217_Posts-one-to-many.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903251006184_Requests-one-to-many.cs" />
+    <Compile Include="Migrations\201903251006184_Requests-one-to-many.Designer.cs">
+      <DependentUpon>201903251006184_Requests-one-to-many.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -679,6 +683,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903250943217_Posts-one-to-many.resx">
       <DependentUpon>201903250943217_Posts-one-to-many.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903251006184_Requests-one-to-many.resx">
+      <DependentUpon>201903251006184_Requests-one-to-many.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

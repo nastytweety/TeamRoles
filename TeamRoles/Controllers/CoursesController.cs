@@ -183,7 +183,7 @@ namespace TeamRoles.Controllers
             req.User2id = student.Id;
             req.Courseid = course.CourseId;
             req.Type = "JoinCourse";
-            req.ApplicationUsers.Add(teacher);
+            req.ApplicationUser = teacher;
             teacher.Requests.Add(req);
             db.Requests.Add(req);
             db.SaveChanges();

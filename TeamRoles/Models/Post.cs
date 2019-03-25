@@ -9,10 +9,6 @@ namespace TeamRoles.Models
 {
     public class Post
     {
-        public Post()
-        {
-            //this.ApplicationUsers = new HashSet<ApplicationUser>();
-        }
         [Key]
         public int PostId { get; set; }
         public string PostText { get; set; }
@@ -22,6 +18,5 @@ namespace TeamRoles.Models
         public string ProfilePic { get; set; }
 
         public virtual ApplicationUser ApplicationUser { get; set; }
-        //public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
     }
 }

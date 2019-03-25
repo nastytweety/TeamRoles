@@ -161,7 +161,7 @@ namespace TeamRoles.Controllers
             req.User1id = parent.Id;
             req.User2id = student.Id;
             req.Type = "ParentStudent";
-            req.ApplicationUsers.Add(student);
+            req.ApplicationUser = student;
             student.Requests.Add(req);
             db.Requests.Add(req);
             db.SaveChanges();

@@ -9,11 +9,11 @@ namespace TeamRoles.Models
 {
     public class GenericRequest
     {
-        public GenericRequest()
+        /*public GenericRequest()
         {
             this.ApplicationUsers = new HashSet<ApplicationUser>();
         }
-
+        */
         [Key]
         public int ReqId { get; set; }
         public string User1id { get; set; }
@@ -22,6 +22,7 @@ namespace TeamRoles.Models
         public string Role { get; set; }
         public string Type { get; set; }
 
-        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
+        //public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
     }
 }
