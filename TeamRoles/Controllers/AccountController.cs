@@ -417,7 +417,8 @@ namespace TeamRoles.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Home", "Home");
+
+            return RedirectToAction("HomePage", "Home");
         }
 
         //

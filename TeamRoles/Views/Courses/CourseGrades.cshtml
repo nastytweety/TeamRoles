@@ -1,51 +1,58 @@
 ﻿@model IEnumerable<TeamRoles.Models.Enrollment>
 
-@{
-    ViewBag.Title = "CourseGrades";
-}
 
-<img src="~/Users/@Url.Content(@Html.DisplayFor(model => model.FirstOrDefault().Course.CoursePic).ToString())" width="100" height="100" />
-<h2>@Html.DisplayFor(model => model.FirstOrDefault().Course.CourseName)</h2>
+@if (Model.Count() != 0)
+{
+    <img src="~/Users/@Url.Content(@Html.DisplayFor(model => model.FirstOrDefault().Course.CoursePic).ToString())" width="100" height="100" />
+    <h2>@Html.DisplayFor(model => model.FirstOrDefault().Course.CourseName)</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            Student
-        </th>
-        <th>
-            Teacher
-        </th>
-        <th>
-            Grade
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
+
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Course.TeacherName)
-            </td>
-            <td>
-                @if (item.Grade == -1)
-                {
-                    <p>Not Set</p>
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.Grade)
-                }
-
-            </td>
-            <td>
-                @Html.ActionLink("Set Grade", "SetGrades", "Teacher", new { id = item.UserId, coursename = item.Course.CourseName, teacherid = item.Course.TeacherId }, null)
-                @*Html.ActionLink("Delete", "Delete", " new { id = item.EnrollmentId })*@
-            </td>
+            <th>
+                Student
+            </th>
+            <th>
+                Teacher
+            </th>
+            <th>
+                Grade
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.TeacherName)
+                </td>
+                <td>
+                    @if (item.Grade == -1)
+                    {
+                        <p>Not Set</p>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Grade)
+                    }
+
+                </td>
+                <td>
+                    @Html.ActionLink("Set Grade", "SetGrades", "Teacher", new { id = item.UserId, coursename = item.Course.CourseName, teacherid = item.Course.TeacherId }, null)
+                    @*Html.ActionLink("Delete", "Delete", " new { id = item.EnrollmentId })*@
+                </td>
+            </tr>
+        }
+
+
+    </table>
+}
+else
+{
+    <h2>There are no grades for this course!</h2>
+}

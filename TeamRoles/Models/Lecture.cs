@@ -7,21 +7,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TeamRoles.Models
 {
-    public class Assignment
+    public class Lecture
     {
-        public Assignment()
+        public Lecture()
         {
             this.Course = new Course();
         }
         [Key]
-        public int AssignmentId { get; set; }
-        public string AssignmentName { get; set; }
+        public int LectureId { get; set; }
+        public string LectureName { get; set; }
         public string Filename { get; set; }
         public string Path { get; set; }
-        public DateTime DueDate { get; set; }
-        public int Points { get; set; }
+        public DateTime PostDate { get; set; }
         [NotMapped]
-        public HttpPostedFileBase AssignmentFile { get; set; }
+        public HttpPostedFileBase LectureFile { get; set; }
 
         public virtual Course Course { get; set; }
     }

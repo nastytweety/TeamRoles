@@ -156,6 +156,8 @@ namespace TeamRoles.Controllers
                     DirectoryInfo di = Directory.CreateDirectory(path.ToString());
                     path = teacher.Path + "\\" + course.CourseName + "\\Submits\\";
                     di = Directory.CreateDirectory(path.ToString());
+                    path = teacher.Path + "\\" + course.CourseName + "\\Lectures\\";
+                    di = Directory.CreateDirectory(path.ToString());
                 }
                 catch(Exception e)
                 {
@@ -211,18 +213,23 @@ namespace TeamRoles.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CourseId,CourseName,CourseDescription,CoursePic,ImageFile")] Course course,HttpPostedFileBase ImageFile)
+        public ActionResult Edit([Bind(Include = "CourseId,CourseName,CourseDescription,ImageFile")] Course course)
         {
+            Course coursetoupdate = db.Courses.Find(course.CourseId);
+
             if (course.ImageFile != null)
             {
                 course.CoursePic = Path.GetFileName(course.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Images/"), course.CoursePic);
+                ApplicationUser teacher = FindTeacher(course);
+                string fileName = Path.Combine(Server.MapPath("~/Users/" + teacher.UserName + "/" + course.CourseName + "/"), course.CoursePic);
                 course.ImageFile.SaveAs(fileName);
             }
-
+            coursetoupdate.CoursePic = course.CoursePic;
+            coursetoupdate.CourseName = course.CourseName;
+            coursetoupdate.CourseDescription = course.CourseDescription;
             if (ModelState.IsValid)
             {
-                db.Entry(course).State = EntityState.Modified;
+                db.Entry(coursetoupdate).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -257,6 +264,7 @@ namespace TeamRoles.Controllers
             {
                 var path = teacher.Path + "\\" + course.CourseName;
                 Directory.Delete(path.ToString(), true);
+                RemoveAssignments(course);
                 db.Courses.Remove(course);
                 db.SaveChanges();
             }
@@ -290,6 +298,7 @@ namespace TeamRoles.Controllers
             {
                 model.CourseName = course.CourseName;
                 model.CoursePic = course.CoursePic;
+                model.CourseId = course.CourseId;
                 model.CourseDescription = course.CourseDescription;
                 List<ApplicationUser> alluser = course.ApplicationUsers.ToList();
                 List<Enrollment> enrollments = course.Enrollments.ToList();
@@ -317,13 +326,13 @@ namespace TeamRoles.Controllers
 
         public ApplicationUser FindTeacher(Course course)
         {
-            List<ApplicationUser> alluser = course.ApplicationUsers.ToList();
-            foreach (var us in alluser)
+            List<ApplicationUser> alluser = db.Courses.Where(c => c.CourseId == course.CourseId).FirstOrDefault().ApplicationUsers.ToList();
+            foreach (var teacher in alluser)
             {
-                var isInRole = _userManager.IsInRole(us.Id, "Teacher");
+                var isInRole = _userManager.IsInRole(teacher.Id, "Teacher");
                 if (isInRole)
                 {
-                    return us;
+                    return teacher;
                 }
             }
             return null;
@@ -335,15 +344,18 @@ namespace TeamRoles.Controllers
             listofassignments = db.Assignments.Where(c => c.Course.CourseId == course.CourseId).ToList();
             foreach(var assignment in listofassignments)
             {
-                try
+                using (var db = new ApplicationDbContext())
                 {
-                    db.Assignments.Remove(assignment);
-                    db.SaveChanges();
-                }
-                catch(Exception e)
-                {
-                    throw e;
-                }
+                    try
+                    {
+                        db.Assignments.Remove(assignment);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }     
             }
         }
 
