@@ -32,5 +32,6 @@ namespace TeamRoles.Models
         public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
         public virtual ICollection<Enrollment> Enrollments { get; set; }
         public virtual ICollection<Assignment> Assignments { get; set; }
+        public virtual ICollection<Lecture> Lectures { get; set; }
     }
 }
