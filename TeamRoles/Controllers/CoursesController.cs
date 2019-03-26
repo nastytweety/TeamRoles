@@ -323,7 +323,6 @@ namespace TeamRoles.Controllers
 
         public ApplicationUser FindTeacher(Course course)
         {
-
             List<ApplicationUser> alluser = db.Courses.Where(c => c.CourseId == course.CourseId).FirstOrDefault().ApplicationUsers.ToList();
             foreach (var teacher in alluser)
             {
@@ -342,15 +341,18 @@ namespace TeamRoles.Controllers
             listofassignments = db.Assignments.Where(c => c.Course.CourseId == course.CourseId).ToList();
             foreach(var assignment in listofassignments)
             {
-                try
+                using (var db = new ApplicationDbContext())
                 {
-                    db.Assignments.Remove(assignment);
-                    db.SaveChanges();
-                }
-                catch(Exception e)
-                {
-                    throw e;
-                }
+                    try
+                    {
+                        db.Assignments.Remove(assignment);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }     
             }
         }
 

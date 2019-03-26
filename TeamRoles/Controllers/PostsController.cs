@@ -100,9 +100,7 @@ namespace TeamRoles.Controllers
             {
                 return HttpNotFound();
             }
-            db.Posts.Remove(post);
-            db.SaveChanges();
-            return RedirectToAction("Index","Home");
+            return View(post);
         }
 
         // POST: Posts/Delete/5
@@ -113,7 +111,7 @@ namespace TeamRoles.Controllers
             Post post = db.Posts.Find(id);
             db.Posts.Remove(post);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Home");
         }
 
         protected override void Dispose(bool disposing)

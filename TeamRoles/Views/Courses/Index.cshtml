@@ -4,30 +4,37 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CourseName)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+@if (Model.Count() != 0)
+{
+    <h2>Index</h2>
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.CourseId }) |
-                @Html.ActionLink("Details", "CourseHome", new { id = item.CourseId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.CourseId })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseName)
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.CourseId }) |
+                    @Html.ActionLink("Details", "CourseHome", new { id = item.CourseId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.CourseId })
+                </td>
+            </tr>
+        }
 
-<a href="/Home/Index">Back to Home</a>
+    </table>
 
+    <a href="/Home/Index">Back to Home</a>
+}
+else
+{
+    <h2>There are no Courses!</h2>
+    <a href="/Home/Index">Back to Home</a>
+}

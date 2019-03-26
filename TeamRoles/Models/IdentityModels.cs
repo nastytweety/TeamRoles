@@ -62,6 +62,7 @@ namespace TeamRoles.Models
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Lecture> Lectures { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

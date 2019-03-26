@@ -6,96 +6,106 @@
     ViewBag.Title = "ListAssignments";
 }
 
-<h2>ListAssignments</h2>
+@if (Model.Count() != 0)
+{
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.AssignmentName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Filename)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DueDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Points)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Course.CourseName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Course.TeacherName)
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.AssignmentName)
-        </td>
-        <td>
-            @Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.Course.CourseName, username = item.Course.TeacherName, assignment= item.AssignmentName, mode="assignments" }, null)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DueDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Points)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Course.CourseName)
-        </td>
-        <td>
-            @*Html.DisplayFor(modelItem => item.Course.ApplicationUsers.Where(u => u.Roles.FirstOrDefault().ToString() == "Teacher"))*@
-            @Html.DisplayFor(modelItem => item.Course.TeacherName)
-        </td>
+    <h2>ListAssignments</h2>
 
-        @if (User.IsInRole("Teacher"))
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AssignmentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Filename)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Points)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course.CourseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course.TeacherName)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
         {
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.AssignmentId })  |
-            </td>
-            <td>
-                @Html.ActionLink("Delete", "Delete", new { id = item.AssignmentId})|
-            </td>
-            <td>
-                @Html.ActionLink("View Student Submits", "GetSubmits", "UploadFiles", new { coursename = item.Course.CourseName, username = item.Course.TeacherName, assignment=item.AssignmentName}, null)
-            </td>
-        }
-        else if (User.IsInRole("Student"))
-        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssignmentName)
+                </td>
+                <td>
+                    @Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.Course.CourseName, username = item.Course.TeacherName, assignment = item.AssignmentName, mode = "assignments" }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Points)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.CourseName)
+                </td>
+                <td>
+                    @*Html.DisplayFor(modelItem => item.Course.ApplicationUsers.Where(u => u.Roles.FirstOrDefault().ToString() == "Teacher"))*@
+                    @Html.DisplayFor(modelItem => item.Course.TeacherName)
+                </td>
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Upload Answear</button>
-            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        @using (Html.BeginForm("UploadAnswear", "UploadFiles", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                        {
-                            @Html.AntiForgeryToken()
-                        <div class="form-group">
-                            @Html.Hidden("coursename", item.Course.CourseName)
-                            @Html.Hidden("teachername", item.Course.TeacherName)
-                            @Html.Hidden("assignment", item.AssignmentName)
-                            <div class="col-md-10">
-                                <input type="file" name="file" required />
-                                <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
-                                        <input type="submit" value="Submit Answear" class="btn btn-primary" />
+                @if (User.IsInRole("Teacher"))
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.AssignmentId })  |
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.AssignmentId })|
+                    </td>
+                    <td>
+                        @Html.ActionLink("View Student Submits", "GetSubmits", "UploadFiles", new { coursename = item.Course.CourseName, username = item.Course.TeacherName, assignment = item.AssignmentName }, null)
+                    </td>
+                }
+                else if (User.IsInRole("Student"))
+                {
+
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Upload Answear</button>
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                @using (Html.BeginForm("UploadAnswear", "UploadFiles", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-group">
+                                        @Html.Hidden("coursename", item.Course.CourseName)
+                                        @Html.Hidden("teachername", item.Course.TeacherName)
+                                        @Html.Hidden("assignment", item.AssignmentName)
+                                        <div class="col-md-10">
+                                            <input type="file" name="file" required />
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2 col-md-10">
+                                                    <input type="submit" value="Submit Answear" class="btn btn-primary" />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                }
+
                             </div>
                         </div>
-                        }
-
                     </div>
-                </div>
-            </div>
+                }
+            </tr>
         }
-    </tr>
-    }
 
-</table>
+    </table>
+}
+else
+{
+    <h2>There are no Assignments!</h2>
+    @Html.ActionLink("Back", "Index", "Courses")  
+}
