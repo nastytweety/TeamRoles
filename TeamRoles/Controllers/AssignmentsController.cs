@@ -135,5 +135,11 @@ namespace TeamRoles.Controllers
             }
             return View(assignment);
         }
+
+
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }

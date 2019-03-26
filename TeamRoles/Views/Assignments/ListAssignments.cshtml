@@ -42,7 +42,7 @@
                     @Html.DisplayFor(modelItem => item.AssignmentName)
                 </td>
                 <td>
-                    @Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.Course.CourseName, username = item.Course.TeacherName, assignment = item.AssignmentName, mode = "assignments" }, null)
+                    @Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.Course.CourseName, username = item.Course.TeacherName, filefolder = item.AssignmentName, mode = "assignments" }, null)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DueDate)

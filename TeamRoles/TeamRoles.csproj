@@ -530,6 +530,9 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Users\Giannis\αρχείο λήψης.jpg" />
+    <Content Include="Users\kwstas\C sharp\images.png" />
+    <Content Include="Users\kwstas\Mitropoulos.jpg" />
     <Content Include="Users\nikos\Math100\43648080_600806957005171_3175039236239785984_n.jpg" />
     <Content Include="Users\nikos\Math200\winrarlogo-580x358.jpeg" />
     <Content Include="Users\nikos\Math500\transgenic-mouse-hi.png" />
@@ -626,16 +629,14 @@
     <Content Include="Views\Manage\Edit.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
     <Content Include="Views\Roles\Create.cshtml" />
-
     <Content Include="Views\Roles\Delete.cshtml" />
-
     <Content Include="Views\Posts\Edit.cshtml" />
     <Content Include="Views\Posts\Delete.cshtml" />
     <Content Include="Views\Lectures\Create.cshtml" />
     <Content Include="Users\nikos\Math200\1489058_SOR.pdf" />
     <Content Include="Views\Lectures\Error.cshtml" />
     <Content Include="Views\Lectures\ListLectures.cshtml" />
-
+    <Content Include="Views\Lectures\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

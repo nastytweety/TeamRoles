@@ -93,5 +93,48 @@ namespace TeamRoles.Controllers
             }
             return false;
         }
+
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            using (var db = new ApplicationDbContext())
+            {
+                Lecture lecture = db.Lectures.Find(id);
+                if (lecture == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(lecture);
+            }
+        }
+
+
+        [HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                Lecture lecture = db.Lectures.Find(id);
+                try
+                {
+                    db.Lectures.Remove(lecture);
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+            return RedirectToAction("CourseHome", "Courses");
+        }
+
+        public ActionResult Error()
+        {
+            return View();
+        }
     }
 }

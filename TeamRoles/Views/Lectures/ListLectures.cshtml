@@ -7,9 +7,7 @@
 {
     <h2>ListLectures</h2>
 
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+
     <table class="table">
         <tr>
             <th>
@@ -21,7 +19,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.PostDate)
             </th>
-            <th></th>
+            <th>
+                Options
+            </th>
         </tr>
 
         @foreach (var item in Model)
@@ -31,7 +31,7 @@
                     @Html.DisplayFor(modelItem => item.LectureName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Filename)
+                    @Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.Course.CourseName, username = item.Course.TeacherName, filefolder = item.LectureName, mode = "lectures" }, null)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PostDate)
@@ -49,6 +49,6 @@
 else
 {
     <h2>There are no Lectures</h2>
-    @Html.ActionLink("Back", "CourseHome","Course", new { id = Model.FirstOrDefault().Course.CourseId },null)
+    @Html.ActionLink("Back", "Index","Courses")
 }
 

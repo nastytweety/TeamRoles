@@ -14,7 +14,6 @@ using TeamRoles.Models;
 
 namespace TeamRoles.Controllers
 {
-
     [Authorize]
     public class UploadFilesController : Controller
     {
@@ -73,7 +72,7 @@ namespace TeamRoles.Controllers
         }
 
         
-        public ActionResult DownloadFile(string filename, string coursename, string username, string assignment, string mode)
+        public ActionResult DownloadFile(string filename, string coursename, string username, string filefolder, string mode)
         {
             string path = "";
 
@@ -83,9 +82,13 @@ namespace TeamRoles.Controllers
             }
             else if(mode=="submits")
             {
-                path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename + "\\Submits\\" + assignment+"\\";
+                path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename + "\\Submits\\" + filefolder+"\\";
             }
-            
+            else if (mode == "lectures")
+            {
+                path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename + "\\Lectures\\";
+            }
+
 
             byte[] fileBytes = System.IO.File.ReadAllBytes(path + filename);
 
@@ -94,7 +97,7 @@ namespace TeamRoles.Controllers
 
 
 
-        public ActionResult DeleteFile(string filename, string coursename, string username, string assignment, string mode)
+        public ActionResult DeleteFile(string filename, string coursename, string username, string filefolder, string mode)
         {
             string path = "";
 
@@ -104,7 +107,11 @@ namespace TeamRoles.Controllers
             }
             else if (mode == "submits")
             {
-                path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename + "\\Submits\\" + assignment+"\\";
+                path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename + "\\Submits\\" + filefolder+"\\";
+            }
+            else if(mode == "lectures")
+            {
+                path = AppDomain.CurrentDomain.BaseDirectory + "Users\\" + username + "\\" + coursename + "\\Lectures\\";
             }
 
             System.IO.File.Delete(path + filename);
