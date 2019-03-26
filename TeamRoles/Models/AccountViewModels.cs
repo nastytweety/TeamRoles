@@ -66,16 +66,15 @@ namespace TeamRoles.Models
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "UserRole")]
+        [Display(Name = "Your Role")]
         public string UserRoles { get; set; }
 
-//        [Required] <--- Auto edw giati to thes 
         [Display(Name = "Profile Picture")]
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
 
         [Required]
-        [Display(Name = "UserName")]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
 
         [Display(Name = "Profile Picture")]
