@@ -156,6 +156,8 @@ namespace TeamRoles.Controllers
                     DirectoryInfo di = Directory.CreateDirectory(path.ToString());
                     path = teacher.Path + "\\" + course.CourseName + "\\Submits\\";
                     di = Directory.CreateDirectory(path.ToString());
+                    path = teacher.Path + "\\" + course.CourseName + "\\Lectures\\";
+                    di = Directory.CreateDirectory(path.ToString());
                 }
                 catch(Exception e)
                 {
@@ -296,6 +298,7 @@ namespace TeamRoles.Controllers
             {
                 model.CourseName = course.CourseName;
                 model.CoursePic = course.CoursePic;
+                model.CourseId = course.CourseId;
                 model.CourseDescription = course.CourseDescription;
                 List<ApplicationUser> alluser = course.ApplicationUsers.ToList();
                 List<Enrollment> enrollments = course.Enrollments.ToList();

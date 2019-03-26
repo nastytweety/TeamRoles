@@ -58,10 +58,12 @@
             {
 
                 @Html.ActionLink("Create Assignment", "CreateAssignment", "Assignments", new { coursename = Model.CourseName }, null)
+                @Html.ActionLink("Create Lecture", "Create", "Lectures", new { courseid = Model.CourseId }, null)
                 @Html.ActionLink("View Grades", "CourseGrades", "Courses", new { coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)
-             
+
             }
             @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { coursename = Model.CourseName }, null)
+            @Html.ActionLink("View Lectures", "ListLectures", "Lectures", new { courseid = Model.CourseId }, null)
         </div>
         </div>
     </div>

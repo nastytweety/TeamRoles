@@ -20,7 +20,7 @@ namespace TeamRoles.Models
         public string Path { get; set; }
         public DateTime PostDate { get; set; }
         [NotMapped]
-        public HttpPostedFileBase AssignmentFile { get; set; }
+        public HttpPostedFileBase LectureFile { get; set; }
 
         public virtual Course Course { get; set; }
     }

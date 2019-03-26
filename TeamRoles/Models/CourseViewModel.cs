@@ -14,6 +14,7 @@ namespace TeamRoles.Models
         }
         public List<Course> Courses { get; set; }
         public ApplicationUser Teacher { get; set; }
+        public int CourseId { get; set; }
         public string CourseName { get; set; }
         public string CoursePic { get; set; }
         public string CourseDescription { get; set; }
