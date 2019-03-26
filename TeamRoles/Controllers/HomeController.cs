@@ -27,11 +27,12 @@ namespace TeamRoles.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult HomePage()
+        public ActionResult Home()
         {
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult About()
         {
             return View();

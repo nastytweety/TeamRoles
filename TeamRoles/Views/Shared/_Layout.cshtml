@@ -11,10 +11,12 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Site.css")
     @Scripts.Render("~/bundles/modernizr")
+    
 
-    @*
-    <link rel="stylesheet" href="/Content/font-awesome.min.css">
-    *@
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" 
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" 
+          crossorigin="anonymous">
+
 
     @*@Styles.Render("~/Content/MasterLayoutF.css")
         @Styles.Render("~/Content/MasterLayout.js")
@@ -47,10 +49,10 @@
             {
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/Home/HomePage"> Home </a> 
+                    <a class="nav-link" href="/Home/Home"> Home </a> 
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"> About </a> @* Plhrofories gia ta atoma pisw ap thn efarmogh ( bootcamp team project ) *@
+                    <a class="nav-link" href="/Home/About"> About </a>
                 </li>
             }
             else if (User.IsInRole("Teacher"))
@@ -143,15 +145,15 @@
 </nav>
 
 
-@*<div class="container body-content">*@
+
 
     @RenderBody()
 
-    <hr/>
-    <footer>
-        <p class="fixed-bottom"> &copy; @DateTime.Now.Year - eν-τάξει </p>
-    </footer>
-@*</div>*@
+    
+    @*<footer>
+        <p> &copy; @DateTime.Now.Year - eν-τάξει </p>
+    </footer>*@
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
