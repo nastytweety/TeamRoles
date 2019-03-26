@@ -28,3 +28,7 @@ textarea {
     max-width: 200px;
     margin: 0 auto;
 }
+
+html, body {
+    min-height: 100vh;
+}

@@ -23,10 +23,10 @@
             @Html.DisplayNameFor(model => model.Points)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CourseName)
+            @Html.DisplayNameFor(model => model.Course.CourseName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TeacherName)
+            @Html.DisplayNameFor(model => model.Course.TeacherName)
         </th>
         <th></th>
     </tr>
@@ -38,7 +38,7 @@
             @Html.DisplayFor(modelItem => item.AssignmentName)
         </td>
         <td>
-            @Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.CourseName, username = item.TeacherName, assignment= item.AssignmentName, mode="assignments" }, null)
+            @Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.Course.CourseName, username = item.Course.TeacherName, assignment= item.AssignmentName, mode="assignments" }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DueDate)
@@ -47,10 +47,11 @@
             @Html.DisplayFor(modelItem => item.Points)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CourseName)
+            @Html.DisplayFor(modelItem => item.Course.CourseName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TeacherName)
+            @*Html.DisplayFor(modelItem => item.Course.ApplicationUsers.Where(u => u.Roles.FirstOrDefault().ToString() == "Teacher"))*@
+            @Html.DisplayFor(modelItem => item.Course.TeacherName)
         </td>
 
         @if (User.IsInRole("Teacher"))
@@ -62,7 +63,7 @@
                 @Html.ActionLink("Delete", "Delete", new { id = item.AssignmentId})|
             </td>
             <td>
-                @Html.ActionLink("View Student Submits", "GetSubmits", "UploadFiles", new { coursename = item.CourseName, username = item.TeacherName, assignment=item.AssignmentName}, null)
+                @Html.ActionLink("View Student Submits", "GetSubmits", "UploadFiles", new { coursename = item.Course.CourseName, username = item.Course.TeacherName, assignment=item.AssignmentName}, null)
             </td>
         }
         else if (User.IsInRole("Student"))
@@ -76,8 +77,8 @@
                         {
                             @Html.AntiForgeryToken()
                         <div class="form-group">
-                            @Html.Hidden("coursename", item.Courses)
-                            @Html.Hidden("teachername", item.TeacherName)
+                            @Html.Hidden("coursename", item.Course.CourseName)
+                            @Html.Hidden("teachername", item.Course.TeacherName)
                             @Html.Hidden("assignment", item.AssignmentName)
                             <div class="col-md-10">
                                 <input type="file" name="file" required />

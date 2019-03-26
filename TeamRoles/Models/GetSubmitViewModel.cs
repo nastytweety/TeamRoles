@@ -13,6 +13,7 @@ namespace TeamRoles.Models
         }
         public List<string> filenames { get; set; }
         public string coursename { get; set; }
+        public string assignmentname { get; set; }
         public string username { get; set; }
         public string mode { get; set; }
     }

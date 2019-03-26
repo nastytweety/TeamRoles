@@ -463,7 +463,7 @@ namespace TeamRoles.Controllers
                 var isInRole = manager.IsInRole(auser.Id, "Admin");
                 if (isInRole)
                 {
-                    req.ApplicationUsers.Add(auser);
+                    req.ApplicationUser = auser;
                     auser.Requests.Add(req);
                 }
             }

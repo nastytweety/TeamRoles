@@ -11,7 +11,7 @@ namespace TeamRoles.Models
     {
         public Assignment()
         {
-            this.Courses = new HashSet<Course>();
+            this.Course = new Course();
         }
         [Key]
         public int AssignmentId { get; set; }
@@ -20,11 +20,11 @@ namespace TeamRoles.Models
         public string Path { get; set; }
         public DateTime DueDate { get; set; }
         public int Points { get; set; }
-        public string CourseName { get; set; }
-        public string TeacherName { get; set; }
+        //public string CourseName { get; set; }
+        //public string TeacherName { get; set; }
         [NotMapped]
         public HttpPostedFileBase AssignmentFile { get; set; }
 
-        public virtual ICollection<Course> Courses { get; set; }
+        public virtual Course Course { get; set; }
     }
 }

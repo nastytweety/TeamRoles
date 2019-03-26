@@ -48,10 +48,7 @@ namespace TeamRoles.Controllers
             var user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             if (user != null)
             {
-                x.ProfilePic = user.ProfilePic;
-                x.UserName = user.UserName;
-                x.UserRole = _userManager.GetRoles(user.Id).FirstOrDefault();
-                x.ApplicationUsers.Add(db.Users.Find(User.Identity.GetUserId()));
+                x.ApplicationUser = db.Users.Find(User.Identity.GetUserId());
             }
             db.Posts.Add(x);
             db.SaveChanges();

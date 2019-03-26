@@ -5,9 +5,9 @@ using System.Web;
 
 namespace TeamRoles.Models
 {
-    public class Index_SelectedViewModel 
+    public class CourseViewModel 
     {
-        public Index_SelectedViewModel()
+        public CourseViewModel()
         {
             this.Courses = new List<Course>();
             this.Grades = new List<double>();
