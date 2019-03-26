@@ -632,6 +632,7 @@
     <Content Include="Views\Lectures\Create.cshtml" />
     <Content Include="Users\nikos\Math200\1489058_SOR.pdf" />
     <Content Include="Views\Lectures\Error.cshtml" />
+    <Content Include="Views\Lectures\ListLectures.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 using TeamRoles.Models;
+using System.Net;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -57,12 +58,30 @@ namespace TeamRoles.Controllers
             return View(lecture);
         }
 
+        public ActionResult ListLectures(int? courseid)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
+                if (courseid != null)
+                {
+                    Course course = teacher.Courses.Where(c => c.CourseId == courseid).SingleOrDefault();
+                    List<Lecture> lectures = course.Lectures.ToList();
+                    return View(lectures);
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+            }
+        }
+
         public bool CheckIfLectureExists(Lecture lecture)
         {
             using (var db = new ApplicationDbContext())
             {
                 ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
-                Course course = teacher.Courses.Where(c => c.CourseName == lecture.Course.CourseName).SingleOrDefault();
+                Course course = teacher.Courses.Where(c => c.CourseId == lecture.Course.CourseId).SingleOrDefault();
                 List<Lecture> lectures = course.Lectures.ToList();
                 foreach (var l in lectures)
                 {
