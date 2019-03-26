@@ -32,6 +32,11 @@ namespace TeamRoles.Controllers
             return View();
         }
 
+        public ActionResult About()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
             return View(db.Posts.AsEnumerable().Reverse().ToList());
