@@ -207,13 +207,11 @@ namespace TeamRoles.Controllers
             }
             return View(course);
         }
+        
 
-        // POST: Courses/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CourseId,CourseName,CourseDescription,ImageFile")] Course course)
+        public ActionResult Edit([Bind(Include = "CourseId,CourseName,CourseDescription,ImageFile")] Course course, HttpPostedFileBase ImageFile)
         {
             Course coursetoupdate = db.Courses.Find(course.CourseId);
 
@@ -223,10 +221,13 @@ namespace TeamRoles.Controllers
                 ApplicationUser teacher = FindTeacher(course);
                 string fileName = Path.Combine(Server.MapPath("~/Users/" + teacher.UserName + "/" + course.CourseName + "/"), course.CoursePic);
                 course.ImageFile.SaveAs(fileName);
+
+                coursetoupdate.CoursePic = course.CoursePic;
             }
-            coursetoupdate.CoursePic = course.CoursePic;
+            
             coursetoupdate.CourseName = course.CourseName;
             coursetoupdate.CourseDescription = course.CourseDescription;
+
             if (ModelState.IsValid)
             {
                 db.Entry(coursetoupdate).State = EntityState.Modified;

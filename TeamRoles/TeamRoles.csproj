@@ -637,6 +637,8 @@
     <Content Include="Views\Lectures\Error.cshtml" />
     <Content Include="Views\Lectures\ListLectures.cshtml" />
     <Content Include="Views\Lectures\Delete.cshtml" />
+    <Content Include="Views\Courses\_Create.cshtml" />
+    <Content Include="Views\Courses\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

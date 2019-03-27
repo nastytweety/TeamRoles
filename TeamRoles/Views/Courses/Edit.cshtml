@@ -31,8 +31,9 @@
             @Html.LabelFor(model => model.CoursePic, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5">
                 @Html.HiddenFor(model => model.CoursePic)
+
                 <input type="file" name="ImageFile" />
-                @Html.ValidationMessageFor(model => model.CoursePic, "", new { @class = "text-danger" })
+                
             </div>
             <div class="col-md-5">
                 <img id="testing" src="~/Users/@Model.TeacherName/@Model.CourseName/@Url.Content(Model.CoursePic)" />

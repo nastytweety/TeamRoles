@@ -5,110 +5,85 @@
 @model  IEnumerable<TeamRoles.Models.Post>
 
 
-
 <div class="container">
-    <div class="row">
+
+    <div class="row ">
+
         <div class="col-md-4 col-lg-4">
-            <div class="card text-center">
-                <img alt="Card image cap" id="testing" class="card-img-top img-fluid" src="~/Users/@User.Identity.GetUserName()/@Url.Content(User.Identity.GetUrlPicture())"/>
-                <div class="card-block">
-                    <h4 class="card-title"> @User.Identity.GetUserName() </h4>
 
-                    <p class="card-text">
-                        @if (User.IsInRole("Teacher"))
-                        {
-                        <p>Teacher</p>
-                        }
-                    else if (User.IsInRole("Student"))
-                    {
-                        <p>Student</p>
-                        using (Html.BeginForm("Index", "Teacher", FormMethod.Get))
-                        {
-                            @Html.TextBox("searching")<input type="submit" value="Search" />
-                        }
+            <img alt="Card image cap" id="testing" src="~/Users/@User.Identity.GetUserName()/@Url.Content(User.Identity.GetUrlPicture())" />
 
-                    }
-                    else if (User.IsInRole("Parent"))
-                    {
-                    <p>Parent</p>
-                    }
-                    else if (User.IsInRole("Admin"))
-                    {
-                    <p>Admin</p>
-                    }
-                        </p>
-                    </div>
-                </div>
+            <div class="text-center">
+                <h4 class="card-title"> @User.Identity.GetUserName() </h4>
+                <small> @User.IsInRole("teacher").ToString() </small>
             </div>
 
-
-            <div class="col-md-4 col-lg-4">
-                @using (Html.BeginForm("Create", "Posts", FormMethod.Post))
-                {
-                    @Html.AntiForgeryToken()
-                    <div class="form-horizontal">
-                        <hr />
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="form-group purple-border">
-
-                            <textarea class="form-control purple-border" id="PostText" style="min-width: 100%" name="PostText" type="text" placeholder="Write something here..." rows="5"></textarea>
-                            <input type="hidden" id="UserID" name="UserID" value='@User.Identity.GetUserId()' />
-
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <div class="text-right">
-                                    <input type="submit" value="Post" class="btn btn-primary" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-        @if (Model != null)
-        {
-            foreach (var post in Model)
+            @using (Html.BeginForm("Create", "Posts", FormMethod.Post))
             {
-                <div class="row">
-                    <div class="col-md-4">
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group purple-border">
+
+                        <textarea class="form-control purple-border" id="PostText" style="min-width: 100%" name="PostText" type="text" placeholder="Write something here..." rows="5"></textarea>
+                        <input type="hidden" id="UserID" name="UserID" value='@User.Identity.GetUserId()' />
+
                     </div>
 
-                    <div class="col-md-4">
-                        <table class="table table-hover">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        @post.ApplicationUser.UserName
-                                    </td>
-                                    <td>
-                                        @post.PostDate
-                                    </td>
-                                    @if (User.IsInRole("Admin"))
-                                    {
-                                        <td>
-                                            @Html.ActionLink("Edit", "Edit", "Posts", new { id = post.PostId }, null)
-                                        </td>
-                                        <td>
-                                            @Html.ActionLink("Delete", "Delete", "Posts", new { id = post.PostId }, null)
-                                        </td>
-                                    }
-                                </tr>
-                                <tr>
-                                    <td colspan="3">@post.PostText</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <br />
-                    </div>
-                    <div class="col-md-4">
+                    <div class="form-group">
+                        
+                            <div class="text-right">
+                                <input type="submit" value="Post" class="btn btn-primary" />
+                            </div>
+                        
                     </div>
                 </div>
             }
-        }
 
+
+        </div>
+
+    
+
+        <div class="col-lg-8 col-md-4">
+            @if (Model != null)
+            {
+                foreach (var post in Model)
+                {<div style="background: #dddddd">
+                     <table class="table table-hover">
+                         <tbody>
+                         <tr>
+                             <td>
+                                 @post.ApplicationUser.UserName
+                             </td>
+                             <td>
+                                 @post.PostDate
+                             </td>
+                             @if (User.IsInRole("Admin"))
+                             {
+                                 <td>
+                                     @Html.ActionLink("Edit", "Edit", "Posts", new {id = post.PostId}, null)
+                                 </td>
+                                 <td>
+                                     @Html.ActionLink("Delete", "Delete", "Posts", new {id = post.PostId}, null)
+                                 </td>
+                             }
+                         </tr>
+                         <tr>
+                             <td colspan="3">@post.PostText</td>
+                         </tr>
+                         </tbody>
+                     </table>
+                 </div>
+
+
+                }
+            }
+        </div>
     </div>
+</div>
+
 
     
 

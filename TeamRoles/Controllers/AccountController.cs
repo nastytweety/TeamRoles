@@ -418,7 +418,7 @@ namespace TeamRoles.Controllers
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
-            return RedirectToAction("HomePage", "Home");
+            return RedirectToAction("Home", "Home");
         }
 
         //
