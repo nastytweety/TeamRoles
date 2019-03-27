@@ -29,10 +29,17 @@
                 @Html.DisplayFor(modelItem => item.CourseName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUsers.First().UserName)
+                @Html.DisplayFor(modelItem => item.Teacher.UserName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Enrollments.Where(c=>c.CourseId == item.CourseId).FirstOrDefault().Grade)
+                @if (item.Enrollments.Where(c => c.CourseId == item.CourseId).FirstOrDefault().Grade == -1)
+                {
+                    <p>Not Set</p>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Enrollments.Where(c => c.CourseId == item.CourseId).FirstOrDefault().Grade)
+                }
             </td>
             <td>
                 @Html.ActionLink("Details", "CourseHome", new { id = item.CourseId }) |

@@ -65,7 +65,7 @@ namespace TeamRoles.Controllers
                 ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
                 if (courseid != null)
                 {
-                    Course course = teacher.Courses.Where(c => c.CourseId == courseid).SingleOrDefault();
+                    Course course = db.Courses.Where(c => c.CourseId == courseid).SingleOrDefault();
                     List<Lecture> lectures = course.Lectures.ToList();
                     return View(lectures);
                 }

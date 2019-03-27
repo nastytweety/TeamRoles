@@ -329,6 +329,10 @@
     <Compile Include="Migrations\201903260836010_Lectures-fix.Designer.cs">
       <DependentUpon>201903260836010_Lectures-fix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903261919040_Course-MajorFix.cs" />
+    <Compile Include="Migrations\201903261919040_Course-MajorFix.Designer.cs">
+      <DependentUpon>201903261919040_Course-MajorFix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -746,6 +750,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903260836010_Lectures-fix.resx">
       <DependentUpon>201903260836010_Lectures-fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903261919040_Course-MajorFix.resx">
+      <DependentUpon>201903261919040_Course-MajorFix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

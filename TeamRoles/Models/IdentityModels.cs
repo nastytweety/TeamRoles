@@ -16,7 +16,7 @@ namespace TeamRoles.Models
     {
         public ApplicationUser()
         {
-            Courses = new HashSet<Course>();
+            //Courses = new HashSet<Course>();
             Posts = new HashSet<Post>();
             Requests = new HashSet<GenericRequest>();
             Enrollments = new HashSet<Enrollment>();
@@ -41,6 +41,7 @@ namespace TeamRoles.Models
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<GenericRequest> Requests { get; set; }
         public virtual ICollection<Child> Children { get; set; }
+        //public virtual Course Course { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -67,6 +68,7 @@ namespace TeamRoles.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+
         }
 
         public static ApplicationDbContext Create()

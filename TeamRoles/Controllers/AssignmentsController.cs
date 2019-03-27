@@ -71,12 +71,12 @@ namespace TeamRoles.Controllers
             return View(assignment);
         }
 
-        public ActionResult ListAssignments(string coursename)
+        public ActionResult ListAssignments(int? courseid)
         {
             ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
-            if(coursename!=null)
+            if(courseid!=null)
             {
-                Course course = teacher.Courses.Where(c => c.CourseName == coursename).SingleOrDefault();
+                Course course = teacher.Courses.Where(c => c.CourseId == courseid).SingleOrDefault();
                 List<Assignment> assignments = course.Assignments.ToList();
                 return View(assignments);
             }

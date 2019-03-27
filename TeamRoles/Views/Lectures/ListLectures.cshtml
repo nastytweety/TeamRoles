@@ -31,7 +31,8 @@
                     @Html.DisplayFor(modelItem => item.LectureName)
                 </td>
                 <td>
-                    @Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.Course.CourseName, username = item.Course.TeacherName, filefolder = item.LectureName, mode = "lectures" }, null)
+                    ///Strange error here
+                    @Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.Course.CourseName, username = item.Course.Teacher.UserName, filefolder = item.LectureName, mode = "lectures" }, null)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PostDate)

@@ -100,7 +100,7 @@ namespace TeamRoles.Controllers
             {
                 Course course = db.Courses.Find(req.Courseid);
                 ApplicationUser student = db.Users.Find(req.User2id);
-                course.ApplicationUsers.Add(student);
+                //student.Enrollments.Add(student);
                 db.Courses.Attach(course);
 
                 Enrollment enrol = new Enrollment();

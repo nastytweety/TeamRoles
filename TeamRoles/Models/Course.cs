@@ -11,7 +11,7 @@ namespace TeamRoles.Models
     {
         public Course()
         {
-            this.ApplicationUsers = new HashSet<ApplicationUser>();
+            //this.ApplicationUsers = new HashSet<ApplicationUser>();
             this.Enrollments = new HashSet<Enrollment>();
             this.Assignments = new HashSet<Assignment>();
         }
@@ -23,15 +23,12 @@ namespace TeamRoles.Models
         public string CourseDescription { get; set; }
 
         public string CoursePic { get; set; }
-
-        public string TeacherName { get; set; }
-        public string TeacherId { get; set; }
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
 
-        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; }
         public virtual ICollection<Enrollment> Enrollments { get; set; }
         public virtual ICollection<Assignment> Assignments { get; set; }
         public virtual ICollection<Lecture> Lectures { get; set; }
+        public virtual ApplicationUser Teacher { get; set; }
     }
 }

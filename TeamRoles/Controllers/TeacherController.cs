@@ -96,24 +96,6 @@ namespace TeamRoles.Controllers
             return RedirectToAction("Index");
         }
 
-
-        public ApplicationUser FindTeacher(int CourseId)
-        {
-            Course course = db.Courses.Find(CourseId);
-            List<ApplicationUser> Users =course.ApplicationUsers.ToList();
-            
-
-            foreach (var teacher in Users)
-            {
-                var isInRole = _userManager.IsInRole(teacher.Id, "Teacher");
-                if (isInRole)
-                {
-                    return teacher;
-                }
-            }
-            return null;
-        }
-
         public List<ApplicationUser> FindTeachers()
         {
             List<ApplicationUser> Users = db.Users.ToList();
