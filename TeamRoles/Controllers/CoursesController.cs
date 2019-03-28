@@ -192,7 +192,7 @@ namespace TeamRoles.Controllers
                     return HttpNotFound();
                 }
                 return View(course);
-            }
+        }
 
         // POST: Courses/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
