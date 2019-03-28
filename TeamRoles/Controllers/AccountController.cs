@@ -81,7 +81,7 @@ namespace TeamRoles.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var user = db.Users.Where(u=>u.UserName==model.UserName).SingleOrDefault();
-            if (!user.Validated)
+            if (user!=null&&!user.Validated)
             {
                 return RedirectToAction("Home", "Home");
             }

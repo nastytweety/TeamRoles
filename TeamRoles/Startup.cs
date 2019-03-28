@@ -43,6 +43,9 @@ namespace TeamRoles
                 user.UserName = "admin";
                 user.Email = "admin@gmail.com";
                 user.ProfilePic = "Dave-Oster.png";
+                user.BirthDay = new System.DateTime(2000, 1, 1);
+                user.Validated = true;
+
                 string userPWD = "Admin//1235";
 
                 var chkUser = UserManager.Create(user, userPWD);
