@@ -5,7 +5,9 @@
 
 
 <div class="container">
+
     <div class="row">
+
         <div class="col-md-4 col-lg-4">
             <div class="card">
                 <img alt="Card image cap" id="testing" class="card-img-top img-fluid" img src="~/Users/@Model.Teacher.UserName/@Model.CourseName/@Url.Content(Model.CoursePic)"/>
@@ -19,9 +21,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-lg-4">
+
+        <div class="col-md-8 col-lg-8">
             <table class="table">
                 <tr>
                     <th>
@@ -40,6 +41,7 @@
                         @if (item.Enrollments.Count() != 0)
                         {
                             <td>
+
                                 @Html.DisplayFor(modelItem => item.Enrollments.First().User.UserName)
                             </td>
                             if (User.IsInRole("Teacher"))
@@ -60,9 +62,13 @@
 
             </table>
         </div>
+    </div>
+    <div class="row">
+
         <div class="col-md-4 col-lg-4">
             @if (User.IsInRole("Teacher"))
             {
+                @*@Html.Partial("_CreateAssiment", new {Assignment (Model.CourseName) })*@
 
                 @Html.ActionLink("Create Assignment", "CreateAssignment", "Assignments", new { courseId = Model.CourseId }, null)
                 @Html.ActionLink("Create Lecture", "Create", "Lectures", new { courseid = Model.CourseId }, null)
@@ -72,7 +78,9 @@
             @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { courseid = Model.CourseId }, null)
             @Html.ActionLink("View Lectures", "ListLectures", "Lectures", new { courseid = Model.CourseId }, null)
         </div>
+
         </div>
     </div>
+</div>
     <a href="/Courses/Index">Back to List</a>
 
