@@ -27,7 +27,7 @@
                 @Html.DisplayFor(modelItem => item.CourseName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TeacherName)
+                @Html.DisplayFor(modelItem => item.Teacher.UserName)
             </td>
             <td>
                 @if(User.IsInRole("Parent"))

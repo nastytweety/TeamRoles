@@ -13,7 +13,7 @@ namespace TeamRoles.Hubs
     [Authorize]
     public class PrivateChatHub : Hub
     {
-        private static readonly ConnectionMapping<string> Connections = new ConnectionMapping<string>();
+        public static readonly ConnectionMapping<string> Connections = new ConnectionMapping<string>();
         private MessageRepository msgRepo = new MessageRepository();
         private UserRepository userRepo = new UserRepository();
 
@@ -34,10 +34,10 @@ namespace TeamRoles.Hubs
             foreach (var connectionId in Connections.GetConnections(who))
             {
                 //Clients.Caller.SendMessagetoSelf("Me", message);
-                await Clients.Client(connectionId).AddNewMessageToPage(user.UserName, user.ProfilePic, message, date);
+                await Clients.Client(connectionId).AddNewMessageToPage(user.UserName, "/Users/"+user.UserName+"/"+user.ProfilePic, message, date);
             }
 
-            await Clients.Caller.addNewMessageToMyPage(user.ProfilePic, message, date);
+            await Clients.Caller.addNewMessageToMyPage("/Users/" + user.UserName + "/" + user.ProfilePic, message, date);
         }
 
         // when a user is connected with the hub, adds to the dictionary his name and his signalR connection Id

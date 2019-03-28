@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web;
+using System;
 
 namespace TeamRoles.Models
 {
@@ -16,7 +17,6 @@ namespace TeamRoles.Models
     {
         public ApplicationUser()
         {
-            Courses = new HashSet<Course>();
             Posts = new HashSet<Post>();
             Requests = new HashSet<GenericRequest>();
             Enrollments = new HashSet<Enrollment>();
@@ -25,8 +25,9 @@ namespace TeamRoles.Models
             MessagesReceived = new List<Message>();
         }
         public string Path { get; set; }
-
+        public DateTime BirthDay { get; set; }
         public string ProfilePic { get; set; }
+        public bool Validated { get; set; }
 
         [InverseProperty("Sender")]
         public ICollection<Message> MessagesSent { get; set; }
@@ -67,6 +68,7 @@ namespace TeamRoles.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+
         }
 
         public static ApplicationDbContext Create()

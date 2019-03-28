@@ -10,7 +10,7 @@
 
         <div class="col-md-4 col-lg-4">
             <div class="card">
-                <img alt="Card image cap" id="testing" class="card-img-top img-fluid" src="~/Users/@Model.Teacher.UserName/@Model.CourseName/@Url.Content(Model.CoursePic)"/>
+                <img alt="Card image cap" id="testing" class="card-img-top img-fluid" img src="~/Users/@Model.Teacher.UserName/@Model.CourseName/@Url.Content(Model.CoursePic)"/>
                 <div class="card-block">
                     <h4 class="card-title"> @Model.CourseName </h4>
 
@@ -38,16 +38,24 @@
                 @foreach (var item in Model.Courses)
                 {
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ApplicationUsers.First().UserName)
-                        </td>
-                        @if (User.IsInRole("Teacher"))
+                        @if (item.Enrollments.Count() != 0)
                         {
                             <td>
-                                @Html.ActionLink("Details", "Details", "Student", new {id = item.ApplicationUsers.First().Id}, null) |
-                                @Html.ActionLink("Delete", "RemoveFromCourse", "Student", new {id = item.ApplicationUsers.First().Id, coursename = Model.CourseName}, null)|
-                                @Html.ActionLink("Set Grade", "SetGrades", "Teacher", new {id = item.ApplicationUsers.First().Id, coursename = Model.CourseName, teacherid = Model.Teacher.Id}, null)
+
+                                @Html.DisplayFor(modelItem => item.Enrollments.First().User.UserName)
                             </td>
+                            if (User.IsInRole("Teacher"))
+                            {
+                                <td>
+                                    @Html.ActionLink("Details", "Details", "Student", new { id = item.Enrollments.First().User.Id }, null) |
+                                    @Html.ActionLink("Delete", "RemoveFromCourse", "Student", new { id = item.Enrollments.First().User.Id, coursename = Model.CourseName }, null)|
+                                    @Html.ActionLink("Set Grade", "SetGrades", "Teacher", new { id = item.Enrollments.First().User.Id, coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)
+                                </td>
+                            }
+                        }
+                        else
+                        {
+                            <h4>There are no subscribed students!</h4>
                         }
                     </tr>
                 }
@@ -62,14 +70,15 @@
             {
                 @*@Html.Partial("_CreateAssiment", new {Assignment (Model.CourseName) })*@
 
-                @Html.ActionLink("Create Assignment", "CreateAssignment", "Assignments", new {coursename = Model.CourseName}, null)
-                @Html.ActionLink("Create Lecture", "Create", "Lectures", new {courseid = Model.CourseId}, null)
-                @Html.ActionLink("View Grades", "CourseGrades", "Courses", new {coursename = Model.CourseName, teacherid = Model.Teacher.Id}, null)
+                @Html.ActionLink("Create Assignment", "CreateAssignment", "Assignments", new { courseId = Model.CourseId }, null)
+                @Html.ActionLink("Create Lecture", "Create", "Lectures", new { courseid = Model.CourseId }, null)
+                @Html.ActionLink("View Grades", "CourseGrades", "Courses", new { coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)
 
             }
+            @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { courseid = Model.CourseId }, null)
+            @Html.ActionLink("View Lectures", "ListLectures", "Lectures", new { courseid = Model.CourseId }, null)
+        </div>
 
-            @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new {coursename = Model.CourseName}, null)
-            @Html.ActionLink("View Lectures", "ListLectures", "Lectures", new {courseid = Model.CourseId}, null)
         </div>
     </div>
 </div>

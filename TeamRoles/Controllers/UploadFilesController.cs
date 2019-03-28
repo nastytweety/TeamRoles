@@ -17,6 +17,15 @@ namespace TeamRoles.Controllers
     [Authorize]
     public class UploadFilesController : Controller
     {
+        private ApplicationDbContext db;
+        private UserManager<ApplicationUser> _userManager;
+
+        public UploadFilesController()
+        {
+            db = new ApplicationDbContext();
+            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+        }
+
         [HttpPost]
         public ActionResult UploadAnswear(HttpPostedFileBase file,string coursename,string teachername,string assignment)
         {
@@ -30,7 +39,7 @@ namespace TeamRoles.Controllers
                 }
 
                 ViewBag.Message = "Uploaded Filed Saved.";
-                ViewBag.Coursename = coursename;
+                ViewBag.CourseId = FindCourseId(teachername,coursename);
                 return View();
             }
             catch
@@ -116,7 +125,24 @@ namespace TeamRoles.Controllers
 
             System.IO.File.Delete(path + filename);
 
-            return RedirectToAction("ListAssignments","Assignments",new { coursename = coursename });
+            return RedirectToAction("ListAssignments","Assignments",new { courseid = FindCourseId(username, coursename)});
         }
+
+        public int FindCourseId(string coursename,string teachername)
+        {
+            ApplicationUser teacher = db.Users.Where(u => u.UserName == teachername).SingleOrDefault();
+            Course course = teacher.Courses.Where(c => c.CourseName == coursename).SingleOrDefault();
+            return course.CourseId;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
     }
 }

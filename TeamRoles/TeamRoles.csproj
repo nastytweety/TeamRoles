@@ -329,6 +329,22 @@
     <Compile Include="Migrations\201903260836010_Lectures-fix.Designer.cs">
       <DependentUpon>201903260836010_Lectures-fix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903261919040_Course-MajorFix.cs" />
+    <Compile Include="Migrations\201903261919040_Course-MajorFix.Designer.cs">
+      <DependentUpon>201903261919040_Course-MajorFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903280817524_Bday.cs" />
+    <Compile Include="Migrations\201903280817524_Bday.Designer.cs">
+      <DependentUpon>201903280817524_Bday.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903281002009_Validation.cs" />
+    <Compile Include="Migrations\201903281002009_Validation.Designer.cs">
+      <DependentUpon>201903281002009_Validation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903281621138_Course-fix.cs" />
+    <Compile Include="Migrations\201903281621138_Course-fix.Designer.cs">
+      <DependentUpon>201903281621138_Course-fix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -639,8 +655,12 @@
     <Content Include="Views\Lectures\Error.cshtml" />
     <Content Include="Views\Lectures\ListLectures.cshtml" />
     <Content Include="Views\Lectures\Delete.cshtml" />
+
     <Content Include="Views\Courses\_Create.cshtml" />
     <Content Include="Views\Courses\_Edit.cshtml" />
+
+    <Content Include="Views\Student\Error.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -750,6 +770,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903260836010_Lectures-fix.resx">
       <DependentUpon>201903260836010_Lectures-fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903261919040_Course-MajorFix.resx">
+      <DependentUpon>201903261919040_Course-MajorFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903280817524_Bday.resx">
+      <DependentUpon>201903280817524_Bday.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903281002009_Validation.resx">
+      <DependentUpon>201903281002009_Validation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903281621138_Course-fix.resx">
+      <DependentUpon>201903281621138_Course-fix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
