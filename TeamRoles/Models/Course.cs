@@ -23,6 +23,7 @@ namespace TeamRoles.Models
         public string CourseDescription { get; set; }
 
         public string CoursePic { get; set; }
+
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
 

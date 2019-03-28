@@ -192,19 +192,18 @@ namespace TeamRoles.Controllers
                     return HttpNotFound();
                 }
                 return View(course);
-            }
+         }
 
-        // POST: Courses/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CourseId,CourseName,CourseDescription,ImageFile")] Course course)
+        public ActionResult Edit([Bind(Include = "CourseId,CourseName,CourseDescription,ImageFile")] Course course, HttpPostedFileBase ImageFile)
         {
+
             if (ModelState.IsValid)
             {
-                using (var db = new ApplicationDbContext())
-                {
                     Course coursetoupdate = db.Courses.Find(course.CourseId);
 
                     if (course.ImageFile != null)
@@ -236,7 +235,7 @@ namespace TeamRoles.Controllers
                     {
                         throw e;
                     }
-                }
+                
             }
             else
             {

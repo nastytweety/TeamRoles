@@ -4563,6 +4563,7 @@ input[type="button"].btn-block {
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
+  padding-top : 20px;
 }
 
 .card > hr {
@@ -4679,6 +4680,7 @@ input[type="button"].btn-block {
 
 .card-deck .card {
   margin-bottom: 15px;
+  padding-bottom: 15px;
 }
 
 @media (min-width: 576px) {

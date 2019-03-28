@@ -475,9 +475,11 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\cubeportfolio.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Background.jpg" />
     <Content Include="Images\OurTeam\Diakos.jpg" />
     <Content Include="Images\OurTeam\Makris.jpg" />
     <Content Include="Images\OurTeam\Mitropoulos.jpg" />
@@ -653,7 +655,12 @@
     <Content Include="Views\Lectures\Error.cshtml" />
     <Content Include="Views\Lectures\ListLectures.cshtml" />
     <Content Include="Views\Lectures\Delete.cshtml" />
+
+    <Content Include="Views\Courses\_Create.cshtml" />
+    <Content Include="Views\Courses\_Edit.cshtml" />
+
     <Content Include="Views\Student\Error.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
