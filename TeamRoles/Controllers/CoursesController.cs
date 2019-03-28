@@ -104,7 +104,7 @@ namespace TeamRoles.Controllers
                     return HttpNotFound();
                 }
                 return View(course);
-            }
+        }
 
         // GET: Courses/Create
         [Authorize(Roles = "Teacher")]
@@ -192,7 +192,7 @@ namespace TeamRoles.Controllers
                     return HttpNotFound();
                 }
                 return View(course);
-         }
+        }
 
         
 
