@@ -26,6 +26,7 @@ namespace TeamRoles.Models
 
         public string TeacherName { get; set; }
         public string TeacherId { get; set; }
+
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
 
