@@ -5,7 +5,9 @@
 
 
 <div class="container">
+
     <div class="row">
+
         <div class="col-md-4 col-lg-4">
             <div class="card">
                 <img alt="Card image cap" id="testing" class="card-img-top img-fluid" src="~/Users/@Model.Teacher.UserName/@Model.CourseName/@Url.Content(Model.CoursePic)"/>
@@ -19,9 +21,8 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-lg-4">
+
+        <div class="col-md-8 col-lg-8">
             <table class="table">
                 <tr>
                     <th>
@@ -42,30 +43,34 @@
                         </td>
                         @if (User.IsInRole("Teacher"))
                         {
-                        <td>
-                            @Html.ActionLink("Details", "Details", "Student", new { id = item.ApplicationUsers.First().Id }, null) |
-                            @Html.ActionLink("Delete", "RemoveFromCourse", "Student", new { id = item.ApplicationUsers.First().Id, coursename = Model.CourseName }, null)|
-                            @Html.ActionLink("Set Grade", "SetGrades", "Teacher", new { id = item.ApplicationUsers.First().Id, coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)
-                        </td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", "Student", new {id = item.ApplicationUsers.First().Id}, null) |
+                                @Html.ActionLink("Delete", "RemoveFromCourse", "Student", new {id = item.ApplicationUsers.First().Id, coursename = Model.CourseName}, null)|
+                                @Html.ActionLink("Set Grade", "SetGrades", "Teacher", new {id = item.ApplicationUsers.First().Id, coursename = Model.CourseName, teacherid = Model.Teacher.Id}, null)
+                            </td>
                         }
                     </tr>
                 }
 
             </table>
         </div>
+    </div>
+    <div class="row">
+
         <div class="col-md-4 col-lg-4">
             @if (User.IsInRole("Teacher"))
             {
 
-                @Html.ActionLink("Create Assignment", "CreateAssignment", "Assignments", new { coursename = Model.CourseName }, null)
-                @Html.ActionLink("Create Lecture", "Create", "Lectures", new { courseid = Model.CourseId }, null)
-                @Html.ActionLink("View Grades", "CourseGrades", "Courses", new { coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)
+                @Html.ActionLink("Create Assignment", "CreateAssignment", "Assignments", new {coursename = Model.CourseName}, null)
+                @Html.ActionLink("Create Lecture", "Create", "Lectures", new {courseid = Model.CourseId}, null)
+                @Html.ActionLink("View Grades", "CourseGrades", "Courses", new {coursename = Model.CourseName, teacherid = Model.Teacher.Id}, null)
 
             }
-            @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { coursename = Model.CourseName }, null)
-            @Html.ActionLink("View Lectures", "ListLectures", "Lectures", new { courseid = Model.CourseId }, null)
-        </div>
+
+            @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new {coursename = Model.CourseName}, null)
+            @Html.ActionLink("View Lectures", "ListLectures", "Lectures", new {courseid = Model.CourseId}, null)
         </div>
     </div>
+</div>
     <a href="/Courses/Index">Back to List</a>
 

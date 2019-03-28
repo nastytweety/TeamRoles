@@ -1,13 +1,40 @@
 ﻿@model TeamRoles.Models.CourseViewModel
 
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Index</h2>
 
 
-<table class="table">
+<div class="container">
+
+    <div class="row" style="background: darkgray">
+        <div class="col-md-3">
+            <p> Course Name </p></div>
+        <div class="col-md-3">
+            <p> Teacher </p></div>
+        <div class="col-md-3">
+            <p> Grade </p></div>
+        <div class="col-md-3">
+            <p> Options </p></div>
+    </div>
+    <div class="row">
+        @foreach (var item in Model.Courses)
+        {
+            <div class="col-md-3">
+                <p> @item.CourseName </p>
+            </div>
+            <div class="col-md-3">
+                <p> @item.TeacherName </p>
+            </div>
+            <div class="col-md-3">
+                <p> @item.Enrollments.FirstOrDefault(c => c.CourseId == item.CourseId).Grade) </p>
+            </div>
+            <div class="col-md-3">
+                @Html.ActionLink("Details", "CourseHome", new {id = item.CourseId}) |
+                @Html.ActionLink("Delete", "StudentRemoveCourse", new {id = item.CourseId})
+            </div>
+        }
+    </div>
+</div>
+
+@*<table class="table">
     <tr>
         <th>
             CourseName
@@ -41,4 +68,4 @@
         </tr>
     }
 
-</table>
+</table>*@
