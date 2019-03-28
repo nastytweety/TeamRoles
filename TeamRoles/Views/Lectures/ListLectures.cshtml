@@ -31,7 +31,6 @@
                     @Html.DisplayFor(modelItem => item.LectureName)
                 </td>
                 <td>
-                    ///Strange error here
                     @Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.Course.CourseName, username = item.Course.Teacher.UserName, filefolder = item.LectureName, mode = "lectures" }, null)
                 </td>
                 <td>
@@ -46,10 +45,11 @@
         }
 
     </table>
+    @Html.ActionLink("Back", "CourseHome", "Courses", new { id = Model.FirstOrDefault().Course.CourseId }, null)
 }
 else
 {
     <h2>There are no Lectures</h2>
-    @Html.ActionLink("Back", "Index","Courses")
+    @Html.ActionLink("Back", "CourseHome", "Courses", new { id = Model.FirstOrDefault().Course.CourseId }, null)
 }
 

@@ -39,7 +39,6 @@ namespace TeamRoles.Controllers
             assignment.Filename = Path.GetFileName(assignment.AssignmentFile.FileName);
             string fileName = Path.Combine(Server.MapPath("~/Users/" + teacher.UserName+"/"+course.CourseName), assignment.Filename);
             assignment.AssignmentFile.SaveAs(fileName);
-            //assignment.TeacherName = teacher.UserName;
             assignment.Path = fileName;
             assignment.Course = course;
             ////////
@@ -73,10 +72,9 @@ namespace TeamRoles.Controllers
 
         public ActionResult ListAssignments(int? courseid)
         {
-            ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
             if(courseid!=null)
             {
-                Course course = teacher.Courses.Where(c => c.CourseId == courseid).SingleOrDefault();
+                Course course = db.Courses.Where(c => c.CourseId == courseid).SingleOrDefault();
                 List<Assignment> assignments = course.Assignments.ToList();
                 return View(assignments);
             }
@@ -140,6 +138,15 @@ namespace TeamRoles.Controllers
         public ActionResult Error()
         {
             return View();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

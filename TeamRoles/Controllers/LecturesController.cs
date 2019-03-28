@@ -14,6 +14,16 @@ namespace TeamRoles.Controllers
 {
     public class LecturesController : Controller
     {
+        private ApplicationDbContext db;
+        private UserManager<ApplicationUser> _userManager;
+
+        public LecturesController()
+        {
+            db = new ApplicationDbContext();
+            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
@@ -21,29 +31,27 @@ namespace TeamRoles.Controllers
         {
             if(!CheckIfLectureExists(lecture))
             {
-                using (var db = new ApplicationDbContext())
+                ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
+                Course course = teacher.Courses.Where(c => c.CourseId == lecture.Course.CourseId).SingleOrDefault();
+                List<Lecture> lectures = course.Lectures.ToList();
+
+                try
                 {
-                    ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
-                    Course course = teacher.Courses.Where(c => c.CourseId == lecture.Course.CourseId).SingleOrDefault();
-                    List<Lecture> lectures = course.Lectures.ToList();
+                    lecture.Filename = Path.GetFileName(lecture.LectureFile.FileName);
+                    string fileName = Path.Combine(Server.MapPath("~/Users/" + teacher.UserName + "/" + course.CourseName + "/Lectures/"), lecture.Filename);
+                    lecture.LectureFile.SaveAs(fileName);
 
-                    try
-                    {
-                        lecture.Filename = Path.GetFileName(lecture.LectureFile.FileName);
-                        string fileName = Path.Combine(Server.MapPath("~/Users/" + teacher.UserName + "/" + course.CourseName + "/Lectures/"), lecture.Filename);
-                        lecture.LectureFile.SaveAs(fileName);
-
-                        lecture.Path = fileName;
-                        lecture.Course = course;
-                        db.Lectures.Add(lecture);
-                        db.SaveChanges();
-                        return RedirectToAction("CourseHome", "Courses", course.CourseId);
-                    }
-                    catch (Exception e)
-                    {
-                        throw e;
-                    }
+                    lecture.Path = fileName;
+                    lecture.Course = course;
+                    db.Lectures.Add(lecture);
+                    db.SaveChanges();
+                    return RedirectToAction("CourseHome", "Courses", course.CourseId);
                 }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
             }
             else
             {
@@ -60,35 +68,29 @@ namespace TeamRoles.Controllers
 
         public ActionResult ListLectures(int? courseid)
         {
-            using (var db = new ApplicationDbContext())
+            ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
+            if (courseid != null)
             {
-                ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
-                if (courseid != null)
-                {
-                    Course course = db.Courses.Where(c => c.CourseId == courseid).SingleOrDefault();
-                    List<Lecture> lectures = course.Lectures.ToList();
-                    return View(lectures);
-                }
-                else
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+                Course course = db.Courses.Where(c => c.CourseId == courseid).SingleOrDefault();
+                List<Lecture> lectures = course.Lectures.ToList();
+                return View(lectures);
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
 
         public bool CheckIfLectureExists(Lecture lecture)
         {
-            using (var db = new ApplicationDbContext())
+            ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
+            Course course = teacher.Courses.Where(c => c.CourseId == lecture.Course.CourseId).SingleOrDefault();
+            List<Lecture> lectures = course.Lectures.ToList();
+            foreach (var l in lectures)
             {
-                ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
-                Course course = teacher.Courses.Where(c => c.CourseId == lecture.Course.CourseId).SingleOrDefault();
-                List<Lecture> lectures = course.Lectures.ToList();
-                foreach (var l in lectures)
+                if (l.LectureName == lecture.LectureName)
                 {
-                    if (l.LectureName == lecture.LectureName)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
             return false;
@@ -100,15 +102,12 @@ namespace TeamRoles.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            using (var db = new ApplicationDbContext())
+            Lecture lecture = db.Lectures.Find(id);
+            if (lecture == null)
             {
-                Lecture lecture = db.Lectures.Find(id);
-                if (lecture == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(lecture);
+                return HttpNotFound();
             }
+            return View(lecture);
         }
 
 
@@ -116,18 +115,15 @@ namespace TeamRoles.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            using (var db = new ApplicationDbContext())
+            Lecture lecture = db.Lectures.Find(id);
+            try
             {
-                Lecture lecture = db.Lectures.Find(id);
-                try
-                {
-                    db.Lectures.Remove(lecture);
-                    db.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
+                db.Lectures.Remove(lecture);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
             return RedirectToAction("CourseHome", "Courses");
         }
@@ -135,6 +131,15 @@ namespace TeamRoles.Controllers
         public ActionResult Error()
         {
             return View();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

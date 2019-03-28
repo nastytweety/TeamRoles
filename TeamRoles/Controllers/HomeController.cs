@@ -43,15 +43,6 @@ namespace TeamRoles.Controllers
             return View(db.Posts.AsEnumerable().Reverse().ToList());
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         public ActionResult JoinRequests()
         {
             ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
@@ -206,5 +197,13 @@ namespace TeamRoles.Controllers
             return View(db.Users.ToList());
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

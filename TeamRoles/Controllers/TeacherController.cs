@@ -150,5 +150,13 @@ namespace TeamRoles.Controllers
             return RedirectToAction("CourseHome", "Courses", new { id = course.CourseId });
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }
