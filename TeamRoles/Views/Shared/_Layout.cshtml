@@ -2,13 +2,17 @@
 @using TeamRoles.Models.Extensions;
 @using TeamRoles.Models;
 
+@{
+    ViewBag.Title = " eν-τάξει  ";
+}
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title> @ViewBag.Title - eν-τάξει </title> 
+    <title> @ViewBag.Title </title> 
 
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Site.css")
@@ -25,8 +29,9 @@
 
 </head>
 
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+  <body style=" background-image: url('/Images/Background.jpg')">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
 
     <a class="navbar-brand" href="/Home/Index">eν-τάξει</a>
 
@@ -137,13 +142,11 @@
 
 
 
-
-    @RenderBody()
+        @RenderBody()
+    
 
     
-    @*<footer>
-        <p> &copy; @DateTime.Now.Year - eν-τάξει </p>
-    </footer>*@
+    
 
 
     @Scripts.Render("~/bundles/jquery")
@@ -151,4 +154,3 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
-

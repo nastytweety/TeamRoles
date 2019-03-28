@@ -463,6 +463,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Background.jpg" />
     <Content Include="Images\OurTeam\Diakos.jpg" />
     <Content Include="Images\OurTeam\Makris.jpg" />
     <Content Include="Images\OurTeam\Mitropoulos.jpg" />
