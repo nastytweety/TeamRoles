@@ -152,21 +152,47 @@ namespace TeamRoles.Controllers
             return usersInRole;
         }
 
-        public ActionResult ParentConnect(string id)
+        public ActionResult ParentConnect(string Id,DateTime BirthDay)
         {
-            ApplicationUser student = db.Users.Find(id);
-            ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
+            if(CheckIfBirthDaysMatch(Id,BirthDay))
+            {
+                ApplicationUser student = db.Users.Find(Id);
+                ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
 
-            GenericRequest req = new GenericRequest();
-            req.User1id = parent.Id;
-            req.User2id = student.Id;
-            req.Type = "ParentStudent";
-            req.ApplicationUser = student;
-            student.Requests.Add(req);
-            db.Requests.Add(req);
-            db.SaveChanges();
-            return View("RequestSent");
+                GenericRequest req = new GenericRequest();
+                req.User1id = parent.Id;
+                req.User2id = student.Id;
+                req.Type = "ParentStudent";
+                req.ApplicationUser = student;
+                student.Requests.Add(req);
+                db.Requests.Add(req);
+                db.SaveChanges();
+                return View("RequestSent");
+            }
+            else
+            {
+                return View("Error");
+            }
         }
-        
+
+        public bool CheckIfBirthDaysMatch(string Id,DateTime BirthDay)
+        {
+            if(Id!=null && BirthDay!=null)
+            {
+                ApplicationUser student = db.Users.Find(Id);
+                if (student.BirthDay == BirthDay)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

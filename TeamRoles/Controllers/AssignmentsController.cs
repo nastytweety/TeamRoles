@@ -108,7 +108,7 @@ namespace TeamRoles.Controllers
 
         // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Assignment assignment = db.Assignments.Find(id);

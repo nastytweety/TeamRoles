@@ -137,8 +137,18 @@ namespace TeamRoles.Controllers
             }
             else
             {
-                db.Requests.Remove(req);
-                db.SaveChanges();
+                ApplicationUser user = db.Users.Find(req.User1id);
+                user.Validated = true;
+                try
+                {
+                    db.Entry(user).State = EntityState.Modified;
+                    db.Requests.Remove(req);
+                    db.SaveChanges();
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
                 return RedirectToAction("AdminRoleRequests", "Home");
             }
         }
@@ -161,9 +171,16 @@ namespace TeamRoles.Controllers
             else
             {
                 ApplicationUser deleted = db.Users.Find(req.User1id);
-                db.Users.Remove(deleted);
-                db.Requests.Remove(req);
-                db.SaveChanges();
+                try
+                {
+                    db.Users.Remove(deleted);
+                    db.Requests.Remove(req);
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
                 return RedirectToAction("AdminRoleRequests", "Home");
             }
         }
