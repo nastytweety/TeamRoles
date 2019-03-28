@@ -11,7 +11,7 @@ namespace TeamRoles.Models
     {
         public Course()
         {
-            //this.ApplicationUsers = new HashSet<ApplicationUser>();
+            this.Lectures = new HashSet<Lecture>();
             this.Enrollments = new HashSet<Enrollment>();
             this.Assignments = new HashSet<Assignment>();
         }

@@ -64,7 +64,7 @@
             @if (User.IsInRole("Teacher"))
             {
 
-                @Html.ActionLink("Create Assignment", "CreateAssignment", "Assignments", new { coursename = Model.CourseName }, null)
+                @Html.ActionLink("Create Assignment", "CreateAssignment", "Assignments", new { courseId = Model.CourseId }, null)
                 @Html.ActionLink("Create Lecture", "Create", "Lectures", new { courseid = Model.CourseId }, null)
                 @Html.ActionLink("View Grades", "CourseGrades", "Courses", new { coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)
 

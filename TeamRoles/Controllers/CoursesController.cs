@@ -274,6 +274,7 @@ namespace TeamRoles.Controllers
                     var path = teacher.Path + "\\" + course.CourseName;
                     Directory.Delete(path.ToString(), true);
                     RemoveAssignments(course);
+                    RemoveLectures(course);
                     db.Courses.Remove(course);
                     db.SaveChanges();
                 }
@@ -319,6 +320,24 @@ namespace TeamRoles.Controllers
                 try
                 {
                     db.Assignments.Remove(assignment);
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public void RemoveLectures(Course course)
+        {
+            List<Lecture> listoflectures = new List<Lecture>();
+            listoflectures = db.Lectures.Where(c => c.Course.CourseId == course.CourseId).ToList();
+            foreach (var lecture in listoflectures)
+            {
+                try
+                {
+                    db.Lectures.Remove(lecture);
                     db.SaveChanges();
                 }
                 catch (Exception e)

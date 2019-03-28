@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
@@ -9,6 +10,7 @@ using System.Net;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.Validation;
 
 namespace TeamRoles.Controllers
 {
@@ -31,8 +33,9 @@ namespace TeamRoles.Controllers
         {
             if(!CheckIfLectureExists(lecture))
             {
-                ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
-                Course course = teacher.Courses.Where(c => c.CourseId == lecture.Course.CourseId).SingleOrDefault();
+               
+                Course course = db.Courses.Where(c => c.CourseId == lecture.Course.CourseId).SingleOrDefault();
+                ApplicationUser teacher = db.Users.Find(course.Teacher.Id);
                 List<Lecture> lectures = course.Lectures.ToList();
 
                 try
@@ -112,16 +115,16 @@ namespace TeamRoles.Controllers
 
 
         [HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Lecture lecture = db.Lectures.Find(id);
+            Lecture lecture = db.Lectures.Include(l => l.Course).SingleOrDefault(l => l.LectureId == id);
             try
             {
                 db.Lectures.Remove(lecture);
                 db.SaveChanges();
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 throw e;
             }
