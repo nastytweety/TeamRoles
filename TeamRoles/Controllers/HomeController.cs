@@ -7,10 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TeamRoles.Models;
+using TeamRoles.Models.ViewModels;
+using TeamRoles.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System.IO;
 
 namespace TeamRoles.Controllers
 {
@@ -40,7 +41,13 @@ namespace TeamRoles.Controllers
 
         public ActionResult Index()
         {
-            return View(db.Posts.AsEnumerable().Reverse().ToList());
+            HomeIndexViewModel model = new HomeIndexViewModel();
+            UserRepository repository = new UserRepository();
+            model.User = db.Users.Find(User.Identity.GetUserId());
+            model.Posts = db.Posts.AsEnumerable().Reverse().ToList();
+            model.TotalLessons = model.User.Courses.Count();
+            model.TotalStudents = repository.GetTotalStudents(model.User);
+            return View(model);
         }
 
         public ActionResult JoinRequests()

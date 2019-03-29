@@ -18,12 +18,10 @@ namespace TeamRoles.Controllers
     public class CoursesController : Controller
     {
         private ApplicationDbContext db;
-        //private UserManager<ApplicationUser> _userManager;
 
         public CoursesController()
         {
             db = new ApplicationDbContext();
-            //_userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
         }
         public ActionResult Index()
         {
@@ -38,18 +36,15 @@ namespace TeamRoles.Controllers
 
         public ActionResult Index_StudentId(string id)
         {
-
-                ApplicationUser student = db.Users.Find(id);
-                return View(student.Courses.ToList());
+            ApplicationUser student = db.Users.Find(id);
+            return View(student.Courses.ToList());
         }
 
 
         [Authorize(Roles = "Admin")]
         public ActionResult Admin_Index()
         {
-
-                return View(db.Courses.ToList());
-
+            return View(db.Courses.ToList());
         }
 
         public ActionResult Index_Selected()
@@ -156,12 +151,14 @@ namespace TeamRoles.Controllers
                     course.ImageFile.SaveAs(fileName);
 
                     return RedirectToAction("Index");
-                }
+            }
             return View(course);
         }
 
-        public ActionResult Join(int id)
+        public ActionResult Join(int? id)
         {
+            if (id != null)
+            {
                 Course course = db.Courses.Find(id);
                 ApplicationUser teacher = course.Teacher;
                 ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
@@ -173,10 +170,21 @@ namespace TeamRoles.Controllers
                 req.Type = "JoinCourse";
                 req.ApplicationUser = teacher;
                 teacher.Requests.Add(req);
-                db.Requests.Add(req);
-                db.SaveChanges();
-
-            return RedirectToAction("RequestSent", "Courses");
+                try
+                {
+                    db.Requests.Add(req);
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                return RedirectToAction("RequestSent", "Courses");
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
         }
 
         // GET: Courses/Edit/5
@@ -193,9 +201,6 @@ namespace TeamRoles.Controllers
                 }
                 return View(course);
         }
-
-        
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -285,11 +290,6 @@ namespace TeamRoles.Controllers
         }
         
 
-        public ActionResult Error()
-        {
-            return View();
-        }
-
         public ActionResult CourseHome(int? id)
         {
             if(id!=null)
@@ -372,11 +372,6 @@ namespace TeamRoles.Controllers
             } 
         }
 
-        public ActionResult RequestSent()
-        {
-            return View();
-        }
-
         public ActionResult CourseGrades(string coursename, string teacherid)
         {
             if (coursename != null & teacherid != null)
@@ -389,6 +384,16 @@ namespace TeamRoles.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+        }
+
+        public ActionResult RequestSent()
+        {
+            return View();
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
 
         protected override void Dispose(bool disposing)

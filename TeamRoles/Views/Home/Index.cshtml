@@ -1,8 +1,9 @@
 ﻿@using Microsoft.AspNet.Identity;
 @using TeamRoles.Models.Extensions;
 @using TeamRoles.Models;
+@using TeamRoles.Models.ViewModels;
 
-@model  IEnumerable<TeamRoles.Models.Post>
+@model  TeamRoles.Models.ViewModels.HomeIndexViewModel
 
 
 <div class="container">
@@ -15,7 +16,11 @@
 
             <div class="text-center">
                 <h4 class="card-title"> @User.Identity.GetUserName() </h4>
-                <small>  </small>
+                @if (User.IsInRole("Teacher"))
+                {
+                    <small> Lessons:  @Model.TotalLessons<br />
+                            Students:  @Model.TotalStudents</small>
+                }
             </div>
 
             @using (Html.BeginForm("Create", "Posts", FormMethod.Post))
@@ -47,9 +52,9 @@
     
 
         <div class="col-lg-8 col-md-4">
-            @if (Model != null)
+            @if (Model.Posts != null)
             {
-                foreach (var post in Model)
+                foreach (var post in Model.Posts)
                 {<div style="background: #dddddd">
                      <table class="table table-hover">
                          <tbody>
