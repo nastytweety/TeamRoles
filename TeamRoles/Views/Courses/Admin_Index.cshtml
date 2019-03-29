@@ -6,16 +6,14 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.CourseName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TeacherName)
+            @Html.DisplayNameFor(model => model.Teacher.UserName)
         </th>
         <th>
             Options
@@ -28,7 +26,7 @@
             @Html.DisplayFor(modelItem => item.CourseName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TeacherName)
+            @Html.DisplayFor(modelItem => item.Teacher.UserName)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.CourseId }) |

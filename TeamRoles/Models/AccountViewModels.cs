@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web;
@@ -79,6 +80,9 @@ namespace TeamRoles.Models
 
         [Display(Name = "Profile Picture")]
         public string ProfilePic { get; set; }
+
+        [Display(Name = "Your Birthday")]
+        public DateTime BirthDay { get; set; }
 
         [Required]
         [EmailAddress]

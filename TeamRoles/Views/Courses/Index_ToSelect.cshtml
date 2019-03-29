@@ -10,9 +10,9 @@
     <div class="row">
 
         <div class="col-md-4">
-            <img alt="Teachers Photo" src="~/Users/@Model.FirstOrDefault().TeacherName/@Model.FirstOrDefault().CourseName/@Url.Content(Model.FirstOrDefault().CoursePic)" class="rounded-circle">
+            <img alt="Teachers Photo" src="~/Users/@Model.FirstOrDefault().Teacher.UserName/@Model.FirstOrDefault().CourseName/@Url.Content(Model.FirstOrDefault().CoursePic)" class="rounded-circle">
             <h3>
-                @Model.FirstOrDefault().TeacherName
+                @Model.FirstOrDefault().Teacher.UserName
             </h3>
             <p>
                 Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
@@ -96,7 +96,7 @@
                         {
                             <tr class="table-active">
                                 <td>
-                                    <img src="~/Users/@item.TeacherName/@item.CourseName/@Url.Content(item.CoursePic)" height="100" width="100"/>
+                                    <img src="~/Users/@item.Teacher.UserName/@item.CourseName/@Url.Content(item.CoursePic)" height="100" width="100"/>
                                 </td>
                                 <td>
                                     @item.CourseName

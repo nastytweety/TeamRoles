@@ -11,7 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.IO;
 using TeamRoles.Models;
-
+using System.Data.Entity.Validation;
 
 namespace TeamRoles.Controllers
 {
@@ -32,51 +32,58 @@ namespace TeamRoles.Controllers
         [Authorize(Roles = "Teacher")]
         public ActionResult CreateAssignment(Assignment assignment)
         {
-            ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
-            Course course = teacher.Courses.Where(c => c.CourseName == assignment.Course.CourseName).SingleOrDefault();
-            List<Assignment> assignments = course.Assignments.ToList();
+            if(!CheckIfAssignmentExists(assignment))
+            {
+                Course course = db.Courses.Where(c => c.CourseId == assignment.Course.CourseId).SingleOrDefault();
+                ApplicationUser teacher = db.Users.Find(course.Teacher.Id);
+                List<Assignment> assignments = course.Assignments.ToList();
 
-            assignment.Filename = Path.GetFileName(assignment.AssignmentFile.FileName);
-            string fileName = Path.Combine(Server.MapPath("~/Users/" + teacher.UserName+"/"+course.CourseName), assignment.Filename);
-            assignment.AssignmentFile.SaveAs(fileName);
-            //assignment.TeacherName = teacher.UserName;
-            assignment.Path = fileName;
-            assignment.Course = course;
-            ////////
-            var path = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + teacher.UserName +"\\"+ course.CourseName+"\\Submits\\"+assignment.AssignmentName);
-            DirectoryInfo di = Directory.CreateDirectory(path.ToString());
-            /////// STRANGE ERROR IN MODELSTATE
-            //if (ModelState.IsValid)
-            //{
-                foreach (var a in assignments)
-                {
-                    if (a.AssignmentName == assignment.AssignmentName)
-                    {
-                        return RedirectToAction("Error");
-                    }
-                }
+                assignment.Filename = Path.GetFileName(assignment.AssignmentFile.FileName);
+                string fileName = Path.Combine(Server.MapPath("~/Users/" + teacher.UserName + "/" + course.CourseName), assignment.Filename);
+                assignment.AssignmentFile.SaveAs(fileName);
+                assignment.Path = fileName;
+
+                var path = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + teacher.UserName + "\\" + course.CourseName + "\\Submits\\" + assignment.AssignmentName);
+                DirectoryInfo di = Directory.CreateDirectory(path.ToString());
+
                 assignment.Course = course;
                 db.Assignments.Add(assignment);
                 db.SaveChanges();
-                //return RedirectToAction("Index");
-            //}
-
-            return RedirectToAction("CourseHome", "Courses", course.CourseId);
+                return RedirectToAction("CourseHome", "Courses", course.CourseId);
+            }
+            else
+            {
+                return RedirectToAction("Error");
+            }
         }
 
-        public ActionResult CreateAssignment(string coursename)
+        public ActionResult CreateAssignment(int courseid)
         {
             Assignment assignment = new Assignment();
-            assignment.Course.CourseName = coursename;
+            assignment.Course.CourseId = courseid;
             return View(assignment);
         }
 
-        public ActionResult ListAssignments(string coursename)
+        public bool CheckIfAssignmentExists(Assignment assignment)
         {
             ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
-            if(coursename!=null)
+            Course course = db.Courses.Where(c => c.CourseId == assignment.Course.CourseId).SingleOrDefault();
+            List<Assignment> assignments = course.Assignments.ToList();
+            foreach (var a in assignments)
             {
-                Course course = teacher.Courses.Where(c => c.CourseName == coursename).SingleOrDefault();
+                if (a.AssignmentName == assignment.AssignmentName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public ActionResult ListAssignments(int? courseid)
+        {
+            if(courseid!=null)
+            {
+                Course course = db.Courses.Where(c => c.CourseId == courseid).SingleOrDefault();
                 List<Assignment> assignments = course.Assignments.ToList();
                 return View(assignments);
             }
@@ -108,10 +115,10 @@ namespace TeamRoles.Controllers
 
         // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Assignment assignment = db.Assignments.Find(id);
+            Assignment assignment = db.Assignments.Include(c => c.Course).Where(c => c.AssignmentId == id).SingleOrDefault();
             try
             {
                 db.Assignments.Remove(assignment);
@@ -121,7 +128,7 @@ namespace TeamRoles.Controllers
             {
                 throw e;
             }
-           
+
             return RedirectToAction("CourseHome", "Courses");
         }
 
@@ -140,6 +147,15 @@ namespace TeamRoles.Controllers
         public ActionResult Error()
         {
             return View();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

@@ -43,15 +43,6 @@ namespace TeamRoles.Controllers
             return View(db.Posts.AsEnumerable().Reverse().ToList());
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         public ActionResult JoinRequests()
         {
             ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
@@ -100,7 +91,7 @@ namespace TeamRoles.Controllers
             {
                 Course course = db.Courses.Find(req.Courseid);
                 ApplicationUser student = db.Users.Find(req.User2id);
-                course.ApplicationUsers.Add(student);
+                //student.Enrollments.Add(student);
                 db.Courses.Attach(course);
 
                 Enrollment enrol = new Enrollment();
@@ -137,8 +128,18 @@ namespace TeamRoles.Controllers
             }
             else
             {
-                db.Requests.Remove(req);
-                db.SaveChanges();
+                ApplicationUser user = db.Users.Find(req.User1id);
+                user.Validated = true;
+                try
+                {
+                    db.Entry(user).State = EntityState.Modified;
+                    db.Requests.Remove(req);
+                    db.SaveChanges();
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
                 return RedirectToAction("AdminRoleRequests", "Home");
             }
         }
@@ -161,9 +162,16 @@ namespace TeamRoles.Controllers
             else
             {
                 ApplicationUser deleted = db.Users.Find(req.User1id);
-                db.Users.Remove(deleted);
-                db.Requests.Remove(req);
-                db.SaveChanges();
+                try
+                {
+                    db.Users.Remove(deleted);
+                    db.Requests.Remove(req);
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
                 return RedirectToAction("AdminRoleRequests", "Home");
             }
         }
@@ -189,5 +197,13 @@ namespace TeamRoles.Controllers
             return View(db.Users.ToList());
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

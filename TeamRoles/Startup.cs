@@ -42,7 +42,10 @@ namespace TeamRoles
                 var user = new ApplicationUser();
                 user.UserName = "admin";
                 user.Email = "admin@gmail.com";
-                user.ProfilePic = "https://avatars3.githubusercontent.com/u/457547?s=400&v=4";
+                user.ProfilePic = "Dave-Oster.png";
+                user.BirthDay = new System.DateTime(2000, 1, 1);
+                user.Validated = true;
+
                 string userPWD = "Admin//1235";
 
                 var chkUser = UserManager.Create(user, userPWD);

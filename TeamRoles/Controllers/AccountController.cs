@@ -80,6 +80,11 @@ namespace TeamRoles.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
+            var user = db.Users.Where(u=>u.UserName==model.UserName).SingleOrDefault();
+            if (user!=null&&!user.Validated)
+            {
+                return RedirectToAction("Home", "Home");
+            }
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
@@ -159,8 +164,8 @@ namespace TeamRoles.Controllers
             if (ModelState.IsValid)
             {
                 var path = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + model.UserName);
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, ProfilePic = Path.GetFileName(model.ImageFile.FileName), ImageFile = model.ImageFile, Path = path.ToString()};
-
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, ProfilePic = Path.GetFileName(model.ImageFile.FileName), ImageFile = model.ImageFile, Path = path.ToString(), BirthDay = model.BirthDay};
+                user.Validated = false;
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -177,7 +182,10 @@ namespace TeamRoles.Controllers
                     user.ImageFile.SaveAs(fileName);
 
                     CreateRequest(user.Id,model.UserRoles);
-                   
+                    if(!user.Validated)
+                    {
+                        return RedirectToAction("Home", "Home");
+                    }
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
