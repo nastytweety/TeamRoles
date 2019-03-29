@@ -5,7 +5,7 @@
 
 
 <div class="container">
-
+    
     <div class="row">
 
         <div class="col-md-4 col-lg-4">
@@ -63,24 +63,25 @@
             </table>
         </div>
     </div>
+
     <div class="row">
 
         <div class="col-md-4 col-lg-4">
             @if (User.IsInRole("Teacher"))
             {
-                @*@Html.Partial("_CreateAssiment", new {Assignment (Model.CourseName) })*@
+                @Html.Partial("_CreateAssignments" , new ViewDataDictionary<Assignment>() { { "CourseId", Model.CourseId } })
 
                 @Html.ActionLink("Create Assignment", "CreateAssignment", "Assignments", new { courseId = Model.CourseId }, null)
                 @Html.ActionLink("Create Lecture", "Create", "Lectures", new { courseid = Model.CourseId }, null)
                 @Html.ActionLink("View Grades", "CourseGrades", "Courses", new { coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)
 
             }
-            @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { courseid = Model.CourseId }, null)
+                @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { courseid = Model.CourseId }, null)
             @Html.ActionLink("View Lectures", "ListLectures", "Lectures", new { courseid = Model.CourseId }, null)
         </div>
 
-        </div>
     </div>
 </div>
+
     <a href="/Courses/Index">Back to List</a>
 

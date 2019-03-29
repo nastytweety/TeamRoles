@@ -21,7 +21,7 @@
             @Html.DisplayNameFor(model => model.CoursePic)
         </dt>
         <dd>
-            <img src="~/Users/@Model.TeacherName/@Model.CourseName/@Url.Content(Model.CoursePic)" width="100" height="100" />
+            <img src="~/Users/@Model.Teacher.UserName/@Model.CourseName/@Url.Content(Model.CoursePic)" width="100" height="100" />
         </dd>
     </dl>
 </div>

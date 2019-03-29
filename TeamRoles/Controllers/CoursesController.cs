@@ -33,6 +33,7 @@ namespace TeamRoles.Controllers
 
             List<Course> Courses = new List<Course>();
             Courses = student.Courses.ToList();
+
             return View(Courses);
         }
 
@@ -201,9 +202,8 @@ namespace TeamRoles.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CourseId,CourseName,CourseDescription,ImageFile")] Course course, HttpPostedFileBase ImageFile)
         {
-
-            if (ModelState.IsValid)
-            {
+            if(course.CourseId!=0)
+            { 
                     Course coursetoupdate = db.Courses.Find(course.CourseId);
 
                     if (course.ImageFile != null)
@@ -243,32 +243,16 @@ namespace TeamRoles.Controllers
             }
         }
         
-
-        // GET: Courses/Delete/5
-        public ActionResult Delete(int? id)
+        
+        public ActionResult Delete(int id)
         {
-
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Course course = db.Courses.Find(id);
-                if (course == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(course);
+            Course course = db.Courses.Find(id);
+            ApplicationUser teacher = course.Teacher;
+            if (course == null)
+            {
+                return HttpNotFound();
             }
-
-        // POST: Courses/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-                Course course = db.Courses.Find(id);
-                ApplicationUser teacher = course.Teacher;
-
-                try
+            try
                 {
                     var path = teacher.Path + "\\" + course.CourseName;
                     Directory.Delete(path.ToString(), true);

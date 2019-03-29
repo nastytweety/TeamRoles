@@ -6,13 +6,24 @@
     <div class="row margin-top-15">
         <div class="col-md-4"></div>
         <div class="col-md-4 align-content-center well">
-            
+
             <section id="loginForm">
-                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new {role = "form" }))
+
+                @*<div class="alert alert-danger" id="Alert" role="alert" style=" display:none">
+                    <h4 class="alert-heading"> Wait...! </h4>
+                    <p> Your Request had been send to Admin. You have to wait until Admin Accept you ... </p>
+                </div>*@
+
+
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
                 {
                     @Html.AntiForgeryToken()
+
+
+
                     <h5>Use a local account to log in.</h5>
                     <hr />
+
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
                         @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
@@ -38,31 +49,46 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-8">
-                            <input type="submit" value="Log in" class="btn btn-primary" />
+                            <input type="submit" value="Log in" class="btn btn-primary"/>
                         </div>
                     </div>
 
                     <p>
                         @Html.ActionLink("Register as a new user", "Register")
                     </p>
-
-                    @* Enable this once you have account confirmation enabled for password reset functionality
-                <p>
-                    @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                </p>*@
                 }
             </section>
         </div>
         <div class="col-md-4"></div>
-        
+
 
         @*<div class="col-md-4">
-            <section id="socialLoginForm">
-                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-            </section>
-        </div>*@
+                <section id="socialLoginForm">
+                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                </section>
+            </div>*@
     </div>
 </div>
+
+
+
+
+@*<script type="text/javascript">
+    
+    document.getElementById("btnClick").onclick = function() {
+        document.getElementById("Alert").style.display = "block";
+    }
+
+    function myFunction() {
+        var x = document.getElementById("myDIV");
+        if (@Model.Validated === true ) {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+</script>*@
 
 
 @section Scripts {

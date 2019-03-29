@@ -591,9 +591,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Courses\Create.cshtml" />
-    <Content Include="Views\Courses\Delete.cshtml" />
     <Content Include="Views\Courses\Details.cshtml" />
-    <Content Include="Views\Courses\Edit.cshtml" />
     <Content Include="Views\Courses\Index.cshtml" />
     <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\Student\Index.cshtml" />
@@ -655,12 +653,11 @@
     <Content Include="Views\Lectures\Error.cshtml" />
     <Content Include="Views\Lectures\ListLectures.cshtml" />
     <Content Include="Views\Lectures\Delete.cshtml" />
-
     <Content Include="Views\Courses\_Create.cshtml" />
     <Content Include="Views\Courses\_Edit.cshtml" />
-
     <Content Include="Views\Student\Error.cshtml" />
-
+    <Content Include="Views\Assignments\_CreateAssignment.cshtml" />
+    <Content Include="Views\Courses\_CreateAssignments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
