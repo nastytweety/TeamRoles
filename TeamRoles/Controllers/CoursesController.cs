@@ -24,6 +24,7 @@ namespace TeamRoles.Controllers
         {
             db = new ApplicationDbContext();
         }
+
         public ActionResult Index()
         {
             ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
@@ -48,10 +49,10 @@ namespace TeamRoles.Controllers
         public ActionResult Index_Selected()
         {
             ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
-
-            CourseViewModel model = new CourseViewModel();
-            List<Course> Courses = new List<Course>();
-            model.Courses = student.Enrollments.Select(e => e.Course).ToList();
+            var model = new CourseViewModel
+            {
+                Courses = student.Enrollments.Select(e => e.Course).ToList()
+            };
             return View(model);
         }
 
@@ -59,14 +60,8 @@ namespace TeamRoles.Controllers
         {
             if(id!=null)
             {
-                ApplicationUser teacher = db.Users.Find(id);
-                TeacherViewModel model = new TeacherViewModel();
-                UserRepository repository = new UserRepository();
-
-                model.Teacher = teacher;
-                model.Courses = teacher.Courses.ToList();
-                model.TotalLessons = teacher.Courses.Count();
-                model.TotalStudents = repository.GetTotalStudents(teacher);
+                CoursesRepository repository = new CoursesRepository();
+                TeacherViewModel model = repository.FillTheTeacherViewModel(id);
                 return View(model);
             }
             else
@@ -150,25 +145,9 @@ namespace TeamRoles.Controllers
             if (id != null)
             {
                 Course course = db.Courses.Find(id);
-                ApplicationUser teacher = course.Teacher;
                 ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
-
-                GenericRequest req = new GenericRequest();
-                req.User1id = teacher.Id;
-                req.User2id = student.Id;
-                req.Courseid = course.CourseId;
-                req.Type = "JoinCourse";
-                req.ApplicationUser = teacher;
-                teacher.Requests.Add(req);
-                try
-                {
-                    db.Requests.Add(req);
-                    db.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
+                CoursesRepository repository = new CoursesRepository();
+                repository.CreateJoinRequest(student, course);
                 return RedirectToAction("RequestSent", "Courses");
             }
             else
@@ -197,7 +176,7 @@ namespace TeamRoles.Controllers
         public ActionResult Edit([Bind(Include = "CourseId,CourseName,CourseDescription,ImageFile")] Course course, HttpPostedFileBase ImageFile)
         {
 
-            if (ModelState.IsValid)
+            if (course.CourseId!=0) 
             {
                     Course coursetoupdate = db.Courses.Find(course.CourseId);
 
@@ -260,23 +239,23 @@ namespace TeamRoles.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-                Course course = db.Courses.Find(id);
-                ApplicationUser teacher = course.Teacher;
-
-                try
-                {
-                    var path = teacher.Path + "\\" + course.CourseName;
-                    Directory.Delete(path.ToString(), true);
-                    RemoveAssignments(course);
-                    RemoveLectures(course);
-                    db.Courses.Remove(course);
-                    db.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-                return RedirectToAction("Index");
+            Course course = db.Courses.Find(id);
+            ApplicationUser teacher = course.Teacher;
+            CoursesRepository repository = new CoursesRepository();
+            try
+            {
+                var path = teacher.Path + "\\" + course.CourseName;
+                Directory.Delete(path.ToString(), true);
+                repository.RemoveAssignments(course);
+                repository.RemoveLectures(course);
+                db.Courses.Remove(course);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return RedirectToAction("Index");
         }
         
 
@@ -299,62 +278,14 @@ namespace TeamRoles.Controllers
             return RedirectToAction("Index");
         }
 
-        public void RemoveAssignments(Course course)
-        {
-            List<Assignment> listofassignments = new List<Assignment>();
-            listofassignments = db.Assignments.Where(c => c.Course.CourseId == course.CourseId).ToList();
-            foreach (var assignment in listofassignments)
-            {
-
-                try
-                {
-                    db.Assignments.Remove(assignment);
-                    db.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-            }
-        }
-
-        public void RemoveLectures(Course course)
-        {
-            List<Lecture> listoflectures = new List<Lecture>();
-            listoflectures = db.Lectures.Where(c => c.Course.CourseId == course.CourseId).ToList();
-            foreach (var lecture in listoflectures)
-            {
-                try
-                {
-                    db.Lectures.Remove(lecture);
-                    db.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-            }
-        }
-
         public ActionResult StudentRemoveCourse(int? id)
         {
             if(id!=null)
             {
-                    ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
-                    Course course = db.Courses.Find(id);
-                    student.Courses.Remove(course);
-                    try
-                    {
-                        db.Entry(student).State = EntityState.Modified;
-                        db.SaveChanges();
-                        var path = student.Path + "\\" + course.CourseName;
-                        Directory.Delete(path.ToString(), true);
-                    }
-                    catch (Exception e)
-                    {
-                        throw e;
-                    }
-                    return RedirectToAction("Index_Selected");
+                ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
+                CoursesRepository repository = new CoursesRepository();
+                repository.RemoveCourse(id, student);
+                return RedirectToAction("Index_Selected");
             }
             else
             {

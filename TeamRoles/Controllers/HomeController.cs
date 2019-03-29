@@ -28,8 +28,9 @@ namespace TeamRoles.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Home()
+        public ActionResult Home(bool? validated)
         {
+            ViewBag.Validated = validated;
             return View();
         }
 

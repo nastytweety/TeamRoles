@@ -119,7 +119,7 @@
                 </li>
             }
         </ul>
-        <span>
+        <div class="pull-right">
             @if (Request.IsAuthenticated)
             {
                 using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-nav mr-auto"}))
@@ -136,7 +136,7 @@
                     <a class="nav-link" href="/Account/Login"> Log in </a>
                 </div>
             }
-        </span>
+        </div>
     </div>
 </nav>
 
