@@ -8,6 +8,13 @@ namespace TeamRoles.Repositories
 {
     public class UserRepository
     {
+        private ApplicationDbContext db;
+
+        public UserRepository()
+        {
+            db = new ApplicationDbContext();
+        }
+
         /// <summary>
         /// Gets the Distinct number of students that follow a teacher in his courses
         /// </summary>

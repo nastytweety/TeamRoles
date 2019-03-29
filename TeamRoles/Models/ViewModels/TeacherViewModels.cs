@@ -5,10 +5,17 @@ using System.Web;
 
 namespace TeamRoles.Models
 {
-    public class SetGrade
+    public class TeacherViewModel
     {
-        public Course course { get; set; }
-        public List<ApplicationUser> students { get; set; }
-        public List<double> grades { get; set; }
+        public TeacherViewModel()
+        {
+            this.Courses = new List<Course>();
+            this.TotalLessons = 0;
+            this.TotalStudents = 0;
+        }
+        public List<Course> Courses { get; set; }
+        public ApplicationUser Teacher { get; set; }
+        public int TotalLessons { get; set; }
+        public int TotalStudents { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TeamRoles.Models;
+using TeamRoles.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.IO;
@@ -25,10 +26,7 @@ namespace TeamRoles.Controllers
         }
         public ActionResult Index()
         {
-            ApplicationUser student = System.Web.HttpContext.Current.GetOwinContext()
-                .GetUserManager<ApplicationUserManager>()
-                .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-
+            ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
             List<Course> Courses = new List<Course>();
             Courses = student.Courses.ToList();
             return View(Courses);
@@ -49,9 +47,7 @@ namespace TeamRoles.Controllers
 
         public ActionResult Index_Selected()
         {
-            ApplicationUser student = System.Web.HttpContext.Current.GetOwinContext()
-                .GetUserManager<ApplicationUserManager>()
-                .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
 
             CourseViewModel model = new CourseViewModel();
             List<Course> Courses = new List<Course>();
@@ -61,28 +57,22 @@ namespace TeamRoles.Controllers
 
         public ActionResult Index_ToSelect(string id)
         {
+            if(id!=null)
+            {
                 ApplicationUser teacher = db.Users.Find(id);
-                ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
-                List<Course> TeacherCourses = teacher.Courses.ToList();
-                List<Course> StudentCourses = student.Enrollments.Select(e => e.Course).ToList();
-                List<Course> Courses = new List<Course>();
-                bool found = false;
-                foreach (var tcourse in TeacherCourses)
-                {
-                    foreach (var scourse in StudentCourses)
-                    {
-                        if (tcourse.CourseId == scourse.CourseId)
-                        {
-                            found = true;
-                        }
-                    }
-                    if (found == false)
-                    {
-                        Courses.Add(tcourse);
-                    }
-                    found = false;
-                }
-                return View(Courses);
+                TeacherViewModel model = new TeacherViewModel();
+                UserRepository repository = new UserRepository();
+
+                model.Teacher = teacher;
+                model.Courses = teacher.Courses.ToList();
+                model.TotalLessons = teacher.Courses.Count();
+                model.TotalStudents = repository.GetTotalStudents(teacher);
+                return View(model);
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
         }
 
         // GET: Courses/Details/5

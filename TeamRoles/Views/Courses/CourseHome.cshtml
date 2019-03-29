@@ -10,7 +10,7 @@
 
         <div class="col-md-4 col-lg-4">
             <div class="card">
-                <img alt="Card image cap" id="testing" class="card-img-top img-fluid" img src="~/Users/@Model.Teacher.UserName/@Model.CourseName/@Url.Content(Model.CoursePic)"/>
+                <img alt="Card image cap" id="testing" class="card-img-top img-fluid" img src="~/Users/@Model.Teacher.UserName/@Model.CourseName/@Url.Content(Model.CoursePic)" />
                 <div class="card-block">
                     <h4 class="card-title"> @Model.CourseName </h4>
 
@@ -79,8 +79,16 @@
             @Html.ActionLink("View Lectures", "ListLectures", "Lectures", new { courseid = Model.CourseId }, null)
         </div>
 
-        </div>
     </div>
 </div>
-    <a href="/Courses/Index">Back to List</a>
+</div>
+@if (User.IsInRole("Teacher"))
+{
+    @Html.ActionLink("Back To Courses", "Index", "Courses")
+}
+else if (User.IsInRole("Student"))
+{
+    @Html.ActionLink("Back To MyCourses", "Index_Selected", "Courses")
+}
+
 
