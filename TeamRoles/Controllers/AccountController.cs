@@ -83,7 +83,7 @@ namespace TeamRoles.Controllers
             var user = db.Users.Where(u=>u.UserName==model.UserName).SingleOrDefault();
             if (user!=null&&!user.Validated)
             {
-                return RedirectToAction("Home", "Home");
+                return RedirectToAction("Home", "Home", new { validated = false });
             }
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)

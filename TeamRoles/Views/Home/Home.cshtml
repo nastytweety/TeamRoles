@@ -4,6 +4,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+    @if (ViewBag.Validated == false)
+    {
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display = 'none';">&times;</span>
+            You are not validated yet!Please login once you have been validated by admin!
+        </div>
+
+    }
 
 <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-ride="carousel">
     <ol class="carousel-indicators">

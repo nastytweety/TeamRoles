@@ -53,7 +53,7 @@
             else if (User.IsInRole("Teacher"))
             {
                 <li class="nav-item">
-                    <a class="nav-link" href="/Courses/Index">Courses</a>
+                    <a class="nav-link" href="/Courses/Index">MyCourses</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/Home/Requests">Requests</a>
@@ -69,6 +69,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/Courses/Index_Selected">My Courses</a>
+
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/Home/Requests">Requests</a>
@@ -96,7 +97,7 @@
                     <a class="nav-link" href="/Home/Requests">Requests</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Chat/Index">Chat2</a>
+                    <a class="nav-link" href="/Chat/Index">Chat</a>
                 </li>
             }
             else if (User.IsInRole("Parent"))
@@ -111,11 +112,11 @@
                     <a class="nav-link" href="/Home/Requests">Requests Sent</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Chat/Index">Chat2</a>
+                    <a class="nav-link" href="/Chat/Index">Chat</a>
                 </li>
             }
         </ul>
-        <span>
+        <div class="pull-right">
             @if (Request.IsAuthenticated)
             {
                 using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-nav mr-auto"}))
@@ -132,7 +133,7 @@
                     <a class="nav-link" href="/Account/Login"> Log in </a>
                 </div>
             }
-        </span>
+        </div>
     </div>
 </nav>
 

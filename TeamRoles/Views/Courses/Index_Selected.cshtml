@@ -6,13 +6,17 @@
 
     <div class="row" style="background: darkgray">
         <div class="col-md-3">
-            <p> Course Name </p></div>
+            <p> Course Name </p>
+        </div>
         <div class="col-md-3">
-            <p> Teacher </p></div>
+            <p> Teacher </p>
+        </div>
         <div class="col-md-3">
-            <p> Grade </p></div>
+            <p> Grade </p>
+        </div>
         <div class="col-md-3">
-            <p> Options </p></div>
+            <p> Options </p>
+        </div>
     </div>
 
     <div class="row">
@@ -26,14 +30,22 @@
                 <p> @item.Teacher.UserName </p>
             </div>
             <div class="col-md-3">
-                <p> @item.Enrollments.FirstOrDefault(c => c.CourseId == item.CourseId).Grade </p>
+                @if (item.Enrollments.FirstOrDefault(c => c.CourseId == item.CourseId).Grade != -1)
+                {
+                    <p> @item.Enrollments.FirstOrDefault(c => c.CourseId == item.CourseId).Grade </p>
+                }
+                else
+                {
+                    <p>Not Set</p>
+                }
             </div>
             <div class="col-md-3">
-                @Html.ActionLink("Details", "CourseHome", new {id = item.CourseId}) |
-                @Html.ActionLink("Delete", "StudentRemoveCourse", new {id = item.CourseId})
+                @Html.ActionLink("Details", "CourseHome", new { id = item.CourseId }) |
+                @Html.ActionLink("Delete", "StudentRemoveCourse", new { id = item.CourseId })
             </div>
         }
     </div>
+    @Html.ActionLink("Back To Home", "Index","Home")
 </div>
 
 @*<table class="table">
