@@ -217,30 +217,20 @@ namespace TeamRoles.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
-        
-        
-        public ActionResult Delete(int id)
+
+        public ActionResult Delete(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             Course course = db.Courses.Find(id);
-            ApplicationUser teacher = course.Teacher;
             if (course == null)
             {
                 return HttpNotFound();
             }
-            try
-                {
-                    var path = teacher.Path + "\\" + course.CourseName;
-                    Directory.Delete(path.ToString(), true);
-                    RemoveAssignments(course);
-                    RemoveLectures(course);
-                    db.Courses.Remove(course);
-                    db.SaveChanges();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-                return RedirectToAction("Index");
+            return View(course);
+        }
 
 
         // POST: Courses/Delete/5
