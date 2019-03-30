@@ -1,8 +1,7 @@
 ﻿@model TeamRoles.Models.Course
 
 <!-- Button trigger modal -->
-    
-<a href="#" data-target="#Edit" data-toggle="modal"> <i class="fas fa-edit fa-2x"></i></a>
+<a href="" data-target="#Edit" data-toggle="modal"><i class="fas fa-edit fa-2x"></i></a>
 
 @*<button type="button" class="fas fa-edit fa-2x" data-toggle="modal" data-target="#Edit"></button>*@
 
@@ -11,7 +10,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
-            <div class="modal-header">
+            <div class="modal-header text-center">
                 <h5 class="modal-title" id="exampleModalLabel"> Edit This Course </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -37,14 +36,14 @@
 
                         <div class="form-group">
 
-                            @Html.LabelFor(model => model.CourseDescription, htmlAttributes: new {})
+                            <h5> @Html.LabelFor(model => model.CourseDescription, htmlAttributes: new { }) </h5>
 
                             <div class="col-md-12">
                                 @Html.EditorFor(model => model.CourseDescription, new { htmlAttributes = new {} })
                                 @Html.ValidationMessageFor(model => model.CourseDescription, "", new { @class = "text-danger" })
                             </div>
 
-                            @Html.LabelFor(model => model.CoursePic, htmlAttributes: new {})
+                            <h5> @Html.LabelFor(model => model.CoursePic, htmlAttributes: new { }) </h5>
                             <div class="col-md-12">
                                 @Html.HiddenFor(model => model.CoursePic)
                                 <input type="file" name="ImageFile" />

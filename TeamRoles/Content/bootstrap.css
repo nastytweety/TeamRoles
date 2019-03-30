@@ -9762,7 +9762,7 @@ button.bg-dark:focus {
 
 .text-center {
     vertical-align: middle;
-    text-align: center !important;
+    text-align: center;
 }
 
 @media (min-width: 576px) {
