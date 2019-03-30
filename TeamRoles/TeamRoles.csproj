@@ -591,10 +591,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Courses\Create.cshtml" />
-    <Content Include="Views\Courses\Delete.cshtml" />
     <Content Include="Views\Courses\Details.cshtml" />
-    <Content Include="Views\Courses\Edit.cshtml" />
     <Content Include="Views\Courses\Index.cshtml" />
     <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\Student\Index.cshtml" />
@@ -630,7 +627,7 @@
     <Content Include="Views\Home\AdminRoleRequests.cshtml" />
     <Content Include="Views\Teacher\SetGrades.cshtml" />
     <Content Include="Views\Student\Student_Index_ToSelect.cshtml" />
-    <Content Include="Views\Assignments\CreateAssignment.cshtml" />
+    <Content Include="Views\Assignments\!CreateAssignment.cshtml" />
     <Content Include="Views\Assignments\Error.cshtml" />
     <Content Include="Views\Assignments\ListAssignments.cshtml" />
     <Content Include="Users\nikos\Math100\1489058_SOR.pdf" />
@@ -659,6 +656,8 @@
     <Content Include="Views\Courses\_Create.cshtml" />
     <Content Include="Views\Courses\_Edit.cshtml" />
     <Content Include="Views\Student\Error.cshtml" />
+    <Content Include="Views\Courses\_CreateAssignments.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

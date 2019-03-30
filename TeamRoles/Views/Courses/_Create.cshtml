@@ -1,67 +1,63 @@
 ﻿@model TeamRoles.Models.Course
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Create
+<button type="button" class="btn btn-primary" style="justify-content: center" data-toggle="modal" data-target="#CreateCourse"><i class="fas fa-plus fa-2x"></i>
+    Create a Course
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="CreateCourse" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create your Course</h5>
+
+            <div class="modal-header text-center">
+                <h5 class="modal-title" id="exampleModalLabel"> Create your Course </h5>
+
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @using (Html.BeginForm("Create", "Courses", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+            @using (Html.BeginForm("Create", "Courses", FormMethod.Post, new {enctype = "multipart/form-data"}))
             {
                 <div class="modal-body">
-
 
                     @Html.AntiForgeryToken()
 
                     <div class="form-horizontal">
-                        <h4>Course</h4>
-                        <hr />
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                       
+                        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
                         <div class="form-group">
-                            @Html.LabelFor(model => model.CourseName, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.CourseName, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.CourseName, "", new { @class = "text-danger" })
-                            </div>
-                            @Html.LabelFor(model => model.CourseDescription, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.CourseDescription, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.CourseDescription, "", new { @class = "text-danger" })
+
+                            <h5> @Html.LabelFor(model => model.CourseName, htmlAttributes: new { }) </h5>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.CourseName, new {htmlAttributes = new {}})
+                                @Html.ValidationMessageFor(model => model.CourseName, "", new {@class = "text-danger"})
                             </div>
 
-                            @Html.LabelFor(model => model.CoursePic, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                <input type="file" name="ImageFile" required />
-                                @Html.ValidationMessageFor(model => model.CoursePic, "", new { @class = "text-danger" })
+                            <h5>@Html.LabelFor(model => model.CourseDescription, htmlAttributes: new { @class = "control-label" })</h5>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.CourseDescription, new {htmlAttributes = new {}})
+                                @Html.ValidationMessageFor(model => model.CourseDescription, "", new {@class = "text-danger"})
+                            </div>
+
+                            <h5>@Html.LabelFor(model => model.CoursePic, htmlAttributes: new { @class = "control-label" })</h5>
+                            <div class="col-md-12">
+                                <input type="file" name="ImageFile" required/>
+                                @Html.ValidationMessageFor(model => model.CoursePic, "", new {@class = "text-danger"})
                             </div>
 
                         </div>
 
-                        @*
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Create" class="btn btn-primary"/>
-                        </div>
-                    </div>*@
                     </div>
-                    
+
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" value="Create" class="btn btn-primary"/>
                 </div>
             }
-
         </div>
     </div>
 </div>

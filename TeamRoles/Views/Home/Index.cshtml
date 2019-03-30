@@ -8,7 +8,144 @@
 
 <div class="container">
 
-    <div class="row ">
+    <div class="row" style=" padding-top: 19px">
+
+        <div class="col-md-12">
+
+            <div class="row">
+
+                <div class="col-md-4 text-center">
+
+                    <img src="~/Users/@User.Identity.GetUserName()/@Url.Content(User.Identity.GetUrlPicture())" class="img-thumbnail">
+
+                    <h3>
+                        @User.Identity.GetUserName()
+                    </h3>
+
+                    @if (User.IsInRole("Teacher"))
+                    {
+                        <h5>Teacher</h5>
+                    }
+                    else if (User.IsInRole("Student"))
+                    {
+                        <h5>Student</h5>
+                    }
+                    else if (User.IsInRole("Parent"))
+                    {
+                        <h5>Parent</h5>
+                    }
+                    else
+                    {
+                        <h5>Admin</h5>
+                    }
+                </div>
+
+                <div class="col-md-8">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            @using (Html.BeginForm("Create", "Posts", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="form-horizontal">
+
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group purple-border">
+
+                                        <textarea class="form-control purple-border" id="PostText" style="min-width: 100%" name="PostText" type="text" placeholder="Write something here..." rows="5"></textarea>
+                                        <input type="hidden" id="UserID" name="UserID" value='@User.Identity.GetUserId()' />
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <div class="text-right">
+                                            <input type="submit" value="Post" class="btn btn-primary" />
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    @foreach (var post in Model)
+                    {
+                        <div class="row text-center">
+                            <div class="col-md-12">
+                                <div class="row">
+
+                                    <div class="col-md-2">
+                                        <img class="mr-3 img-circle" src="~/Users/@post.ApplicationUser.UserName/@Url.Content(post.ApplicationUser.ProfilePic)" height="50" width="50">
+
+                                        <p> @post.ApplicationUser.UserName </p>
+
+                                    </div>
+
+                                    <div class="col-md-8">
+
+                                        <small> @post.PostDate </small>
+
+                                        <p style="font-family: sans-serif">@post.PostText</p>
+                                    </div>
+
+                                    <div col-md-2>
+                                        @if (post.ApplicationUser.UserName == User.Identity.GetUserName() || User.IsInRole("Admin") == true)
+                                        {
+                                            @Html.ActionLink(" ", "Edit", "Posts", new {id = post.PostId}, new {@class = "fas fa-pen-fancy"})
+
+                                            @Html.ActionLink(" ", "Delete", "Posts", new {id = post.PostId}, new {@class = "fas fa-eraser"})
+
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     }
+                                @*<div class="row">
+                                    <div class="col-md-12">
+
+                                        <table class="table table-striped well text-center">
+                                            <tbody>
+                                            @foreach (var post in Model)
+                                            {
+                                                <tr class="table-active">
+                                                    <td>
+                                                        <img class="mr-3 img-circle" src="~/Users/@post.ApplicationUser.UserName/@Url.Content(post.ApplicationUser.ProfilePic)" height="75" width="75">
+                                                    </td>
+                                                    <td>
+                                                        @post.ApplicationUser.UserName
+                                                        <small> @post.PostDate </small>
+                                                    </td>
+                                                    $1$<td>
+                                    @post.PostDate
+                                </td>#1#
+                                                    <td>
+                                                        <p style="font-family: sans-serif">@post.PostText</p>
+                                                    </td>
+
+                                                    @if (post.ApplicationUser.UserName == User.Identity.GetUserName() || User.IsInRole("Admin") == true)
+                                                    {
+                                                        <td>
+                                                            @Html.ActionLink("Edit", "Edit", "Posts", new {id = post.PostId}, null)
+                                                        </td>
+                                                        <td>
+                                                            @Html.ActionLink("Delete", "Delete", "Posts", new {id = post.PostId}, null)
+                                                        </td>
+                                                    }
+
+
+                                                </tr>
+                                            }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    @*<div class="row ">
 
         <div class="col-md-4 col-lg-4">
 
@@ -45,7 +182,6 @@
                     </div>
                 </div>
             }
-
 
         </div>
 
@@ -86,12 +222,13 @@
                 }
             }
         </div>
-    </div>
-</div>
+    </div>*@
+
 
 
     
 
+    @*
     <!DOCTYPE html>
     <html>
     <head>
@@ -247,3 +384,4 @@
         }
     </body>
 </html>
+*@

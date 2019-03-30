@@ -95,6 +95,7 @@ namespace TeamRoles.Controllers
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
+
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
@@ -182,10 +183,12 @@ namespace TeamRoles.Controllers
                     user.ImageFile.SaveAs(fileName);
 
                     CreateRequest(user.Id,model.UserRoles);
+
                     if(!user.Validated)
                     {
                         return RedirectToAction("Home", "Home");
                     }
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -196,6 +199,7 @@ namespace TeamRoles.Controllers
                    
                     return RedirectToAction("Index", "Home");
                 }
+
                 ViewBag.Name = new SelectList(db.Roles.Where(u => !u.Name.Contains("Admin"))
                           .ToList(), "Name", "Name");
                 AddErrors(result);

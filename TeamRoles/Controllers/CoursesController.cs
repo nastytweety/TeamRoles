@@ -30,6 +30,7 @@ namespace TeamRoles.Controllers
             ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
             List<Course> Courses = new List<Course>();
             Courses = student.Courses.ToList();
+
             return View(Courses);
         }
 
@@ -175,9 +176,9 @@ namespace TeamRoles.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CourseId,CourseName,CourseDescription,ImageFile")] Course course, HttpPostedFileBase ImageFile)
         {
+            if(course.CourseId!=0)
+            { 
 
-            if (course.CourseId!=0) 
-            {
                     Course coursetoupdate = db.Courses.Find(course.CourseId);
 
                     if (course.ImageFile != null)
@@ -217,22 +218,30 @@ namespace TeamRoles.Controllers
             }
         }
         
-
-        // GET: Courses/Delete/5
-        public ActionResult Delete(int? id)
+        
+        public ActionResult Delete(int id)
         {
-
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Course course = db.Courses.Find(id);
-                if (course == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(course);
+            Course course = db.Courses.Find(id);
+            ApplicationUser teacher = course.Teacher;
+            if (course == null)
+            {
+                return HttpNotFound();
             }
+            try
+                {
+                    var path = teacher.Path + "\\" + course.CourseName;
+                    Directory.Delete(path.ToString(), true);
+                    RemoveAssignments(course);
+                    RemoveLectures(course);
+                    db.Courses.Remove(course);
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                return RedirectToAction("Index");
+
 
         // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]

@@ -30,11 +30,11 @@ namespace TeamRoles.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult CreateAssignment(Assignment assignment)
+        public ActionResult CreateAssignment(Assignment assignment,int CourseId)
         {
-            if(!CheckIfAssignmentExists(assignment))
+            if(!CheckIfAssignmentExists(assignment,CourseId))
             {
-                Course course = db.Courses.Where(c => c.CourseId == assignment.Course.CourseId).SingleOrDefault();
+                Course course = db.Courses.Where(c => c.CourseId == CourseId).SingleOrDefault();
                 ApplicationUser teacher = db.Users.Find(course.Teacher.Id);
                 List<Assignment> assignments = course.Assignments.ToList();
 
@@ -57,17 +57,17 @@ namespace TeamRoles.Controllers
             }
         }
 
-        public ActionResult CreateAssignment(int courseid)
+        /*public ActionResult CreateAssignment(int courseid)
         {
             Assignment assignment = new Assignment();
             assignment.Course.CourseId = courseid;
             return View(assignment);
-        }
+        }*/
 
-        public bool CheckIfAssignmentExists(Assignment assignment)
+        public bool CheckIfAssignmentExists(Assignment assignment,int CourseId)
         {
             ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
-            Course course = db.Courses.Where(c => c.CourseId == assignment.Course.CourseId).SingleOrDefault();
+            Course course = db.Courses.Where(c => c.CourseId == CourseId).SingleOrDefault();
             List<Assignment> assignments = course.Assignments.ToList();
             foreach (var a in assignments)
             {
