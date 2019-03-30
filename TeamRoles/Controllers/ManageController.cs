@@ -361,19 +361,29 @@ namespace TeamRoles.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ApplicationUser applicationUser, HttpPostedFileBase ImageFile)
         {
-            if (ImageFile != null)
+            if(applicationUser!=null)
             {
-                applicationUser.ProfilePic = Path.GetFileName(applicationUser.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Users/" + applicationUser.UserName + "/"), applicationUser.ProfilePic);
-                applicationUser.ImageFile.SaveAs(fileName);
+                ApplicationUser tobeupdated = db.Users.Find(applicationUser.Id);
+                if (ImageFile != null)
+                {
+                    tobeupdated.ProfilePic = Path.GetFileName(applicationUser.ImageFile.FileName);
+                    string fileName = Path.Combine(Server.MapPath("~/Users/" + applicationUser.UserName + "/"), applicationUser.ProfilePic);
+                    applicationUser.ImageFile.SaveAs(fileName);
+                }
+                tobeupdated.BirthDay = applicationUser.BirthDay;
+
+                try
+                {
+                    db.Entry(tobeupdated).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
             }
 
-            if (ModelState.IsValid)
-            {
-                db.Entry(applicationUser).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
             return View(applicationUser);
         }
         #region Helpers

@@ -82,7 +82,7 @@
                     if (student.Enrollments.Count() != 0)
                     {
                         <tr class="table-active">
-                            <td><img class="img-circle" src="~/Users/@student.Enrollments.First().User.UserName/@Url.Content(student.CoursePic)" height="40" width="40"/></td>
+                            <td><img class="img-circle" src="~/Users/@student.Enrollments.First().User.UserName/@Url.Content(student.Enrollments.First().User.ProfilePic)" height="40" width="40"/></td>
                             <td>@student.Enrollments.First().User.UserName</td>
                             <td>@student.Enrollments.Count()</td>
 
