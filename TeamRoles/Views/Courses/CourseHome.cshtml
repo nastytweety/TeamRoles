@@ -77,21 +77,21 @@
                 </thead>
 
                 <tbody>
-                @foreach (var student in Model.Courses)
+                @foreach (var enrol in Model.Enrollments)
                 {
-                    if (student.Enrollments.Count() != 0)
+                    if (Model.Enrollments.Count() != 0)
                     {
                         <tr class="table-active">
-                            <td><img class="img-circle" src="~/Users/@student.Enrollments.First().User.UserName/@Url.Content(student.Enrollments.First().User.ProfilePic)" height="40" width="40"/></td>
-                            <td>@student.Enrollments.First().User.UserName</td>
-                            <td>@student.Enrollments.Count()</td>
+                            <td><img class="img-circle" src="~/Users/@enrol.User.UserName/@Url.Content(enrol.User.ProfilePic)" height="40" width="40"/></td>
+                            <td>@enrol.User.UserName</td>
+                            <td>@enrol.User.Enrollments.Count()</td>
 
                             @if (User.IsInRole("Teacher"))
                             {
                                 <td>
-                                    @Html.ActionLink("Details", "Details", "Student", new {id = student.Enrollments.First().User.Id}, null) |
-                                    @Html.ActionLink("Delete", "RemoveFromCourse", "Student", new {id = student.Enrollments.First().User.Id, coursename = Model.CourseName}, null)|
-                                    @Html.ActionLink("Set Grade", "SetGrades", "Teacher", new {id = student.Enrollments.First().User.Id, coursename = Model.CourseName, teacherid = Model.Teacher.Id}, null)
+                                    @Html.ActionLink("Details", "Details", "Student", new {id = enrol.User.Id}, null) |
+                                    @Html.ActionLink("Delete", "RemoveFromCourse", "Student", new {id = enrol.User.Id, coursename = Model.CourseName}, null)|
+                                    @Html.ActionLink("Set Grade", "SetGrades", "Teacher", new {id = enrol.User.Id, coursename = Model.CourseName, teacherid = Model.Teacher.Id}, null)
                                 </td>
                             }
                         </tr>

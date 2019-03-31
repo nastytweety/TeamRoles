@@ -80,14 +80,28 @@ namespace TeamRoles.Repositories
         /// </summary>
         /// <param name="id">the teacher id</param>
         /// <returns>the model</returns>
-        public TeacherViewModel FillTheTeacherViewModel(string id)
+        public TeacherViewModel FindAvailableCourses(string id, List<Course> selectedcourses)
         {
             TeacherViewModel model = new TeacherViewModel();
-            ApplicationUser teacher = db.Users.Find(id);
             UserRepository repository = new UserRepository();
 
+            ApplicationUser teacher = db.Users.Find(id);
+
+            List<Course> teachercourses = teacher.Courses.ToList();
+            List<Course> availabecourses = teacher.Courses.ToList();
+            //List<Course> availabecourses = teacher.Courses.Except(selectedcourses).ToList();
+            foreach (var scourse in selectedcourses)
+            {
+                foreach(var tcourse in teachercourses)
+                {
+                    if(tcourse.CourseId == scourse.CourseId)
+                    {
+                        availabecourses.Remove(tcourse);
+                    }
+                }
+            }
             model.Teacher = teacher;
-            model.Courses = teacher.Courses.ToList();
+            model.Courses = availabecourses;
             model.TotalLessons = teacher.Courses.Count();
             model.TotalStudents = repository.GetTotalStudents(teacher);
             return model;
@@ -98,9 +112,10 @@ namespace TeamRoles.Repositories
         /// </summary>
         /// <param name="student">the student</param>
         /// <param name="course">the course</param>
-        public void CreateJoinRequest(ApplicationUser student, Course course)
+        public void CreateJoinRequest(ApplicationUser pstudent, Course course)
         {
-            ApplicationUser teacher = course.Teacher;
+            ApplicationUser student = db.Users.Find(pstudent.Id);
+            ApplicationUser teacher = db.Users.Find(course.Teacher.Id);
             GenericRequest req = new GenericRequest();
             req.User1id = teacher.Id;
             req.User2id = student.Id;
@@ -119,20 +134,84 @@ namespace TeamRoles.Repositories
             }
         }
 
-        public void RemoveCourse(int? id,ApplicationUser student)
+        public void RemoveCourse(int? id,ApplicationUser pstudent)
         {
-            Course course = db.Courses.Find(id);
-            student.Courses.Remove(course);
-            try
+            if(id!=null && pstudent!=null)
             {
-                db.Entry(student).State = EntityState.Modified;
-                db.SaveChanges();
-                var path = student.Path + "\\" + course.CourseName;
-                Directory.Delete(path.ToString(), true);
+                ApplicationUser student = db.Users.Find(pstudent.Id);
+                Course course = db.Courses.Find(id);
+                Enrollment enrol = db.Enrollments.Where(e => e.CourseId == id).SingleOrDefault();
+                //student.Enrollments.Remove(enrol);
+                try
+                {
+                    //db.Entry(student).State = EntityState.Modified;
+                    db.Enrollments.Remove(enrol);
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
             }
-            catch (Exception e)
+        }
+
+        public void DeleteAllCourses(ApplicationUser teacher)
+        {
+            if(teacher!=null)
             {
-                throw e;
+                List<Course> courselist = db.Courses.Where(c => c.Teacher.Id == teacher.Id).ToList();
+                foreach (var course in courselist)
+                {
+                    try
+                    {
+                        db.Courses.Remove(course);
+                        db.SaveChanges();
+                    }
+                    catch(Exception e)
+                    {
+                        throw e;
+                    }
+                }
+            }
+        }
+
+        public void DeleteCoursesEnrollments(ApplicationUser student)
+        {
+            if (student != null)
+            {
+                List<Enrollment> enrollist = db.Enrollments.Where(c => c.UserId == student.Id).ToList();
+                foreach (var enrol in enrollist)
+                {
+                    try
+                    {
+                        db.Enrollments.Remove(enrol);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }
+            }
+        }
+
+        public void DeleteCoursesEnrollments(Course course)
+        {
+            if (course != null)
+            {
+                List<Enrollment> enrollist = db.Enrollments.Where(c => c.CourseId == course.CourseId).ToList();
+                foreach (var enrol in enrollist)
+                {
+                    try
+                    {
+                        db.Enrollments.Remove(enrol);
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }
             }
         }
     }

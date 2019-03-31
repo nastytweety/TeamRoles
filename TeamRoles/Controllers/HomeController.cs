@@ -200,11 +200,6 @@ namespace TeamRoles.Controllers
             return View();
         }
 
-        public ActionResult Chat2()
-        {
-            return View(db.Users.ToList());
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

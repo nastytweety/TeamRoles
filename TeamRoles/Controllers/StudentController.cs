@@ -10,9 +10,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin;
-using Owin;
 using TeamRoles.Models;
+using TeamRoles.Repositories;
 
 namespace TeamRoles.Controllers
 {
@@ -32,13 +31,15 @@ namespace TeamRoles.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            return View(FindStudent());
+            UserRepository repository = new UserRepository();
+            return View(repository.FindStudent());
         }
 
         [Authorize(Roles = "Parent")]
         public ActionResult Student_Index_ToSelect()
-        { ///omoios kwdikas me ton katw
-            List<ApplicationUser> list = FindStudent();
+        {
+            UserRepository repository = new UserRepository();
+            List<ApplicationUser> list = repository.FindStudent();
             ApplicationUser parent = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             List<Child> children = parent.Children.ToList();
             List<ApplicationUser> childrenlist = new List<ApplicationUser>();
@@ -78,7 +79,8 @@ namespace TeamRoles.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Admin_Index()
         {
-            return View(FindStudent());
+            UserRepository repository = new UserRepository();
+            return View(repository.FindStudent());
         }
 
         public ActionResult Details(string id)
@@ -115,14 +117,14 @@ namespace TeamRoles.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser applicationUser = db.Users.Find(id);
-            if (applicationUser == null)
+            ApplicationUser student = db.Users.Find(id);
+            if (student == null)
             {
                 return HttpNotFound();
             }
-            db.Users.Remove(applicationUser);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            UserRepository repository = new UserRepository();
+            repository.DeleteStudent(student);     
+            return RedirectToAction("Admin_Index");
         }
 
         public ActionResult RemoveFromCourse(string id, string coursename)
@@ -136,25 +138,10 @@ namespace TeamRoles.Controllers
             return RedirectToAction("CourseHome", "Courses", new { id = db.Courses.FirstOrDefault(c => c.CourseName == coursename).CourseId });
         }
 
-        public List<ApplicationUser> FindStudent()
-        {
-            List<ApplicationUser> Users = db.Users.ToList();
-            List<ApplicationUser> usersInRole = new List<ApplicationUser>();
-
-            foreach (var user in Users)
-            {
-                var isInRole = _userManager.IsInRole(user.Id, "Student");
-                if (isInRole)
-                {
-                    usersInRole.Add(user);
-                }
-            }
-            return usersInRole;
-        }
-
         public ActionResult ParentConnect(string Id,DateTime BirthDay)
         {
-            if(CheckIfBirthDaysMatch(Id,BirthDay))
+            UserRepository repository = new UserRepository();
+            if(repository.CheckIfBirthDaysMatch(Id,BirthDay))
             {
                 ApplicationUser student = db.Users.Find(Id);
                 ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
@@ -172,26 +159,6 @@ namespace TeamRoles.Controllers
             else
             {
                 return View("Error");
-            }
-        }
-
-        public bool CheckIfBirthDaysMatch(string Id,DateTime BirthDay)
-        {
-            if(Id!=null && BirthDay!=null)
-            {
-                ApplicationUser student = db.Users.Find(Id);
-                if (student.BirthDay == BirthDay)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
             }
         }
 

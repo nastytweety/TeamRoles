@@ -7,7 +7,6 @@
 <h2>Details</h2>
 
 <div>
-    <h4>ApplicationUser</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -67,6 +66,9 @@
 
 </div>
 <p>
-    @Html.ActionLink("Courses", "Index", "Courses")|
+    @if (User.IsInRole("Student"))
+    {
+        @Html.ActionLink("Courses", "Index_Selected", "Courses") 
+    }
     @Html.ActionLink("Home", "Index", "Home")
 </p>

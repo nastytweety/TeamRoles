@@ -61,8 +61,10 @@ namespace TeamRoles.Controllers
         {
             if(id!=null)
             {
+                ApplicationUser student = db.Users.Find(User.Identity.GetUserId());                
                 CoursesRepository repository = new CoursesRepository();
-                TeacherViewModel model = repository.FillTheTeacherViewModel(id);
+                List<Course> selectedcourses = student.Enrollments.Select(e => e.Course).ToList();
+                TeacherViewModel model = repository.FindAvailableCourses(id,selectedcourses);
                 return View(model);
             }
             else
@@ -247,6 +249,7 @@ namespace TeamRoles.Controllers
                 Directory.Delete(path.ToString(), true);
                 repository.RemoveAssignments(course);
                 repository.RemoveLectures(course);
+                repository.DeleteCoursesEnrollments(course);
                 db.Courses.Remove(course);
                 db.SaveChanges();
             }
@@ -263,15 +266,14 @@ namespace TeamRoles.Controllers
             if(id!=null)
             {
                 Course course = db.Courses.Find(id);
-
                 CourseViewModel model = new CourseViewModel();
-
                 model.CourseName = course.CourseName;
                 model.CoursePic = course.CoursePic;
                 model.CourseId = course.CourseId;
                 model.CourseDescription = course.CourseDescription;
                 model.Courses.Add(course);
                 model.Teacher = course.Teacher;
+                model.Enrollments = course.Enrollments.ToList();
                 return View(model);
             }
             return RedirectToAction("Index");

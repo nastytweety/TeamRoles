@@ -366,11 +366,16 @@ namespace TeamRoles.Controllers
                 ApplicationUser tobeupdated = db.Users.Find(applicationUser.Id);
                 if (ImageFile != null)
                 {
-                    tobeupdated.ProfilePic = Path.GetFileName(applicationUser.ImageFile.FileName);
                     string fileName = Path.Combine(Server.MapPath("~/Users/" + applicationUser.UserName + "/"), applicationUser.ProfilePic);
-                    applicationUser.ImageFile.SaveAs(fileName);
+                    tobeupdated.ImageFile = ImageFile;
+                    tobeupdated.ImageFile.SaveAs(fileName);
+                    tobeupdated.ProfilePic = Path.GetFileName(tobeupdated.ImageFile.FileName);
                 }
-                tobeupdated.BirthDay = applicationUser.BirthDay;
+                DateTime date1 = new DateTime(0001, 1, 1, 0, 0, 0);
+                if (applicationUser.BirthDay.CompareTo(date1)!=0)
+                {
+                    tobeupdated.BirthDay = applicationUser.BirthDay;
+                }
 
                 try
                 {

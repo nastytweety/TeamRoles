@@ -19,5 +19,6 @@ namespace TeamRoles.Models
         public string CoursePic { get; set; }
         public string CourseDescription { get; set; }
         public List<double> Grades { get; set; }
+        public List<Enrollment> Enrollments { get; set; }
     }
 }
