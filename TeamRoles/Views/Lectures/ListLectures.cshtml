@@ -19,28 +19,35 @@
             <th>
                 @Html.DisplayNameFor(model => model.PostDate)
             </th>
+            @if (User.IsInRole("Teacher"))
+            {
             <th>
                 Options
             </th>
+            }
+
         </tr>
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LectureName)
-                </td>
-                <td>
-                    @Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.Course.CourseName, username = item.Course.Teacher.UserName, filefolder = item.LectureName, mode = "lectures" }, null)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PostDate)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LectureName)
+            </td>
+            <td>
+                @Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.Course.CourseName, username = item.Course.Teacher.UserName, filefolder = item.LectureName, mode = "lectures" }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostDate)
+            </td>
+            @if (User.IsInRole("Teacher"))
+            {
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.LectureId }) |
                     @Html.ActionLink("Details", "Details", new { id = item.LectureId }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.LectureId })
                 </td>
+            }
             </tr>
         }
 

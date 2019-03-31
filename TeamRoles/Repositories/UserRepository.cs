@@ -42,6 +42,10 @@ namespace TeamRoles.Repositories
             return list.Distinct().Count();
         }
 
+        /// <summary>
+        /// Deletes all user chat messages
+        /// </summary>
+        /// <param name="user">the user</param>
         public void DeleteAllMessages(ApplicationUser user)
         {
             if (user != null)
@@ -64,6 +68,10 @@ namespace TeamRoles.Repositories
             }
         }
 
+        /// <summary>
+        /// Deletes all user posts
+        /// </summary>
+        /// <param name="user">the user</param>
         public void DeleteAllPosts(ApplicationUser user)
         {
             if (user != null)
@@ -85,6 +93,12 @@ namespace TeamRoles.Repositories
             }
         }
 
+        /// <summary>
+        /// Checking if birthday provided matching a students birthday
+        /// </summary>
+        /// <param name="Id">the student id</param>
+        /// <param name="BirthDay">the birthday provided</param>
+        /// <returns></returns>
         public bool CheckIfBirthDaysMatch(string Id, DateTime BirthDay)
         {
             if (Id != null && BirthDay != null)
@@ -105,6 +119,10 @@ namespace TeamRoles.Repositories
             }
         }
 
+        /// <summary>
+        /// Finds all students
+        /// </summary>
+        /// <returns>List of students</returns>
         public List<ApplicationUser> FindStudent()
         {
             List<ApplicationUser> Users = db.Users.ToList();
@@ -121,6 +139,10 @@ namespace TeamRoles.Repositories
             return usersInRole;
         }
 
+        /// <summary>
+        /// Finds all teachers
+        /// </summary>
+        /// <returns>List of teachers</returns>
         public List<ApplicationUser> FindTeachers()
         {
             List<ApplicationUser> Users = db.Users.ToList();
@@ -137,6 +159,10 @@ namespace TeamRoles.Repositories
             return (usersInRole);
         }
 
+        /// <summary>
+        /// Deletes specific teacher
+        /// </summary>
+        /// <param name="pteacher">the teacher</param>
         public void DeleteTeacher(ApplicationUser pteacher)
         {
             try
@@ -157,7 +183,10 @@ namespace TeamRoles.Repositories
             }
         }
 
-
+        /// <summary>
+        /// Deletes specific student
+        /// </summary>
+        /// <param name="pstudent">the student</param>
         public void DeleteStudent(ApplicationUser pstudent)
         {
             try
@@ -166,6 +195,7 @@ namespace TeamRoles.Repositories
                 CoursesRepository repository = new CoursesRepository();
                 DeleteAllMessages(student);
                 DeleteAllPosts(student);
+                DeleteAsChildren(student);
                 repository.DeleteCoursesEnrollments(student);
                 db.Users.Remove(student);
                 db.SaveChanges();
@@ -174,6 +204,94 @@ namespace TeamRoles.Repositories
             {
                 throw e;
             }
+        }
+
+        /// <summary>
+        /// Delete a student's id from children table
+        /// </summary>
+        /// <param name="student">the student</param>
+        public void DeleteAsChildren(ApplicationUser student)
+        {
+            Child toberemoved = db.Children.Find(student.Id);
+            if (toberemoved!=null)
+            {
+                try
+                {
+                    db.Children.Remove(toberemoved);
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Find all parents
+        /// </summary>
+        /// <returns>list of parents</returns>
+        public List<ApplicationUser> FindParents()
+        {
+            List<ApplicationUser> Users = db.Users.ToList();
+            List<ApplicationUser> usersInRole = new List<ApplicationUser>();
+
+            foreach (var user in Users)
+            {
+                var isInRole = _userManager.IsInRole(user.Id, "Parent");
+                if (isInRole)
+                {
+                    usersInRole.Add(user);
+                }
+            }
+            return (usersInRole);
+        }
+
+        /// <summary>
+        /// Delete specific parent
+        /// </summary>
+        /// <param name="pparent">the parent</param>
+        public void DeleteParent(ApplicationUser pparent)
+        {
+            try
+            {
+                ApplicationUser parent = db.Users.Find(pparent.Id);
+                CoursesRepository repository = new CoursesRepository();
+                DeleteAllMessages(parent);
+                DeleteAllPosts(parent);
+                db.Users.Remove(parent);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// Create a parent request
+        /// </summary>
+        /// <param name="parent">the parent</param>
+        /// <param name="student">the student</param>
+        /// <returns>true if success</returns>
+        public bool CreateParentRequest(ApplicationUser parent,ApplicationUser student)
+        {
+            GenericRequest req = new GenericRequest();
+            req.User1id = parent.Id;
+            req.User2id = student.Id;
+            req.Type = "ParentStudent";
+            req.ApplicationUser = student;
+            student.Requests.Add(req);
+            try
+            {
+                db.Requests.Add(req);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return true;
         }
     }
 }

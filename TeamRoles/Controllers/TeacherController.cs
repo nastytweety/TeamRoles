@@ -57,20 +57,6 @@ namespace TeamRoles.Controllers
             return View(applicationUser);
         }
 
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicationUser applicationUser = db.Users.Find(id);
-            if (applicationUser == null)
-            {
-                return HttpNotFound();
-            }
-            return View(applicationUser);
-        }
-
         public ActionResult Delete(string id)
         {
             if (id == null)

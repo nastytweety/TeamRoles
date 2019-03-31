@@ -5,12 +5,13 @@ using System.Data.Entity;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
-using TeamRoles.Models;
 using System.Net;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity.Validation;
+using TeamRoles.Models;
+using TeamRoles.Repositories;
 
 namespace TeamRoles.Controllers
 {
@@ -31,13 +32,12 @@ namespace TeamRoles.Controllers
         [Authorize(Roles = "Teacher")]
         public ActionResult Create(Lecture lecture)
         {
-            if(!CheckIfLectureExists(lecture))
+            CoursesRepository repository = new CoursesRepository();
+            if (!repository.CheckIfLectureExists(lecture))
             {
-               
                 Course course = db.Courses.Where(c => c.CourseId == lecture.Course.CourseId).SingleOrDefault();
                 ApplicationUser teacher = db.Users.Find(course.Teacher.Id);
                 List<Lecture> lectures = course.Lectures.ToList();
-
                 try
                 {
                     lecture.Filename = Path.GetFileName(lecture.LectureFile.FileName);
@@ -54,7 +54,6 @@ namespace TeamRoles.Controllers
                 {
                     throw e;
                 }
-
             }
             else
             {
@@ -82,21 +81,6 @@ namespace TeamRoles.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-        }
-
-        public bool CheckIfLectureExists(Lecture lecture)
-        {
-            ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
-            Course course = teacher.Courses.Where(c => c.CourseId == lecture.Course.CourseId).SingleOrDefault();
-            List<Lecture> lectures = course.Lectures.ToList();
-            foreach (var l in lectures)
-            {
-                if (l.LectureName == lecture.LectureName)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
         public ActionResult Delete(int? id)

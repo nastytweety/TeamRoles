@@ -3,6 +3,8 @@
     ViewBag.Title = "Parent_Index";
 }
 
+@if (Model.Count() != 0)
+{
 <h2>Parent_Index</h2>
 
 
@@ -40,5 +42,10 @@
     }
 
 </table>
+}
+else
+{
+    <h2>You have no connected children yet</h2>
+}
 
 

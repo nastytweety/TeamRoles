@@ -66,13 +66,22 @@ namespace TeamRoles.Controllers
         [Authorize(Roles = "Parent")]
         public ActionResult DeleteFromChild(string id)
         {
-            ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
-            Child child = db.Children.Where(ch => ch.Childid == id).SingleOrDefault();
-            parent.Children.Remove(child);
-            db.Children.Remove(child);
-            db.Entry(parent).State = EntityState.Modified;
-            db.SaveChanges();
-
+            if(id!=null)
+            {
+                ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
+                Child child = db.Children.Where(ch => ch.Childid == id).SingleOrDefault();
+                parent.Children.Remove(child);
+                try
+                {
+                    db.Children.Remove(child);
+                    db.Entry(parent).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
+            }
             return RedirectToAction("Parent_Index");
         }
 
@@ -84,20 +93,6 @@ namespace TeamRoles.Controllers
         }
 
         public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicationUser applicationUser = db.Users.Find(id);
-            if (applicationUser == null)
-            {
-                return HttpNotFound();
-            }
-            return View(applicationUser);
-        }
-
-        public ActionResult Edit(string id)
         {
             if (id == null)
             {
@@ -129,12 +124,21 @@ namespace TeamRoles.Controllers
 
         public ActionResult RemoveFromCourse(string id, string coursename)
         {
-            ApplicationUser student = db.Users.Find(id);
-            Course course = db.Courses.FirstOrDefault(c => c.CourseName == coursename);
-            student.Courses.Remove(course);
-            db.Entry(student).State = EntityState.Modified;
-            db.SaveChanges();
-
+            if(id!=null && coursename!=null)
+            {
+                ApplicationUser student = db.Users.Find(id);
+                Course course = db.Courses.FirstOrDefault(c => c.CourseName == coursename);
+                student.Courses.Remove(course);
+                try
+                {
+                    db.Entry(student).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
+            }
             return RedirectToAction("CourseHome", "Courses", new { id = db.Courses.FirstOrDefault(c => c.CourseName == coursename).CourseId });
         }
 
@@ -145,16 +149,14 @@ namespace TeamRoles.Controllers
             {
                 ApplicationUser student = db.Users.Find(Id);
                 ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
-
-                GenericRequest req = new GenericRequest();
-                req.User1id = parent.Id;
-                req.User2id = student.Id;
-                req.Type = "ParentStudent";
-                req.ApplicationUser = student;
-                student.Requests.Add(req);
-                db.Requests.Add(req);
-                db.SaveChanges();
-                return View("RequestSent");
+                if (repository.CreateParentRequest(parent, student))
+                {
+                    return View("RequestSent");
+                }
+                else
+                {
+                    return View("Error");
+                }
             }
             else
             {

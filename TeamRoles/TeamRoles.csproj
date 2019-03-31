@@ -198,6 +198,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LecturesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ParentController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\PublicChatController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
@@ -602,8 +603,6 @@
     <Content Include="Views\Student\Details.cshtml" />
     <Content Include="Views\Teacher\Admin_Index.cshtml" />
     <Content Include="Views\Student\Admin_Index.cshtml" />
-    <Content Include="Views\Student\Edit.cshtml" />
-    <Content Include="Views\Teacher\Edit.cshtml" />
     <Content Include="Views\Courses\Error.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -657,7 +656,8 @@
     <Content Include="Views\Courses\_Edit.cshtml" />
     <Content Include="Views\Student\Error.cshtml" />
     <Content Include="Views\Courses\_CreateAssignments.cshtml" />
-
+    <Content Include="Views\Parent\Admin_Index.cshtml" />
+    <Content Include="Views\Parent\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

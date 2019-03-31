@@ -108,7 +108,6 @@ namespace TeamRoles.Controllers
             {
                     ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
                     List<Course> courses = teacher.Courses.ToList();
-
                     foreach (var c in courses)
                     {
                         if (c.CourseName == course.CourseName)
@@ -133,11 +132,8 @@ namespace TeamRoles.Controllers
                     {
                         throw e;
                     }
-
-
                     string fileName = Path.Combine(Server.MapPath("~/Users/" + teacher.UserName + "/" + course.CourseName + "/"), course.CoursePic);
                     course.ImageFile.SaveAs(fileName);
-
                     return RedirectToAction("Index");
             }
             return View(course);
@@ -180,9 +176,7 @@ namespace TeamRoles.Controllers
         {
             if(course.CourseId!=0)
             { 
-
                     Course coursetoupdate = db.Courses.Find(course.CourseId);
-
                     if (course.ImageFile != null)
                     {
                         course.CoursePic = Path.GetFileName(course.ImageFile.FileName);
@@ -191,17 +185,14 @@ namespace TeamRoles.Controllers
                         course.ImageFile.SaveAs(fileName);
                         coursetoupdate.CoursePic = course.CoursePic;
                     }
-
                     if(course.CourseName!= null)
                     {
                         coursetoupdate.CourseName = course.CourseName;
                     }
-                   
                     if(course.CourseDescription!=null)
                     {
                         coursetoupdate.CourseDescription = course.CourseDescription;
                     }
-
                     try
                     {
                         db.Entry(coursetoupdate).State = EntityState.Modified;
@@ -212,7 +203,6 @@ namespace TeamRoles.Controllers
                     {
                         throw e;
                     }
-                
             }
             else
             {

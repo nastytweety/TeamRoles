@@ -76,7 +76,7 @@ namespace TeamRoles.Repositories
         }
 
         /// <summary>
-        /// Creates and fills a teacherviewmodel
+        /// Finds all the available courses from a teacher that a student has not selected
         /// </summary>
         /// <param name="id">the teacher id</param>
         /// <returns>the model</returns>
@@ -134,6 +134,11 @@ namespace TeamRoles.Repositories
             }
         }
 
+        /// <summary>
+        /// Removes the enrollment of a student in a course
+        /// </summary>
+        /// <param name="id">course id </param>
+        /// <param name="pstudent">the student</param>
         public void RemoveCourse(int? id,ApplicationUser pstudent)
         {
             if(id!=null && pstudent!=null)
@@ -155,6 +160,10 @@ namespace TeamRoles.Repositories
             }
         }
 
+        /// <summary>
+        /// Deletes all courses from a teacher
+        /// </summary>
+        /// <param name="teacher">the teacher</param>
         public void DeleteAllCourses(ApplicationUser teacher)
         {
             if(teacher!=null)
@@ -175,6 +184,10 @@ namespace TeamRoles.Repositories
             }
         }
 
+        /// <summary>
+        /// Deletes all student enrollments
+        /// </summary>
+        /// <param name="student">the student</param>
         public void DeleteCoursesEnrollments(ApplicationUser student)
         {
             if (student != null)
@@ -195,6 +208,10 @@ namespace TeamRoles.Repositories
             }
         }
 
+        /// <summary>
+        /// Deletes all the enrollments from a course
+        /// </summary>
+        /// <param name="course">the course</param>
         public void DeleteCoursesEnrollments(Course course)
         {
             if (course != null)
@@ -213,6 +230,45 @@ namespace TeamRoles.Repositories
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Checks if an assignment exists
+        /// </summary>
+        /// <param name="assignment">The assignment</param>
+        /// <param name="CourseId">The course id</param>
+        /// <returns>boolean</returns>
+        public bool CheckIfAssignmentExists(Assignment assignment, int CourseId)
+        {
+            Course course = db.Courses.Where(c => c.CourseId == CourseId).SingleOrDefault();
+            List<Assignment> assignments = course.Assignments.ToList();
+            foreach (var a in assignments)
+            {
+                if (a.AssignmentName == assignment.AssignmentName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if a lecture exists
+        /// </summary>
+        /// <param name="lecture">The lecture</param>
+        /// <returns>boolean</returns>
+        public bool CheckIfLectureExists(Lecture lecture)
+        {
+            Course course = db.Courses.Where(c => c.CourseId == lecture.Course.CourseId).SingleOrDefault();
+            List<Lecture> lectures = course.Lectures.ToList();
+            foreach (var l in lectures)
+            {
+                if (l.LectureName == lecture.LectureName)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
