@@ -3,8 +3,6 @@
 <!-- Button trigger modal -->
 <a href="" data-target="#Edit_@Model.CourseId" data-toggle="modal"><i class="fas fa-edit fa-2x"></i></a>
 
-@*<button type="button" class="fas fa-edit fa-2x" data-toggle="modal" data-target="#Edit"></button>*@
-
 <!-- Modal -->
 <div class="modal fade" id="Edit_@Model.CourseId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -22,9 +20,9 @@
                 <div class="modal-body">
 
                     @Html.AntiForgeryToken()
-
-                    <div class="form-horizontal">
-
+                    
+                    
+                    <form>
                         <div class="col-md-12">
                             <img id="testing" src="~/Users/@Model.Teacher.UserName/@Model.CourseName/@Url.Content(Model.CoursePic)" />
                         </div>
@@ -36,34 +34,28 @@
 
                         <div class="form-group">
 
-                            <h5> @Html.LabelFor(model => model.CourseDescription, htmlAttributes: new { }) </h5>
+                            <h5> @Html.LabelFor(model => model.CourseDescription) </h5>
 
-                            <div class="col-md-12">
-                                @Html.EditorFor(model => model.CourseDescription, new { htmlAttributes = new { } })
+                            <div class="col-md-12 padding-bottom-20">
+                                @Html.EditorFor(model => model.CourseDescription)
                                 @Html.ValidationMessageFor(model => model.CourseDescription, "", new { @class = "text-danger" })
                             </div>
 
-                            <h5> @Html.LabelFor(model => model.CoursePic, htmlAttributes: new { }) </h5>
+                            <h5> @Html.LabelFor(model => model.CoursePic) </h5>
+
                             <div class="col-md-12">
                                 @Html.HiddenFor(model => model.CoursePic)
+
                                 <input type="file" name="ImageFile" />
                             </div>
-
                         </div>
-                    </div>
-
-
+                        <div class="col-md-12">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </form>
                 </div>
-
-
-                <div class="modal-footer">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
-
             }
-
         </div>
     </div>
 </div>
-<div></div>
 

@@ -210,7 +210,7 @@ namespace TeamRoles.Controllers
             }
         }
 
-        public ActionResult Delete(int? id)
+        /*public ActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -222,17 +222,21 @@ namespace TeamRoles.Controllers
                 return HttpNotFound();
             }
             return View(course);
-        }
+        }*/
 
 
         // POST: Courses/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
         {
             Course course = db.Courses.Find(id);
             ApplicationUser teacher = course.Teacher;
             CoursesRepository repository = new CoursesRepository();
+            if (course == null)
+            {
+                return HttpNotFound();
+            }
             try
             {
                 var path = teacher.Path + "\\" + course.CourseName;

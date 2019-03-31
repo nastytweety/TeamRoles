@@ -27,6 +27,10 @@ textarea {
 }
 
 
+.padding-bottom-20 {
+    padding-bottom: 20px;
+}
+
 
 .img-circle {
     border-radius: 70%;
@@ -83,4 +87,9 @@ textarea {
 
 .padding-top-20 {
     padding-top: 20px;
+}
+
+.text-center {
+    vertical-align: middle;
+    text-align: center;
 }

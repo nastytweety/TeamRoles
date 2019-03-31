@@ -32,22 +32,29 @@ namespace TeamRoles.Controllers
         public ActionResult Index()
         {
             UserRepository repository = new UserRepository();
-            return View(repository.FindStudent());
+            return View(repository.FindAllStudent());
         }
 
         [Authorize(Roles = "Parent")]
         public ActionResult Student_Index_ToSelect()
         {
             UserRepository repository = new UserRepository();
-            List<ApplicationUser> list = repository.FindStudent();
+            List<ApplicationUser> allstudentslist = repository.FindAllStudent();
             ApplicationUser parent = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             List<Child> children = parent.Children.ToList();
-            List<ApplicationUser> childrenlist = new List<ApplicationUser>();
-            foreach (var child in children)
+            List<ApplicationUser> notchildrenlist = allstudentslist.ToList();
+            foreach (var student in allstudentslist.ToList())
             {
-                childrenlist.Add(db.Users.Find(child.Childid));
+                foreach(var child in children)
+                {
+                    if(student.Id == child.Childid)
+                    {
+                        notchildrenlist.Remove(student);
+                    }
+                }
             }
-            return View(list.Except(childrenlist));
+            //list.Except(childrenlist)
+            return View(notchildrenlist);
         }
 
         [Authorize(Roles = "Parent")]
@@ -89,7 +96,7 @@ namespace TeamRoles.Controllers
         public ActionResult Admin_Index()
         {
             UserRepository repository = new UserRepository();
-            return View(repository.FindStudent());
+            return View(repository.FindAllStudent());
         }
 
         public ActionResult Details(string id)

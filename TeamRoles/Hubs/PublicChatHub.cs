@@ -79,10 +79,6 @@ namespace TeamRoles.Hubs
             Clients.All.updateCount(PublicConnections.Count); // returns number of connected clients
             Clients.All.getList(PublicConnections.GetUsernames());
 
-            //List<string> x = new List<string>();
-            //x = PublicConnections.GetUsernames();
-            //Clients.All.getList(x);
-
             return base.OnDisconnected(stopCalled);
         }
 

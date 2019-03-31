@@ -30,12 +30,12 @@ namespace TeamRoles.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public ActionResult Create(Lecture lecture)
+        public ActionResult Create(Lecture lecture,int CourseId)
         {
             CoursesRepository repository = new CoursesRepository();
             if (!repository.CheckIfLectureExists(lecture))
             {
-                Course course = db.Courses.Where(c => c.CourseId == lecture.Course.CourseId).SingleOrDefault();
+                Course course = db.Courses.Where(c => c.CourseId == CourseId).SingleOrDefault();
                 ApplicationUser teacher = db.Users.Find(course.Teacher.Id);
                 List<Lecture> lectures = course.Lectures.ToList();
                 try
@@ -61,12 +61,12 @@ namespace TeamRoles.Controllers
             }
         }
 
-        public ActionResult Create(int courseid)
+        /*public ActionResult Create(int courseid)
         {
             Lecture lecture = new Lecture();
             lecture.Course.CourseId = courseid;
             return View(lecture);
-        }
+        }*/
 
         public ActionResult ListLectures(int? courseid)
         {

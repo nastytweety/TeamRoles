@@ -68,36 +68,6 @@ namespace TeamRoles.Hubs
             }
         }
 
-        //public async Task<List<List<string>>> TopUsers(string id)
-        //{
-        //    try
-        //    {
-        //        var user = await db.Users.Where(x => x.Id == id).FirstOrDefaultAsync();
-        //        var topSent = await db.Messages.Where(x => x.Sender.Id == user.Id).GroupBy(x => x.Receiver.UserName).Select(x => new { Username = x.Key, Count = x.Count() }).OrderByDescending(x => x.Count).Select(y => y.Username).ToListAsync();
-        //        var topReceived = await db.Messages.Where(x => x.Receiver.Id == user.Id).GroupBy(x => x.Sender.UserName).Select(x => new { Username = x.Key, Count = x.Count() }).OrderByDescending(x => x.Count).Select(y => y.Username).ToListAsync();
-        //        List<string> topUsersSent = new List<string>();
-        //        List<string> topUsersReceived = new List<string>();
-        //        List<List<string>> topUsers = new List<List<string>>();
-        //        foreach (var item in topSent)
-        //        {
-        //            topUsersSent.Add(item);
-        //        }
-        //        foreach (var item in topReceived)
-        //        {
-        //            topUsersReceived.Add(item);
-        //        }
-        //        topUsers.Add(topUsersSent);
-        //        topUsers.Add(topUsersReceived);
-        //        return (topUsers);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        // for stats
-        // sent
         public async Task<List<string>> TopUsersSent(string id)
         {
             try
@@ -141,7 +111,6 @@ namespace TeamRoles.Hubs
             }
         }
 
-        //received
 
         public async Task<List<string>> TopUsersReceived(string id)
         {

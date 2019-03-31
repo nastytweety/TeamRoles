@@ -251,7 +251,7 @@ namespace TeamRoles.Repositories
             }
             return false;
         }
-
+        
         /// <summary>
         /// Checks if a lecture exists
         /// </summary>
@@ -259,8 +259,8 @@ namespace TeamRoles.Repositories
         /// <returns>boolean</returns>
         public bool CheckIfLectureExists(Lecture lecture)
         {
-            Course course = db.Courses.Where(c => c.CourseId == lecture.Course.CourseId).SingleOrDefault();
-            List<Lecture> lectures = course.Lectures.ToList();
+            Course course = db.Courses.SingleOrDefault(c => c.CourseId == lecture.Course.CourseId);
+            List<Lecture> lectures = db.Lectures.Where(l=>l.LectureId==lecture.LectureId).ToList();
             foreach (var l in lectures)
             {
                 if (l.LectureName == lecture.LectureName)

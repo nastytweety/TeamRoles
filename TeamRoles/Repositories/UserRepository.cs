@@ -123,7 +123,7 @@ namespace TeamRoles.Repositories
         /// Finds all students
         /// </summary>
         /// <returns>List of students</returns>
-        public List<ApplicationUser> FindStudent()
+        public List<ApplicationUser> FindAllStudent()
         {
             List<ApplicationUser> Users = db.Users.ToList();
             List<ApplicationUser> usersInRole = new List<ApplicationUser>();
