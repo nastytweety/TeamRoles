@@ -5,112 +5,104 @@
     ViewBag.Title = "Index_ToSelect";
 }
 
-<div class="container-fluid">
+<div class="container">
 
     <div class="row">
+        <div class="col-md-4"></div>
 
-        <div class="col-md-4">
-            <img alt="Teachers Photo" src="~/Users/@Model.Teacher.UserName/@Url.Content(Model.Teacher.ProfilePic)" class="rounded-circle">
-            <h3>
-                @Model.Teacher.UserName
-            </h3>
-            <p>
-                Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-            </p>
-            
-        </div>
-
-        <div class="col-md-8 text-center ">
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="box">
-
-                        <div class="box__header">
-                            <h3 class="box__header-title">stats</h3>
-                        </div>
-
-                        <div class="box__body">
-                            <div class="stats stats--main">
-                                <div class="stats__amount">12698</div>
-                                <div class="stats__caption">subscribers</div>
-                            </div>
+        <!-- TEACHER STATISTICS-->
+        <div class="row padding-bottom-20">
+            <div class="col-md-6">
+                <div class="box">
+                    <div class="box__body">
+                        <div class="stats stats--main">
+                            <div class="stats__amount"> @Model.TotalLessons</div>
+                            <div class="stats__caption"> Course Created</div>
                         </div>
                     </div>
-                    <h5>
-                        Ποσα Μαθηματα εχει δημιουργήσει:
-                    </h5>
-                    <h5>
-                        @Model.TotalLessons
-                    </h5>
-                </div>
-                <div class="col-md-6">
-                    <div class="box">
-
-                        <div class="box__header">
-                            <h3 class="box__header-title">stats</h3>
-                        </div>
-
-                        <div class="box__body">
-                            <div class="stats stats--main">
-                                <div class="stats__amount">12698</div>
-                                <div class="stats__caption">subscribers</div>
-                            </div>
-                        </div>
-                    </div>
-                    <h5>
-                        Πόσους Μαθητές Εχει:
-                    </h5>
-                    <h5>
-                        @Model.TotalStudents
-                    </h5>
                 </div>
             </div>
-            <div class="row">
+            <div class="col-md-6">
+                <div class="box">
+                    <div class="box__body">
+                        <div class="stats stats--main">
+                            <div class="stats__amount">@Model.TotalStudents</div>
+                            <div class="stats__caption">Total Subscribers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="row padding-top-20">
+         
+        <!-- TEACHER PHOTO -->
+        <div class="col-md-3">
+            <div class="row">
+                <div class="align-content-center text-center well">
+                    <img alt="Teachers Photo" 
+                         src="~/Users/@Model.Teacher.UserName/@Url.Content(Model.Teacher.ProfilePic)" 
+                         class="img-circle" 
+                         height="150" 
+                         width="150">
+                    <h3>
+                        @Model.Teacher.UserName
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1"></div>
+
+        <div class="col-md-8 text-center align-content-center ">
+
+            <!-- COURSES LIST -->
+            <div class="row padding-top-20 text-center well">
                 <div class="col-md-12">
 
                     <h3>
-                        Λίστα Μαθημάτων
+                        Courses List
                     </h3>
 
                     <table class="table table-striped">
 
                         <thead>
                         <tr>
-                            <th>
-                                #
-                            </th>
-                            <th>
-                                Title
-                            </th>
-                            <th>
-                                Description
-                            </th>
-                            <th>
-                                Choices
-                            </th>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Choices</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach (var item in Model.Courses)
-                        {
-                            <tr class="table-active">
-                                <td>
-                                    <img src="~/Users/@item.Teacher.UserName/@item.CourseName/@Url.Content(item.CoursePic)" height="100" width="100"/>
-                                </td>
-                                <td>
-                                    @item.CourseName
-                                </td>
-                                <td>
-                                    @item.CourseDescription
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Details", "Details", new {id = item.CourseId}) |
-                                    @Html.ActionLink("Join", "Join", "Courses", new {id = item.CourseId}, null)
-                                </td>
-                            </tr>
-                        }
+                        
+                            @if (Model.Courses.Count() != 0)
+                            {
+                                foreach (var item in Model.Courses)
+                                {
+
+                                    <tr class="table-active">
+                                        <td> <img src="~/Users/@item.Teacher.UserName/@item.CourseName/@Url.Content(item.CoursePic)" height="100" width="100"/> </td>
+                                        <td> @item.CourseName </td>
+                                        <td> @item.CourseDescription </td>
+                                        <td>
+                                            <a href="@Url.Action("Details", "Courses", new { id = item.CourseId })"><i class="fas fa-info-circle fa-2x"></i></a>
+                                            <a href="@Url.Action("Join", "Courses", new { id = item.CourseId })"><i class="fas fa-sign-in-alt fa-2x"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr class="table-danger">
+                                    <td>This Teacher has no Courses to Join</td>
+                                    <td></td>
+                                    <td> </td>
+                                    <td></td>
+                                </tr>
+                            }
+                        
                         </tbody>
                     </table>
                 </div>
@@ -133,7 +125,7 @@
         background: linear-gradient(#526494, #604484);
         margin: 15px auto 0;
         border-radius: 5px;
-        width: 300px;
+        width: 250px;
     }
 
     .box__header {

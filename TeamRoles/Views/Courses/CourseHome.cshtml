@@ -4,6 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4 padding-top-20"></div>
+
         <!-- VERTICAL BUTTONS-->
         <div class="col-md-8 padding-top-20 text-center">
             <div class="btn-group" role="group">
@@ -11,7 +12,7 @@
                 {
                     @Html.Partial("_CreateAssignments", new ViewDataDictionary<Assignment>() { { "CourseId", Model.CourseId } })
                     @Html.Partial("_CreateLecture", new ViewDataDictionary<Lecture>() { { "CourseId", Model.CourseId } })
-                    @Html.ActionLink("Create Lecture", "Create", "Lectures", new { courseid = Model.CourseId }, new { @class = "btn btn-primary" })
+
                     @Html.ActionLink("View Grades", "CourseGrades", "Courses", new { coursename = Model.CourseName, teacherid = Model.Teacher.Id }, new { @class = "btn btn-primary" })
                 }
                 @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { courseid = Model.CourseId }, new { @class = "btn btn-primary" })

@@ -1,9 +1,13 @@
 ﻿@model TeamRoles.Models.Course
+
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" style="justify-content: center" data-toggle="modal" data-target="#CreateCourse">
-    <i class="fas fa-plus fa-2x"></i>
-    Create a Course
-</button>
+
+    <button type="button" class="btn btn-primary" style="vertical-align: central" data-toggle="modal" data-target="#CreateCourse">
+        <i class="fas fa-plus fa-2x"></i>
+        Create a Course
+    </button>
+
+
 <!-- Modal -->
 <div class="modal fade" id="CreateCourse" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -39,7 +43,7 @@
                         @Html.ValidationMessageFor(model => model.CoursePic, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12 padding-bottom-20">
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
             </form>

@@ -554,14 +554,6 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Users\Giannis\αρχείο λήψης.jpg" />
-    <Content Include="Users\kwstas\C sharp\images.png" />
-    <Content Include="Users\kwstas\Mitropoulos.jpg" />
-    <Content Include="Users\nikos\Math100\43648080_600806957005171_3175039236239785984_n.jpg" />
-    <Content Include="Users\nikos\Math200\winrarlogo-580x358.jpeg" />
-    <Content Include="Users\nikos\Math500\transgenic-mouse-hi.png" />
-    <Content Include="Users\nikos\Math500\winrarlogo-580x358.jpeg" />
-    <Content Include="Users\vlakofatsa\Math100\43648080_600806957005171_3175039236239785984_n.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -632,9 +624,6 @@
     <Content Include="Views\Student\Student_Index_ToSelect.cshtml" />
     <Content Include="Views\Assignments\Error.cshtml" />
     <Content Include="Views\Assignments\ListAssignments.cshtml" />
-    <Content Include="Users\nikos\Math100\1489058_SOR.pdf" />
-    <Content Include="Users\nikos\Math100\Υλικό Υπολογιστή.doc" />
-    <Content Include="Users\nikos\Math100\Submits\1489058_SOR.pdf" />
     <Content Include="Views\UploadFiles\UploadAnswear.cshtml" />
     <Content Include="Views\UploadFiles\GetSubmits.cshtml" />
     <Content Include="Views\Assignments\Delete.cshtml" />
@@ -651,7 +640,6 @@
     <Content Include="Views\Posts\Edit.cshtml" />
     <Content Include="Views\Posts\Delete.cshtml" />
     <Content Include="Views\Lectures\Create.cshtml" />
-    <Content Include="Users\nikos\Math200\1489058_SOR.pdf" />
     <Content Include="Views\Lectures\Error.cshtml" />
     <Content Include="Views\Lectures\ListLectures.cshtml" />
     <Content Include="Views\Lectures\Delete.cshtml" />
@@ -666,18 +654,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Users\admin\" />
-    <Folder Include="Users\george\" />
-    <Folder Include="Users\kostas\Javascript\" />
-    <Folder Include="Users\kostas\Java\" />
-    <Folder Include="Users\kyriakos\" />
-    <Folder Include="Users\mpampas\" />
-    <Folder Include="Users\nikos\Math100\Lectures\" />
-    <Folder Include="Users\nikos\Math200\Lectures\" />
-    <Folder Include="Users\nikos\Math200\Submits\" />
-    <Folder Include="Users\nikos\Math500\Lectures\" />
-    <Folder Include="Users\nikos\Math500\Submits\" />
-    <Folder Include="Users\vlakofatsa3\" />
-    <Folder Include="Users\yuly\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
