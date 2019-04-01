@@ -280,12 +280,13 @@ namespace TeamRoles.Repositories
         /// <returns>true if success</returns>
         public bool CreateParentRequest(ApplicationUser parent,ApplicationUser student)
         {
+            ApplicationUser stud = db.Users.Find(student.Id);
             GenericRequest req = new GenericRequest();
             req.User1id = parent.Id;
             req.User2id = student.Id;
             req.Type = "ParentStudent";
-            req.ApplicationUser = student;
-            student.Requests.Add(req);
+            req.ApplicationUser = stud;
+            stud.Requests.Add(req);
             try
             {
                 db.Requests.Add(req);

@@ -24,8 +24,8 @@
 
                         <tr class="table-active">
                             <td>@req.ReqId</td>
-                            <td>@req.User1</td>
-                            <td>@req.User2</td>
+                            <td>@req.User1.UserName</td>
+                            <td>@req.User2.UserName</td>
                             <td>
                                 <a href="@Url.Action("AcceptRequest", "Home", new {id = req.ReqId})"><i class="fas fa-check fa-2x"></i></a>
                                 <a href="@Url.Action("DeclineRequest", "Home", new {id = req.ReqId})"><i class="fas fa-ban fa-2x"></i></a>
