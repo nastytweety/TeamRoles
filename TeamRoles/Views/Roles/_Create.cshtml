@@ -1,0 +1,36 @@
+﻿@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreateModal">
+    Create
+</button>
+<!-- Modal -->
+<div class="modal fade" id="CreateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @{
+                ViewBag.Title = "Add New Role";
+            }
+            <h2>Add New User Role</h2>
+
+            @using (Html.BeginForm("Create", "Roles"))
+            {
+                <p>
+
+                    Enter User Role Name: @Html.TextBoxFor(m => m.Name, null, new { required = "required" })
+                    <input type="submit" class="btn-primary" value="Create Role" />
+                </p>
+            }
+            <br />
+
+
+        </div>
+    </div>
+</div>
+

@@ -51,6 +51,24 @@ namespace TeamRoles.Controllers
             return View(model);
         }
 
+        public ActionResult AdminNavbar()
+        {
+            ViewBag.messages = db.Users.Where(m => m.Validated == false).Count();
+            return PartialView("_AdminNavbar");
+        }
+
+        public ActionResult TeacherNavbar()
+        {
+            ViewBag.messages = db.Requests.Where(m => m.Type == "JoinCourse").Count();
+            return PartialView("_TeacherNavbar");
+        }
+
+        public ActionResult StudentNavbar()
+        {
+            ViewBag.messages = db.Requests.Where(m => m.Type == "ParentStudent").Count();
+            return PartialView("_StudentNavbar");
+        }
+
         public ActionResult JoinRequests()
         {
             ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());

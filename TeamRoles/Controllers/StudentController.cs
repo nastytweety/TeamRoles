@@ -171,6 +171,14 @@ namespace TeamRoles.Controllers
             }
         }
 
+        public ActionResult ParentNavbar()
+        {
+            ApplicationUser parent = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            List<Child> children = parent.Children.ToList();
+            ViewBag.messages = children.Count();
+            return PartialView("_ParentNavbar");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
