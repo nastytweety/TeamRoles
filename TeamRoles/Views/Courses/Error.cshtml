@@ -5,7 +5,7 @@
 }
 
 <h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">This Course's name allready exists!</h2>
+<h2 class="text-danger">@ViewBag.Message</h2>
 
-@Html.ActionLink("Back to List", "Index")
+@Html.ActionLink("Back to Courses", "Index_Selected", "Courses")
 

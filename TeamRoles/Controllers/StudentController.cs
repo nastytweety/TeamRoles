@@ -156,12 +156,21 @@ namespace TeamRoles.Controllers
             {
                 ApplicationUser student = db.Users.Find(Id);
                 ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
-                if (repository.CreateParentRequest(parent, student))
+                if(!repository.checkIfRequestExists(student,parent, "ParentStudent"))
                 {
-                    return View("RequestSent");
+                    if (repository.CreateParentRequest(parent, student))
+                    {
+                        return View("RequestSent");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Something Went Wrong Processing your request!";
+                        return View("Error");
+                    }
                 }
                 else
                 {
+                    ViewBag.Message = "You have already sent a request to this user!";
                     return View("Error");
                 }
             }
@@ -186,6 +195,11 @@ namespace TeamRoles.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
     }
 }

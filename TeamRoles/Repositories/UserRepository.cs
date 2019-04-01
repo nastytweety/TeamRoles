@@ -6,7 +6,6 @@ using TeamRoles.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using System.IO;
-using System.Web;
 using System.Web.Mvc;
 using System.Net.Mail;
 using System.Text;
@@ -297,6 +296,35 @@ namespace TeamRoles.Repositories
                 throw e;
             }
             return true;
+        }
+
+        public bool checkIfRequestExists(ApplicationUser User2, ApplicationUser User1,string type)
+        {
+            if(type == "ParentStudent")
+            {
+                List<GenericRequest> requests = db.Requests.Where(r => r.Type == "ParentStudent").ToList();
+                foreach (var req in requests)
+                {
+                    if (req.User2id == User2.Id && req.User1id == User1.Id)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            else if(type == "JoinCourse")
+            {
+                List<GenericRequest> requests = db.Requests.Where(r => r.Type == "JoinCourse").ToList();
+                foreach (var req in requests)
+                {
+                    if (req.User2id == User2.Id && req.User1id == User1.Id)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return false;
         }
 
         public static void BuildEmailTemplate(string bodyText, string sendTo)

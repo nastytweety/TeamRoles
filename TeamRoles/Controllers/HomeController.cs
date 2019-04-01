@@ -160,7 +160,7 @@ namespace TeamRoles.Controllers
                     db.Entry(user).State = EntityState.Modified;
                     db.Requests.Remove(req);
                     db.SaveChanges();
-                    UserRepository.BuildEmailTemplate("Your Account was successfully validated!You are allowrd to login!", user.Email);
+                    UserRepository.BuildEmailTemplate("Your Account was successfully validated!You are allowed to login!", user.Email);
                 }
                 catch(Exception e)
                 {
