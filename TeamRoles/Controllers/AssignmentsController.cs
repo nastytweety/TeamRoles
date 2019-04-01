@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.IO;
 using TeamRoles.Models;
+using TeamRoles.Repositories;
 using System.Data.Entity.Validation;
 
 namespace TeamRoles.Controllers
@@ -32,7 +33,8 @@ namespace TeamRoles.Controllers
         [Authorize(Roles = "Teacher")]
         public ActionResult CreateAssignment(Assignment assignment,int CourseId)
         {
-            if(!CheckIfAssignmentExists(assignment,CourseId))
+            CoursesRepository repository = new CoursesRepository();
+            if(!repository.CheckIfAssignmentExists(assignment,CourseId))
             {
                 Course course = db.Courses.Where(c => c.CourseId == CourseId).SingleOrDefault();
                 ApplicationUser teacher = db.Users.Find(course.Teacher.Id);
@@ -55,28 +57,6 @@ namespace TeamRoles.Controllers
             {
                 return RedirectToAction("Error");
             }
-        }
-
-        /*public ActionResult CreateAssignment(int courseid)
-        {
-            Assignment assignment = new Assignment();
-            assignment.Course.CourseId = courseid;
-            return View(assignment);
-        }*/
-
-        public bool CheckIfAssignmentExists(Assignment assignment,int CourseId)
-        {
-            ApplicationUser teacher = db.Users.Find(User.Identity.GetUserId());
-            Course course = db.Courses.Where(c => c.CourseId == CourseId).SingleOrDefault();
-            List<Assignment> assignments = course.Assignments.ToList();
-            foreach (var a in assignments)
-            {
-                if (a.AssignmentName == assignment.AssignmentName)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
         public ActionResult ListAssignments(int? courseid)

@@ -46,7 +46,7 @@
                                 }
                                 else
                                 {
-                                    @Html.Partial("_Edit", new ViewDataDictionary(this.Model.Where(i => i.CourseId == item.CourseId).SingleOrDefault()) { { "id", item.CourseId } }) 
+                                    @Html.Partial("_Edit", new ViewDataDictionary(item){ { "id", item.CourseId } })
                                     <a href="/Courses/CourseHome/@item.CourseId"><i class="fas fa-info-circle fa-2x"></i></a>
                                     <a href="/Courses/Delete/@item.CourseId" onclick="return confirm('Are you sure, do you want to delete this ?')"><i class="fas fa-trash-alt fa-2x"></i></a>
 

@@ -37,11 +37,12 @@
                 <button id="send-button" class="btn btn-primary">Send</button>
             </div>
         </div>
-
     </div>
+
+    <div class="row row-broken">@Html.ActionLink("Back To Home", "Index", "Home")</div>
 </div>
 
-@section scripts {
+     @section scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <script src="~/Scripts/jquery.signalR-2.4.0.js"></script>
@@ -102,7 +103,7 @@
                         }
                         chatBodyElement.append(messageDiv);
                         //appened scrolling
-                        scrollToBottom(); 
+                        scrollToBottom();
                     });
                 });
             });

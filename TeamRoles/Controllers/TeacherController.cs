@@ -10,10 +10,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin;
-using Owin;
 using TeamRoles.Models;
-using System.IO;
+using TeamRoles.Repositories;
+
 
 namespace TeamRoles.Controllers
 {
@@ -32,31 +31,19 @@ namespace TeamRoles.Controllers
         // GET: Teacher
         public ActionResult Index(string searching)
         {
-            return View(searching == null ? FindTeachers() : FindTeachers().Where(x => x.UserName.Contains(searching) || searching == null).ToList());
+            UserRepository repository = new UserRepository();
+            return View(searching == null ? repository.FindTeachers() : repository.FindTeachers().Where(x => x.UserName.Contains(searching) || searching == null).ToList());
         }
 
 
         [Authorize(Roles = "Admin")]
         public ActionResult Admin_Index()
         {
-            return View(FindTeachers());
+            UserRepository repository = new UserRepository();
+            return View(repository.FindTeachers());
         }
 
         public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicationUser applicationUser = db.Users.Find(id);
-            if (applicationUser == null)
-            {
-                return HttpNotFound();
-            }
-            return View(applicationUser);
-        }
-
-        public ActionResult Edit(string id)
         {
             if (id == null)
             {
@@ -81,35 +68,9 @@ namespace TeamRoles.Controllers
             {
                 return HttpNotFound();
             }
-            try
-            {
-                var path = teacher.Path;
-                Directory.Delete(path.ToString(), true);
-                db.Users.Remove(teacher);
-                db.SaveChanges();
-            }
-            catch(Exception e)
-            {
-                throw e;
-            }
-           
-            return RedirectToAction("Index");
-        }
-
-        public List<ApplicationUser> FindTeachers()
-        {
-            List<ApplicationUser> Users = db.Users.ToList();
-            List<ApplicationUser> usersInRole = new List<ApplicationUser>();
-
-            foreach (var user in Users)
-            {
-                var isInRole = _userManager.IsInRole(user.Id, "Teacher");
-                if (isInRole)
-                {
-                    usersInRole.Add(user);
-                }
-            }
-            return (usersInRole);
+            UserRepository repository = new UserRepository();
+            repository.DeleteTeacher(teacher);
+            return RedirectToAction("Admin_Index");
         }
 
         [Authorize(Roles = "Teacher")]

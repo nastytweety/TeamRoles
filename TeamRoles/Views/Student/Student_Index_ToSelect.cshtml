@@ -20,7 +20,9 @@
         <th>
             @Html.DisplayNameFor(model => model.UserName)
         </th>
-        <th></th>
+        <th>
+            Options
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -39,12 +41,12 @@
         @if (User.IsInRole("Parent"))
         {
             <td>
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @*Html.ActionLink("Details", "Details", new { id = item.Id }) |
 
                 @*Html.ActionLink("Request Connection", "ParentConnect", new { id = item.Id })*@
-                <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">Request Connection</button>
+                <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal_@item.Id">Request Connection</button>
 
-                <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div id="myModal_@item.Id" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             @using (Html.BeginForm("ParentConnect", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))

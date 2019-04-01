@@ -15,11 +15,20 @@ namespace TeamRoles.Models
         }
         [Key]
         public int AssignmentId { get; set; }
+
+        [Display(Name = "Assignment Name: ")]
         public string AssignmentName { get; set; }
+
+        [Display(Name = "Archive: ")]
         public string Filename { get; set; }
-        public string Path { get; set; }
+
+        [Display(Name = "Due Date: ")]
         public DateTime DueDate { get; set; }
+
+        [Display(Name = "Points: ")]
         public int Points { get; set; }
+
+        public string Path { get; set; }
         [NotMapped]
         public HttpPostedFileBase AssignmentFile { get; set; }
 

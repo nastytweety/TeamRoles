@@ -10,9 +10,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin;
-using Owin;
 using TeamRoles.Models;
+using TeamRoles.Repositories;
 
 namespace TeamRoles.Controllers
 {
@@ -32,21 +31,30 @@ namespace TeamRoles.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            return View(FindStudent());
+            UserRepository repository = new UserRepository();
+            return View(repository.FindAllStudent());
         }
 
         [Authorize(Roles = "Parent")]
         public ActionResult Student_Index_ToSelect()
-        { ///omoios kwdikas me ton katw
-            List<ApplicationUser> list = FindStudent();
+        {
+            UserRepository repository = new UserRepository();
+            List<ApplicationUser> allstudentslist = repository.FindAllStudent();
             ApplicationUser parent = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             List<Child> children = parent.Children.ToList();
-            List<ApplicationUser> childrenlist = new List<ApplicationUser>();
-            foreach (var child in children)
+            List<ApplicationUser> notchildrenlist = allstudentslist.ToList();
+            foreach (var student in allstudentslist.ToList())
             {
-                childrenlist.Add(db.Users.Find(child.Childid));
+                foreach(var child in children)
+                {
+                    if(student.Id == child.Childid)
+                    {
+                        notchildrenlist.Remove(student);
+                    }
+                }
             }
-            return View(list.Except(childrenlist));
+            //list.Except(childrenlist)
+            return View(notchildrenlist);
         }
 
         [Authorize(Roles = "Parent")]
@@ -65,37 +73,33 @@ namespace TeamRoles.Controllers
         [Authorize(Roles = "Parent")]
         public ActionResult DeleteFromChild(string id)
         {
-            ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
-            Child child = db.Children.Where(ch => ch.Childid == id).SingleOrDefault();
-            parent.Children.Remove(child);
-            db.Children.Remove(child);
-            db.Entry(parent).State = EntityState.Modified;
-            db.SaveChanges();
-
+            if(id!=null)
+            {
+                ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
+                Child child = db.Children.Where(ch => ch.Childid == id).SingleOrDefault();
+                parent.Children.Remove(child);
+                try
+                {
+                    db.Children.Remove(child);
+                    db.Entry(parent).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch(Exception e)
+                {
+                    throw e;
+                }
+            }
             return RedirectToAction("Parent_Index");
         }
 
         [Authorize(Roles = "Admin")]
         public ActionResult Admin_Index()
         {
-            return View(FindStudent());
+            UserRepository repository = new UserRepository();
+            return View(repository.FindAllStudent());
         }
 
         public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicationUser applicationUser = db.Users.Find(id);
-            if (applicationUser == null)
-            {
-                return HttpNotFound();
-            }
-            return View(applicationUser);
-        }
-
-        public ActionResult Edit(string id)
         {
             if (id == null)
             {
@@ -115,83 +119,55 @@ namespace TeamRoles.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser applicationUser = db.Users.Find(id);
-            if (applicationUser == null)
+            ApplicationUser student = db.Users.Find(id);
+            if (student == null)
             {
                 return HttpNotFound();
             }
-            db.Users.Remove(applicationUser);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            UserRepository repository = new UserRepository();
+            repository.DeleteStudent(student);     
+            return RedirectToAction("Admin_Index");
         }
 
         public ActionResult RemoveFromCourse(string id, string coursename)
         {
-            ApplicationUser student = db.Users.Find(id);
-            Course course = db.Courses.FirstOrDefault(c => c.CourseName == coursename);
-            student.Courses.Remove(course);
-            db.Entry(student).State = EntityState.Modified;
-            db.SaveChanges();
-
-            return RedirectToAction("CourseHome", "Courses", new { id = db.Courses.FirstOrDefault(c => c.CourseName == coursename).CourseId });
-        }
-
-        public List<ApplicationUser> FindStudent()
-        {
-            List<ApplicationUser> Users = db.Users.ToList();
-            List<ApplicationUser> usersInRole = new List<ApplicationUser>();
-
-            foreach (var user in Users)
+            if(id!=null && coursename!=null)
             {
-                var isInRole = _userManager.IsInRole(user.Id, "Student");
-                if (isInRole)
+                ApplicationUser student = db.Users.Find(id);
+                Course course = db.Courses.FirstOrDefault(c => c.CourseName == coursename);
+                student.Courses.Remove(course);
+                try
                 {
-                    usersInRole.Add(user);
+                    db.Entry(student).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                catch(Exception e)
+                {
+                    throw e;
                 }
             }
-            return usersInRole;
+            return RedirectToAction("CourseHome", "Courses", new { id = db.Courses.FirstOrDefault(c => c.CourseName == coursename).CourseId });
         }
 
         public ActionResult ParentConnect(string Id,DateTime BirthDay)
         {
-            if(CheckIfBirthDaysMatch(Id,BirthDay))
+            UserRepository repository = new UserRepository();
+            if(repository.CheckIfBirthDaysMatch(Id,BirthDay))
             {
                 ApplicationUser student = db.Users.Find(Id);
                 ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
-
-                GenericRequest req = new GenericRequest();
-                req.User1id = parent.Id;
-                req.User2id = student.Id;
-                req.Type = "ParentStudent";
-                req.ApplicationUser = student;
-                student.Requests.Add(req);
-                db.Requests.Add(req);
-                db.SaveChanges();
-                return View("RequestSent");
+                if (repository.CreateParentRequest(parent, student))
+                {
+                    return View("RequestSent");
+                }
+                else
+                {
+                    return View("Error");
+                }
             }
             else
             {
                 return View("Error");
-            }
-        }
-
-        public bool CheckIfBirthDaysMatch(string Id,DateTime BirthDay)
-        {
-            if(Id!=null && BirthDay!=null)
-            {
-                ApplicationUser student = db.Users.Find(Id);
-                if (student.BirthDay == BirthDay)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
             }
         }
 

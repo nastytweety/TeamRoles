@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -11,6 +9,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.IO;   
 using TeamRoles.Models;
+using TeamRoles.Repositories;
 
 namespace TeamRoles.Controllers
 {
@@ -29,6 +28,7 @@ namespace TeamRoles.Controllers
         [HttpPost]
         public ActionResult UploadAnswear(HttpPostedFileBase file,string coursename,string teachername,string assignment)
         {
+            CoursesRepository repository = new CoursesRepository();
             try
             {
                 if (file.ContentLength > 0)
@@ -39,7 +39,7 @@ namespace TeamRoles.Controllers
                 }
 
                 ViewBag.Message = "Uploaded Filed Saved.";
-                ViewBag.CourseId = FindCourseId(teachername,coursename);
+                ViewBag.CourseId = repository.FindCourseId(teachername,coursename);
                 return View();
             }
             catch
@@ -109,6 +109,7 @@ namespace TeamRoles.Controllers
         public ActionResult DeleteFile(string filename, string coursename, string username, string filefolder, string mode)
         {
             string path = "";
+            CoursesRepository repository = new CoursesRepository();
 
             if (mode == "assignments")
             {
@@ -125,16 +126,13 @@ namespace TeamRoles.Controllers
 
             System.IO.File.Delete(path + filename);
 
-            return RedirectToAction("ListAssignments","Assignments",new { courseid = FindCourseId(username, coursename)});
+            return RedirectToAction("ListAssignments","Assignments",new { courseid = repository.FindCourseId(username, coursename)});
         }
 
-        public int FindCourseId(string coursename,string teachername)
-        {
-            ApplicationUser teacher = db.Users.Where(u => u.UserName == teachername).SingleOrDefault();
-            Course course = teacher.Courses.Where(c => c.CourseName == coursename).SingleOrDefault();
-            return course.CourseId;
-        }
-
+        /// <summary>
+        /// Disposing Db
+        /// </summary>
+        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

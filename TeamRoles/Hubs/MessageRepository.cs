@@ -12,42 +12,6 @@ namespace TeamRoles.Hubs
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        //public async Task<bool> SendMessage(string senderUsername, string receiverUsername, string body)
-        //{
-        //    try
-        //    {
-        //        var sender = await db.Users.Where(x => x.UserName == senderUsername).FirstOrDefaultAsync();
-        //        var receiver = await db.Users.Where(x => x.UserName == receiverUsername).FirstOrDefaultAsync();
-        //        Message message = new Message { Body = body, Date = DateTime.Now, Read = false, Sender = sender, Receiver = receiver };
-        //        db.Messages.Add(message);
-        //        await db.SaveChangesAsync();
-        //        return true;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
-        //}
-
-        //public async Task<int> SendMessage(string senderUsername, string receiverUsername, string body)
-        //{
-        //    try
-        //    {
-        //        var sender = await db.Users.Where(x => x.UserName == senderUsername).FirstOrDefaultAsync();
-        //        var receiver = await db.Users.Where(x => x.UserName == receiverUsername).FirstOrDefaultAsync();
-        //        Message message = new Message { Body = body, Date = DateTime.Now, Read = false, Sender = sender, Receiver = receiver };
-        //        db.Messages.Add(message);
-        //        await db.SaveChangesAsync();
-        //        var messageSent = db.Messages.Attach(message);
-        //        var messageId = messageSent.Id;
-        //        return messageId;
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return 0;
-        //    }
-        //}
-
         public async Task<int> SendMessage(string senderUsername, string receiverUsername, string body)
         {
             try
