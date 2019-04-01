@@ -6,6 +6,10 @@ using TeamRoles.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using System.IO;
+using System.Web;
+using System.Web.Mvc;
+using System.Net.Mail;
+using System.Text;
 
 namespace TeamRoles.Repositories
 {
@@ -292,6 +296,45 @@ namespace TeamRoles.Repositories
                 throw e;
             }
             return true;
+        }
+
+        public static void BuildEmailTemplate(string bodyText, string sendTo)
+        {
+            string from, to, subject, body;
+            from = "cmizikakis@gmail.com";
+            to = sendTo.Trim();
+            subject = "Account Validation ev-taxei";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(bodyText);
+            body = sb.ToString();
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(from);
+            mail.To.Add(new MailAddress(to));
+            mail.Subject = subject;
+            mail.Body = body;
+            mail.IsBodyHtml = true;
+            SendEmail(mail);
+        }
+
+
+        public static void SendEmail(MailMessage mail)
+        {
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.gmail.com";
+            client.Port = 587;
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = true;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.Credentials = new System.Net.NetworkCredential("entaxisys@gmail.com", "Enta3ei1235");
+            client.EnableSsl = true;
+            try
+            {
+                client.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
