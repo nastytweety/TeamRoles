@@ -44,7 +44,6 @@
                 </td>
                 <td>
                     @Html.ActionLink("Set Grade", "SetGrades", "Teacher", new { id = item.UserId, coursename = item.Course.CourseName, teacherid = item.Course.Teacher.Id }, null)
-                    @*Html.ActionLink("Delete", "Delete", " new { id = item.EnrollmentId })*@
                 </td>
             </tr>
         }

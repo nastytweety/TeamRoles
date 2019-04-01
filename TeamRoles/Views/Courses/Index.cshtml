@@ -1,5 +1,4 @@
-﻿
-@using System.Web.Mvc.Html
+﻿@using System.Web.Mvc.Html
 @using Microsoft.AspNet.Identity.EntityFramework
 @using TeamRoles.Models
 @model IEnumerable<TeamRoles.Models.Course>
@@ -8,8 +7,9 @@
 <div class="container">
 
     <!------- CREATE COURSE BUTTON -------------->
-    <div class="row">
+    <div class="row padding-top-40">
         <div class="col-lg-12 text-center">
+
             @if (User.IsInRole("Teacher"))
             {
                 @Html.Partial("_Create", new ViewDataDictionary<Course>())

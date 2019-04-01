@@ -89,12 +89,12 @@ namespace TeamRoles.Controllers
                 return View(course);
         }
 
-        // GET: Courses/Create
-        [Authorize(Roles = "Teacher")]
-        public ActionResult Create()
-        {
-            return View();
-        }
+//        // GET: Courses/Create
+//        [Authorize(Roles = "Teacher")]
+//        public ActionResult Create()
+//        {
+//            return View();
+//        }
 
         // POST: Courses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -136,7 +136,7 @@ namespace TeamRoles.Controllers
                     course.ImageFile.SaveAs(fileName);
                     return RedirectToAction("Index");
             }
-            return View(course);
+            return RedirectToAction("Error");
         }
 
         public ActionResult Join(int? id)
@@ -156,7 +156,7 @@ namespace TeamRoles.Controllers
         }
 
         // GET: Courses/Edit/5
-        public ActionResult Edit(int? id)
+        /*public ActionResult Edit(int? id)
         {
                 if (id == null)
                 {
@@ -169,6 +169,7 @@ namespace TeamRoles.Controllers
                 }
                 return View(course);
         }
+        */
 
         [HttpPost]
         [ValidateAntiForgeryToken]

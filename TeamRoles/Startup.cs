@@ -39,12 +39,14 @@ namespace TeamRoles
 
                 //Here we create a Admin super user who will maintain the website				
 
-                var user = new ApplicationUser();
-                user.UserName = "admin";
-                user.Email = "admin@gmail.com";
-                user.ProfilePic = "Dave-Oster.png";
-                user.BirthDay = new System.DateTime(2000, 1, 1);
-                user.Validated = true;
+                var user = new ApplicationUser
+                {
+                    UserName = "admin",
+                    Email = "admin@gmail.com",
+                    ProfilePic = "46768452_10214838176481822_2515122708119814144_n.jpg",
+                    BirthDay = new System.DateTime(1990, 1, 1),
+                    Validated = true
+                };
 
                 string userPWD = "Admin//1235";
 
