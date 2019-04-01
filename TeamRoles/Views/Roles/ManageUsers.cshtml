@@ -1,66 +1,71 @@
 ﻿@using Newtonsoft.Json
 @{
-    ViewBag.Title = "ManageUsers";
+                /**/
+
+                ViewBag.Title = "ManageUsers";
 }
 <h2>Manage Users</h2>
-@Html.ActionLink("Create New Role", "Create", null, new { @class = "btn btn-primary" })
-@Html.ActionLink("Delete Role", "Delete", null, new { @class = "btn btn-danger" })
+@Html.Partial("_Create")
+@Html.Partial("_Delete")
+<h5 style="color:red"> @TempData["sErrMsg"]  </h5>
+@*Html.ActionLink("Create New Role", "Create", null, new { @class = "btn btn-primary" })*@
+@*Html.ActionLink("Delete Role", "Delete", null, new { @class = "btn btn-danger" })*@
 <hr />
 <h2>Role Add to User</h2>
 @using (Html.BeginForm("RoleAddToUser", "Roles"))
 {
-@Html.AntiForgeryToken()
-@Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
 
-<p>
-    Username : @Html.TextBox("UserName", null, new { required = "required" })
-    Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...", new { required = "required" })
-</p>
+    <p>
+        Username : @Html.TextBox("UserName", null, new { required = "required" })
+        Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...", new { required = "required" })
+    </p>
 
-<input type="submit" value="Add Role" class="btn btn-success" />
-<h5 style="color:red"> @ViewBag.Message </h5>
-<h5 style="color:red"> @ViewBag.RoleMessage </h5>
+    <input type="submit" value="Add Role" class="btn btn-success" />
+    <h5 style="color:red"> @ViewBag.Message </h5>
+    <h5 style="color:red"> @ViewBag.RoleMessage </h5>
 }
 <hr />
 <h3>Get Roles for a User</h3>
 @using (Html.BeginForm("GetRoles", "Roles"))
 {
-@Html.AntiForgeryToken()
-<p>
-    Username : @Html.TextBox("UserName", null, new { required = "required" })
-</p>
-<input type="submit" value="Get Roles" class="btn btn-info" />
+    @Html.AntiForgeryToken()
+    <p>
+        Username : @Html.TextBox("UserName", null, new { required = "required" })
+    </p>
+    <input type="submit" value="Get Roles" class="btn btn-info" />
 }
 @if (ViewBag.RolesForThisUser != null)
 {
-<div style="background-color: yellow;">
-    <h3>Roles for this user </h3>
-    <ol>
-        @foreach (string s in ViewBag.RolesForThisUser)
+    <div style="background-color: yellow;">
+        <h3>Roles for this user </h3>
+        <ol>
+            @foreach (string s in ViewBag.RolesForThisUser)
             {
-        <li>@s</li>
+                <li>@s</li>
             }
-    </ol>
-</div>
+        </ol>
+    </div>
 }
 else
 {
-<h5 style="color:red"> @ViewBag.ResultMessage </h5>
+    <h5 style="color:red"> @ViewBag.ResultMessage </h5>
 }
 <hr />
 <h3>Delete A User from a Role</h3>
 @using (Html.BeginForm("DeleteRoleForUser", "Roles"))
 {
-@Html.AntiForgeryToken()
-@Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
 
-<p>
-    Username : @Html.TextBox("UserName", null, new { required = "required" })
-    Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...", new { required = "required" })
-</p>
+    <p>
+        Username : @Html.TextBox("UserName", null, new { required = "required" })
+        Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...", new { required = "required" })
+    </p>
 
-<input type="submit" value="Delete User's Role" class="btn btn-danger" />
-<h5 style="color:red"> @ViewBag.Message1 </h5>
-<h5 style="color:red"> @ViewBag.Message2 </h5>
-<h5 style="color:red"> @ViewBag.Message3 </h5>
+    <input type="submit" value="Delete User's Role" class="btn btn-danger" />
+    <h5 style="color:red"> @ViewBag.Message1 </h5>
+    <h5 style="color:red"> @ViewBag.Message2 </h5>
+    <h5 style="color:red"> @ViewBag.Message3 </h5>
 }

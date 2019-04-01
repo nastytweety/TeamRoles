@@ -209,6 +209,34 @@ namespace TeamRoles.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
+        public JsonResult CheckUSernameAvailability(string userdata)
+        {
+            var searchData = db.Users.Where(x => x.UserName == userdata).SingleOrDefault();
+            if (searchData != null)
+            {
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
+        }
+
+        [AllowAnonymous]
+        public JsonResult CheckMailAvailability(string userdata)
+        {
+            var searchData = db.Users.Where(x => x.Email == userdata).SingleOrDefault();
+            if (searchData != null)
+            {
+                return Json(1);
+            }
+            else
+            {
+                return Json(0);
+            }
+        }
+
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

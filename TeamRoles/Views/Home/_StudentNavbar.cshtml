@@ -1,0 +1,17 @@
+﻿<li class="nav-item">
+    <a class="nav-link" href="/Teacher/Index">Teachers</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/Courses/Index_Selected">Courses</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="/Chat/Index">Chat</a>
+</li>
+<li class="nav-item">
+    @Html.ActionLink("Requests", "Requests", "Home", new { @class = "nav-link" })
+</li>
+
+<li class="nav-link">
+    <span class="badge badge-info">@ViewBag.messages</span>
+</li>
+

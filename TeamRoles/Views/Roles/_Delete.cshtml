@@ -1,0 +1,34 @@
+﻿@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#DeleteModal">
+    Delete Role
+</button>
+<!-- Modal -->
+<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <h3>Delete A Role</h3>
+            @using (Html.BeginForm("Delete", "Roles"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <p>
+                    Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...", new { required = "required" })
+                    <input type="submit" value="Delete Role" class="btn-danger" />
+                </p>
+
+
+            }
+
+        </div>
+    </div>
+</div>
+
+

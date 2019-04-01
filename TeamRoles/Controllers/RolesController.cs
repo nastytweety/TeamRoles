@@ -38,15 +38,19 @@ namespace TeamRoles.Controllers
             foreach (var role in roles)
                 if (role.Name.Equals(Role.Name) || Role.Name == null)
                 {
-                    ViewBag.Message = "This Role already exists";
+                    TempData["sErrMsg"] = "This Role already exists";
 
-                    return View();
+                    return RedirectToAction("ManageUsers");
                 }
 
             db.Roles.Add(Role);
             db.SaveChanges();
             return RedirectToAction("ManageUsers");
         }
+        //public PartialViewResult ShowError(String sErrorMessage)
+        //{
+        //    return PartialView("_Create");
+        //}
 
         public ActionResult Delete(string roleName)
         {
@@ -57,10 +61,10 @@ namespace TeamRoles.Controllers
             var thisRole =
                 db.Roles.FirstOrDefault(r => r.Name.Equals(roleName, StringComparison.CurrentCultureIgnoreCase));
 
-            if (thisRole == null || list == null)
-            {
-                return View();
-            }
+            //if (thisRole == null || list == null)
+            //{
+            //    return View();
+            //}
 
             db.Roles.Remove(thisRole);
             db.SaveChanges();
