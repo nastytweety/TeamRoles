@@ -2,18 +2,64 @@
 @using TeamRoles.Models.Extensions;
 @using TeamRoles.Models;
 @model IEnumerable<TeamRoles.Models.RequestViewModel>
-@{
-    ViewBag.Title = "Parent Requests";
-}
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 padding-top-20">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Options</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                @if (Model.Count() != 0)
+                {
+                    foreach (var req in Model)
+                    {
+
+                        <tr class="table-active">
+                            <td>@req.ReqId</td>
+                            <td>@req.User1</td>
+                            <td>@req.User2</td>
+                            <td>
+                                <a href="@Url.Action("AcceptRequest", "Home", new {id = req.ReqId})"><i class="fas fa-check fa-2x"></i></a>
+                                <a href="@Url.Action("DeclineRequest", "Home", new {id = req.ReqId})"><i class="fas fa-ban fa-2x"></i></a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="table-danger">
+                        <td></td>
+                        <td>You have no Request!</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <a href="/Home/Index"><i class="fas fa-chevron-left"></i> Back to Teachers </a>
+
+    </div>
+</div>
+
+
+
+
+@*
 @if (Model.Count() != 0)
 {
-    <h2>Parent Requests</h2>
     foreach (var req in Model)
     {
         <div class="row">
-            <div class="col-md-4">
-            </div>
+            <div class="col-md-4"></div>
 
             <div class="col-md-4">
                 <table class="table table-hover">
@@ -54,5 +100,6 @@ else
     </div>
     @Html.ActionLink("Back To Home", "Index", "Home")
 }
+*@
 
 

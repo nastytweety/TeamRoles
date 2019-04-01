@@ -7,8 +7,9 @@
 <div class="container">
 
     <!------- CREATE COURSE BUTTON -------------->
-    <div class="row padding-top-20">
+    <div class="row padding-top-40">
         <div class="col-lg-12 text-center">
+
             @if (User.IsInRole("Teacher"))
             {
                 @Html.Partial("_Create", new ViewDataDictionary<Course>())

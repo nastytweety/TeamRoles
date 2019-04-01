@@ -3,7 +3,7 @@
 @using TeamRoles.Models;
 
 @{
-    ViewBag.Title = " eν-τάξει  ";
+    ViewBag.Title = "eν-τάξει";
 }
 
 <!DOCTYPE html>
@@ -23,17 +23,18 @@
           integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" 
           crossorigin="anonymous">
 
+    <link rel="Shortcut Icon" href="/en-Taxei.ico" type="image/x-icon" />
+
 
     @RenderSection("styles", required: false)
-    @RenderSection("Testing", required: false)
 
 </head>
 
   <body style=" background-color: #D3D3D3">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style=" background: linear-gradient(#526494, #604484); ">
 
-    <a class="navbar-brand" href="/Home/Index/">eν-τάξει</a>
+    <a class="navbar-brand" href="/Home/Index/"><img src="~/Images/Untitled-1.gif" class="img-circle" height="50" width="40" alt="@ViewBag.Title"/></a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -41,6 +42,7 @@
 
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
+
             @if (!User.Identity.IsAuthenticated)
             {
                 <li class="nav-item">
@@ -137,7 +139,7 @@
     </div>
 </nav>
 
-        @RenderBody()
+    @RenderBody()
     
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

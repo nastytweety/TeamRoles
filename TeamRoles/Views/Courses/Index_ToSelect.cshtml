@@ -1,33 +1,28 @@
 ﻿@model TeamRoles.Models.TeacherViewModel
 
-
-@{
-    ViewBag.Title = "Index_ToSelect";
-}
-
 <div class="container">
-
-    <div class="row">
-        <div class="col-md-4"></div>
+    <div class="row padding-top-20">
 
         <!-- TEACHER STATISTICS-->
-        <div class="row padding-bottom-20">
-            <div class="col-md-6">
-                <div class="box">
-                    <div class="box__body">
-                        <div class="stats stats--main">
-                            <div class="stats__amount"> @Model.TotalLessons</div>
-                            <div class="stats__caption"> Course Created</div>
+        <div class="col-md-12">
+            <div class="row text-center align-content-center">
+                <div class="col-md-6">
+                    <div class="box">
+                        <div class="box__body">
+                            <div class="stats stats--main">
+                                <div class="stats__amount"> @Model.TotalLessons</div>
+                                <div class="stats__caption"> Course Created</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="box">
-                    <div class="box__body">
-                        <div class="stats stats--main">
-                            <div class="stats__amount">@Model.TotalStudents</div>
-                            <div class="stats__caption">Total Subscribers</div>
+                <div class="col-md-6">
+                    <div class="box">
+                        <div class="box__body">
+                            <div class="stats stats--main">
+                                <div class="stats__amount">@Model.TotalStudents</div>
+                                <div class="stats__caption">Total Unique Students</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -35,158 +30,53 @@
         </div>
     </div>
 
-    <div class="row padding-top-20">
-         
-        <!-- TEACHER PHOTO -->
-        <div class="col-md-3">
-            <div class="row">
-                <div class="align-content-center text-center well">
-                    <img alt="Teachers Photo" 
-                         src="~/Users/@Model.Teacher.UserName/@Url.Content(Model.Teacher.ProfilePic)" 
-                         class="img-circle" 
-                         height="150" 
-                         width="150">
-                    <h3>
-                        @Model.Teacher.UserName
-                    </h3>
-                </div>
-            </div>
-        </div>
+    <div class="row padding-top-10 padding-bottom-20">
+        <div class="col-md-12 text-center align-content-center well ">
 
-        <div class="col-md-1"></div>
+            <!---------- COURSES LIST --------->
+            @*<h3>Courses List</h3>*@
 
-        <div class="col-md-8 text-center align-content-center ">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Choices</th>
+                </tr>
+                </thead>
 
-            <!-- COURSES LIST -->
-            <div class="row padding-top-20 text-center well">
-                <div class="col-md-12">
+                <tbody>
 
-                    <h3>
-                        Courses List
-                    </h3>
+                    @if (Model.Courses.Count() != 0)
+                    {
+                        foreach (var item in Model.Courses)
+                        {
 
-                    <table class="table table-striped">
-
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Choices</th>
+                            <tr class="table-active">
+                                <td> <img src="~/Users/@item.Teacher.UserName/@item.CourseName/@Url.Content(item.CoursePic)" height="70" width="70" /></td>
+                                <td> @item.CourseName </td>
+                                <td> @item.CourseDescription </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Courses", new { id = item.CourseId })"><i class="fas fa-info-circle fa-2x"></i></a>
+                                    <a href="@Url.Action("Join", "Courses", new { id = item.CourseId })"><i class="fas fa-sign-in-alt fa-2x"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr class="table-danger">
+                            <td></td>
+                            <td>This Teacher has no Courses to Join</td>
+                            <td> </td>
+                            <td></td>
                         </tr>
-                        </thead>
-                        <tbody>
-                        
-                            @if (Model.Courses.Count() != 0)
-                            {
-                                foreach (var item in Model.Courses)
-                                {
+                    }
 
-                                    <tr class="table-active">
-                                        <td> <img src="~/Users/@item.Teacher.UserName/@item.CourseName/@Url.Content(item.CoursePic)" height="100" width="100"/> </td>
-                                        <td> @item.CourseName </td>
-                                        <td> @item.CourseDescription </td>
-                                        <td>
-                                            <a href="@Url.Action("Details", "Courses", new { id = item.CourseId })"><i class="fas fa-info-circle fa-2x"></i></a>
-                                            <a href="@Url.Action("Join", "Courses", new { id = item.CourseId })"><i class="fas fa-sign-in-alt fa-2x"></i></a>
-                                        </td>
-                                    </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr class="table-danger">
-                                    <td>This Teacher has no Courses to Join</td>
-                                    <td></td>
-                                    <td> </td>
-                                    <td></td>
-                                </tr>
-                            }
-                        
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                </tbody>
+            </table>
         </div>
     </div>
+    <a href="/Teacher/Index"><i class="fas fa-chevron-left"></i> Back to Teachers </a>
 </div>
-
-
-
-
-
-<style>
-    BlueB {
-        background: #222;
-        font: 16px 'Open Sans', sans-serif;
-    }
-
-    .box {
-        background: linear-gradient(#526494, #604484);
-        margin: 15px auto 0;
-        border-radius: 5px;
-        width: 250px;
-    }
-
-    .box__header {
-        padding: 15px 25px;
-        position: relative;
-    }
-
-    .box__header-title {
-        color: #fff;
-        font-size: 18px;
-    }
-
-    .box__body {
-        padding: 0 25px;
-    }
-
-    .stats {
-        color: #fff;
-        position: relative;
-        padding-bottom: 25px;
-    }
-
-    .stats__amount {
-        font-size: 42px;
-        font-weight: bold;
-        line-height: 1.2;
-    }
-
-    .stats__caption {
-        font-size: 18px;
-
-    }
-
-    .stats__change {
-        position: absolute;
-        top: 10px;
-        right: 0;
-        text-align: right;
-        color: #B1B7C8;
-    }
-
-    .stats__value {
-        font-size: 18px;
-    }
-
-    .stats__period {
-        font-size: 14px;
-    }
-
-    .stats__value--positive {
-        color: #AEDC6F;
-    }
-
-    .stats__value--negative {
-        color: #FB5055;
-    }
-
-    .stats--main .stats__amount {
-        font-size: 54px;
-    }
-
-
-</style>
-
