@@ -77,16 +77,23 @@ namespace TeamRoles.Controllers
             {
                 ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
                 Child child = db.Children.Where(ch => ch.Childid == id).SingleOrDefault();
-                parent.Children.Remove(child);
-                try
+                if(child.Parent.Count()>1)
+                {
+                    try
+                    {
+                        parent.Children.Remove(child);
+                        db.Entry(parent).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }
+                else
                 {
                     db.Children.Remove(child);
-                    db.Entry(parent).State = EntityState.Modified;
                     db.SaveChanges();
-                }
-                catch(Exception e)
-                {
-                    throw e;
                 }
             }
             return RedirectToAction("Parent_Index");
