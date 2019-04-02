@@ -34,9 +34,8 @@
         <div class="col-md-12 text-center align-content-center well ">
 
             <!---------- COURSES LIST --------->
-            @*<h3>Courses List</h3>*@
-
-            <table class="table table-striped">
+            
+            <table class="table table-striped text-center">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -54,12 +53,12 @@
                         {
 
                             <tr class="table-active">
-                                <td> <img src="~/Users/@item.Teacher.UserName/@item.CourseName/@Url.Content(item.CoursePic)" height="70" width="70" /></td>
+                                <td> <img src="~/Users/@item.Teacher.UserName/@item.CourseName/@Url.Content(item.CoursePic)" class="img-circle" height="70" width="70" /></td>
                                 <td> @item.CourseName </td>
                                 <td> @item.CourseDescription </td>
                                 <td>
                                     <a href="@Url.Action("Details", "Courses", new { id = item.CourseId })"><i class="fas fa-info-circle fa-2x"></i></a>
-                                    <a href="@Url.Action("Join", "Courses", new { id = item.CourseId })"><i class="fas fa-sign-in-alt fa-2x"></i></a>
+                                    <a href="@Url.Action("Join", "Courses", new { id = item.CourseId })" onclick="return confirm('Request to Join this Course Has been sent to Teacher')"><i class="fas fa-sign-in-alt fa-2x"></i></a>
                                 </td>
                             </tr>
                         }

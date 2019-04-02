@@ -59,14 +59,15 @@ namespace TeamRoles.Controllers
 
         public ActionResult TeacherNavbar()
         {
-            ViewBag.messages = db.Requests.Where(m => m.Type == "JoinCourse").Count();
+            var userId = User.Identity.GetUserId();
+            ViewBag.messages = db.Requests.Where(m => m.User1id == userId).Count();
             return PartialView("_TeacherNavbar");
         }
 
         public ActionResult StudentNavbar()
         {
             var userId = User.Identity.GetUserId();
-            ViewBag.messages = db.Requests.Where(m => m.Type == "ParentStudent" && m.User2id == userId).Count();
+            ViewBag.messages = db.Requests.Where(m => m.User2id == userId && m.Type =="ParentStudent").Count();
             return PartialView("_StudentNavbar");
         }
 
@@ -114,7 +115,8 @@ namespace TeamRoles.Controllers
         public ActionResult AcceptRequest(int? id)
         {
             GenericRequest req = db.Requests.Find(id);
-            if(req.Type == "JoinCourse")
+            UserRepository repository = new UserRepository();
+            if (req.Type == "JoinCourse")
             {
                 Course course = db.Courses.Find(req.Courseid);
                 ApplicationUser student = db.Users.Find(req.User2id);
@@ -142,14 +144,7 @@ namespace TeamRoles.Controllers
             }
             else if(req.Type ==  "ParentStudent")
             {
-                ApplicationUser parent = db.Users.Find(req.User1id);
-                ApplicationUser student = db.Users.Find(req.User2id);
-                Child temp = new Child();
-                temp.Childid = student.Id;
-                temp.Parent.Add(parent);
-                db.Children.Add(temp);
-                db.Requests.Remove(req);
-                db.SaveChanges();
+                repository.AcceptParentRequest(req);
                 return RedirectToAction("AcceptParentRequests", "Home");
             }
             else

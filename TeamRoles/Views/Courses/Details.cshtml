@@ -1,31 +1,66 @@
 ﻿@model TeamRoles.Models.Course
 
-@{
-    ViewBag.Title = "Details";
-}
+<div class="container">
+    <div class="row padding-top-40">
 
-<h2>Details</h2>
+        <!-------- COURSE PIC ----------->
+        <div class="col-md-3 text-center align-content-center well">
+            <img alt="@Model.Teacher.UserName"
+                 img src="/Users/@Model.Teacher.UserName/@Model.CourseName/@Url.Content(Model.CoursePic)"
+                 class="rounded"
+                 width="200"
+                 height="200"/>
+            <h6> @Model.CourseName</h6>
+            <dl>
+                <dt>Teacher Name:</dt>
+                <dd>@Model.Teacher.UserName</dd>
+                <dt>Description:</dt>
+                <dd>@Model.CourseDescription</dd>
+            </dl>
+        </div>
+        <div class="col-md-1"></div>
 
-<div>
-    <h4>Course</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CourseName)
-        </dt>
+        <!----- STUDENTS LIST ------->
+        <div class="col-md-8 well">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Student Name</th>
+                    <th>Joined Courses</th>
 
-        <dd>
-            @Html.DisplayFor(model => model.CourseName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CoursePic)
-        </dt>
-        <dd>
-            <img src="~/Users/@Model.Teacher.UserName/@Model.CourseName/@Url.Content(Model.CoursePic)" width="100" height="100" />
-        </dd>
-    </dl>
+                </tr>
+                </thead>
+                <tbody>
+
+                @if (Model.Enrollments.Count() != 0)
+                {
+                    foreach (var enroll in Model.Enrollments)
+                    {
+                        <tr class="table-active">
+                            <td><img class="img-circle" src="~/Users/@enroll.User.UserName/@Url.Content(enroll.User.ProfilePic)" height="40" width="40" alt="@enroll.User.UserName"/></td>
+                            <td>@enroll.User.UserName</td>
+                            <td>@enroll.User.Enrollments.Count()</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="table-danger">
+                        <td></td>
+                        <td>There are no subscribed students!</td>
+                        <td></td>
+
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- BACK TO BUTTONS -->
+        <div class="padding-top-20">
+            <a href="/Courses/Index_ToSelect/@ViewBag.TeacherId"><i class="fas fa-chevron-left"></i> Back to Course </a>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CourseId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
