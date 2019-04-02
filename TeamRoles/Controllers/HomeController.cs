@@ -6,12 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using TeamRoles.Models;
-using TeamRoles.Models.ViewModels;
-using TeamRoles.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
+using TeamRoles.Models;
+using TeamRoles.Models.ViewModels;
+using TeamRoles.Repositories;
 
 namespace TeamRoles.Controllers
 {
@@ -117,7 +117,6 @@ namespace TeamRoles.Controllers
             {
                 Course course = db.Courses.Find(req.Courseid);
                 ApplicationUser student = db.Users.Find(req.User2id);
-                //student.Enrollments.Add(student);
                 db.Courses.Attach(course);
 
                 Enrollment enrol = new Enrollment();
@@ -161,6 +160,7 @@ namespace TeamRoles.Controllers
                     db.Entry(user).State = EntityState.Modified;
                     db.Requests.Remove(req);
                     db.SaveChanges();
+                    UserRepository.BuildEmailTemplate("Your Account was successfully validated!You are allowed to login!", user.Email);
                 }
                 catch(Exception e)
                 {

@@ -3,15 +3,18 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4 padding-top-20"></div>
+        <div class="col-md-4 padding-top-40"></div>
+
         <!-- VERTICAL BUTTONS-->
-        <div class="col-md-8 padding-top-20 text-center">
+        <div class="col-md-8 padding-top-40 text-center">
             <div class="btn-group" role="group">
                 @if (User.IsInRole("Teacher"))
                 {
                     @Html.Partial("_CreateAssignments", new ViewDataDictionary<Assignment>() { { "CourseId", Model.CourseId } })
                     @Html.Partial("_CreateLecture", new ViewDataDictionary<Lecture>() { { "CourseId", Model.CourseId } })
-                    @Html.ActionLink("Create Lecture", "Create", "Lectures", new { courseid = Model.CourseId }, new { @class = "btn btn-primary" })
+
+                    //@Html.Partial("_Grades",new ViewDataDictionary<Enrollment>(){{"CourseName",Model.CourseName},{"teacherid",Model.Teacher.Id}})
+                    
                     @Html.ActionLink("View Grades", "CourseGrades", "Courses", new { coursename = Model.CourseName, teacherid = Model.Teacher.Id }, new { @class = "btn btn-primary" })
                 }
                 @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { courseid = Model.CourseId }, new { @class = "btn btn-primary" })
@@ -37,49 +40,50 @@
             </div>
             <div class="col-md-1"></div>
             <!----- STUDENTS LIST ------->
-            <div class="col-md-8 well">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Student Name</th>
-                            <th>Joined Courses</th>
-                            <th>Options</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+        <div class="col-md-8 well">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Student Name</th>
+                    <th>Joined Courses</th>
+                    <th>Options</th>
+                </tr>
+                </thead>
+                <tbody>
 
-                        @if (Model.Enrollments.Count() != 0)
-                        {
-                            foreach (var enroll in Model.Enrollments)
+                @if (Model.Enrollments.Count() != 0)
+                {
+                    foreach (var enroll in Model.Enrollments)
+                    {
+                        <tr class="table-active">
+                            <td><img class="img-circle" src="~/Users/@enroll.User.UserName/@Url.Content(enroll.User.ProfilePic)" height="40" width="40" alt="@enroll.User.UserName" /></td>
+                            <td>@enroll.User.UserName</td>
+                            <td>@enroll.User.Enrollments.Count()</td>
+                            @if (User.IsInRole("Teacher"))
                             {
-                                <tr class="table-active">
-                                    <td><img class="img-circle" src="~/Users/@enroll.User.UserName/@Url.Content(enroll.User.ProfilePic)" height="40" width="40" alt="@enroll.User.UserName" /></td>
-                                    <td>@enroll.User.UserName</td>
-                                    <td>@enroll.User.Enrollments.Count()</td>
-                                    @if (User.IsInRole("Teacher"))
-                                    {
-                                        <td>
-                                            @Html.ActionLink("Details", "Details", "Student", new { id = enroll.User.Id }, null) |
-                                            @Html.ActionLink("Delete", "RemoveFromCourse", "Student", new { id = enroll.User.Id, coursename = Model.CourseName }, null)|
-                                            @Html.ActionLink("Set Grade", "SetGrades", "Teacher", new { id = enroll.User.Id, coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)
-                                        </td>
-                                    }
-                                </tr>
+                                <td>
+                                    @Html.ActionLink("Details", "Details", "Student", new { id = enroll.User.Id }, null) |
+                                    @Html.ActionLink("Delete", "RemoveFromCourse", "Student", new { id = enroll.User.Id, coursename = Model.CourseName }, null)|
+                                    @Html.ActionLink("Set Grade", "SetGrades", "Teacher", new { id = enroll.User.Id, coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)
+                                </td>
                             }
-                        }
-                        else
-                        {
-                            <tr class="table-danger">
-                                <td></td>
-                                <td>There are no subscribed students!</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="table-danger">
+                        <td></td>
+                        <td>There are no subscribed students!</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+
             <!-- BACK TO BUTTONS -->
             @if (User.IsInRole("Teacher"))
             {

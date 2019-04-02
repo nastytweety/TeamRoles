@@ -6,6 +6,9 @@ using TeamRoles.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using System.IO;
+using System.Web.Mvc;
+using System.Net.Mail;
+using System.Text;
 
 namespace TeamRoles.Repositories
 {
@@ -276,12 +279,13 @@ namespace TeamRoles.Repositories
         /// <returns>true if success</returns>
         public bool CreateParentRequest(ApplicationUser parent,ApplicationUser student)
         {
+            ApplicationUser stud = db.Users.Find(student.Id);
             GenericRequest req = new GenericRequest();
             req.User1id = parent.Id;
             req.User2id = student.Id;
             req.Type = "ParentStudent";
-            req.ApplicationUser = student;
-            student.Requests.Add(req);
+            req.ApplicationUser = stud;
+            stud.Requests.Add(req);
             try
             {
                 db.Requests.Add(req);
@@ -292,6 +296,74 @@ namespace TeamRoles.Repositories
                 throw e;
             }
             return true;
+        }
+
+        public bool checkIfRequestExists(ApplicationUser User2, ApplicationUser User1,string type)
+        {
+            if(type == "ParentStudent")
+            {
+                List<GenericRequest> requests = db.Requests.Where(r => r.Type == "ParentStudent").ToList();
+                foreach (var req in requests)
+                {
+                    if (req.User2id == User2.Id && req.User1id == User1.Id)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            else if(type == "JoinCourse")
+            {
+                List<GenericRequest> requests = db.Requests.Where(r => r.Type == "JoinCourse").ToList();
+                foreach (var req in requests)
+                {
+                    if (req.User2id == User2.Id && req.User1id == User1.Id)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return false;
+        }
+
+        public static void BuildEmailTemplate(string bodyText, string sendTo)
+        {
+            string from, to, subject, body;
+            from = "cmizikakis@gmail.com";
+            to = sendTo.Trim();
+            subject = "Account Validation ev-taxei";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(bodyText);
+            body = sb.ToString();
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(from);
+            mail.To.Add(new MailAddress(to));
+            mail.Subject = subject;
+            mail.Body = body;
+            mail.IsBodyHtml = true;
+            SendEmail(mail);
+        }
+
+
+        public static void SendEmail(MailMessage mail)
+        {
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.gmail.com";
+            client.Port = 587;
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = true;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.Credentials = new System.Net.NetworkCredential("entaxisys@gmail.com", "Enta3ei1235");
+            client.EnableSsl = true;
+            try
+            {
+                client.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

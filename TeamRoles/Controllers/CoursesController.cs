@@ -89,12 +89,12 @@ namespace TeamRoles.Controllers
                 return View(course);
         }
 
-        // GET: Courses/Create
-        [Authorize(Roles = "Teacher")]
-        public ActionResult Create()
-        {
-            return View();
-        }
+//        // GET: Courses/Create
+//        [Authorize(Roles = "Teacher")]
+//        public ActionResult Create()
+//        {
+//            return View();
+//        }
 
         // POST: Courses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -136,7 +136,7 @@ namespace TeamRoles.Controllers
                     course.ImageFile.SaveAs(fileName);
                     return RedirectToAction("Index");
             }
-            return View(course);
+            return RedirectToAction("Error");
         }
 
         public ActionResult Join(int? id)
@@ -145,29 +145,23 @@ namespace TeamRoles.Controllers
             {
                 Course course = db.Courses.Find(id);
                 ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
-                CoursesRepository repository = new CoursesRepository();
-                repository.CreateJoinRequest(student, course);
-                return RedirectToAction("RequestSent", "Courses");
+                UserRepository urepository = new UserRepository();
+                if(!urepository.checkIfRequestExists(student,course.Teacher,"JoinCourse"))
+                {
+                    CoursesRepository repository = new CoursesRepository();
+                    repository.CreateJoinRequest(student, course);
+                    return RedirectToAction("RequestSent", "Courses");
+                }
+                else
+                {
+                    ViewBag.Message = "There is already a request for this course!!!";
+                    return View("Error");
+                }
             }
             else
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-        }
-
-        // GET: Courses/Edit/5
-        public ActionResult Edit(int? id)
-        {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Course course = db.Courses.Find(id);
-                if (course == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(course);
         }
 
         [HttpPost]
@@ -209,20 +203,6 @@ namespace TeamRoles.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
-
-        /*public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Course course = db.Courses.Find(id);
-            if (course == null)
-            {
-                return HttpNotFound();
-            }
-            return View(course);
-        }*/
 
 
         // POST: Courses/Delete/5

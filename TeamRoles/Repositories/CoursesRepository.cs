@@ -79,6 +79,7 @@ namespace TeamRoles.Repositories
         /// Finds all the available courses from a teacher that a student has not selected
         /// </summary>
         /// <param name="id">the teacher id</param>
+        /// <param name="selectedcourses"></param>
         /// <returns>the model</returns>
         public TeacherViewModel FindAvailableCourses(string id, List<Course> selectedcourses)
         {
