@@ -262,12 +262,37 @@ namespace TeamRoles.Repositories
                 CoursesRepository repository = new CoursesRepository();
                 DeleteAllMessages(parent);
                 DeleteAllPosts(parent);
+                DeleteAllChildren(parent);
                 db.Users.Remove(parent);
                 db.SaveChanges();
             }
             catch (Exception e)
             {
                 throw e;
+            }
+        }
+
+        /// <summary>
+        /// Deletes all children of a parent
+        /// </summary>
+        /// <param name="parent">the parent</param>
+        public void DeleteAllChildren(ApplicationUser parent)
+        {
+            List<Child> list = parent.Children.ToList();
+            if (list.Count() != 0)
+            {
+                foreach (var child in list)
+                {
+                    try
+                    {
+                        db.Children.Remove(db.Children.Find(child.Childid));
+                        db.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }
             }
         }
 
