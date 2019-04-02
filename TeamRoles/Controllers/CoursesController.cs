@@ -147,30 +147,14 @@ namespace TeamRoles.Controllers
                 ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
                 CoursesRepository repository = new CoursesRepository();
                 repository.CreateJoinRequest(student, course);
-                return RedirectToAction("RequestSent", "Courses");
+                return RedirectToAction("Index", "Teacher");
             }
             else
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
-
-        // GET: Courses/Edit/5
-        /*public ActionResult Edit(int? id)
-        {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Course course = db.Courses.Find(id);
-                if (course == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(course);
-        }
-        */
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CourseId,CourseName,CourseDescription,ImageFile")] Course course, HttpPostedFileBase ImageFile)

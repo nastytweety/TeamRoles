@@ -1,46 +1,47 @@
-﻿@using TeamRoles.Models
+﻿@using System.Web.UI.WebControls
+@using TeamRoles.Models
 @model LoginViewModel
 
 
 <div class="container">
-    <div class="row margin-top-15">
+    <div class="row padding-top-40">
+
         <div class="col-md-4"></div>
-        <div class="col-md-4 align-content-center well">
+
+        <div class="col-md-4 well" style="text-align: center">
 
             <section id="loginForm">
 
-                @*<div class="alert alert-danger" id="Alert" role="alert" style=" display:none">
-                    <h4 class="alert-heading"> Wait...! </h4>
-                    <p> Your Request had been send to Admin. You have to wait until Admin Accept you ... </p>
-                </div>*@
-
-
-                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                @using (Html.BeginForm("Login", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
                 {
                     @Html.AntiForgeryToken()
 
-
+                    
+                    <img src="/Images/Untitled-1.gif" alt=" en-Τάξει" id="testing"/>
 
                     <h5>Use a local account to log in.</h5>
-                    <hr />
+                    
 
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
                     <div class="form-group">
-                        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                        <p>Been here before? Welcome Back!</p>
+                        
+                        <div class="col-md-12">
+                            @Html.TextBoxFor(m => m.UserName, new {@placeholder = "Username... "})
+                            @Html.ValidationMessageFor(m => m.UserName, "", new {@class = "text-danger"})
                         </div>
                     </div>
+
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-8">
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+
+                        <div class="col-md-12">
+                            @Html.PasswordFor(m => m.Password,new {@placeholder = "Password..."})
+                            @Html.ValidationMessageFor(m => m.Password, "", new {@class = "text-danger"})
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-8">
+                        <div class="col-md-12">
                             <div class="checkbox">
                                 @Html.CheckBoxFor(m => m.RememberMe)
                                 @Html.LabelFor(m => m.RememberMe)
@@ -48,7 +49,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-8">
+                        <div class="col-md-12">
                             <input type="submit" value="Log in" class="btn btn-primary"/>
                         </div>
                     </div>
@@ -91,6 +92,7 @@
 </script>*@
 
 
+@*
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
+}*@

@@ -5,17 +5,14 @@
 
 
     <div class="container">
-
         <div class="row">
 
-            <div class="col-lg-12">
+            <div class="col-lg-12 padding-top-20">
 
-                <h2 class="page-header">TEACHERS</h2>
-                
                 @using (Html.BeginForm("Index", "Teacher", FormMethod.Get))
                 {
                     @Html.TextBox("searching")
-                    <input type="submit" value="Search" />
+                    <input type="submit" value="Search"/>
                 }
             </div>
         </div>
@@ -52,12 +49,10 @@
             }
             else
             {
-                <h2> There are no Teachers in the platform ... </h2>
+                <div class="text-center align-content-center"><h2 style="color: red"> There are no Teachers in the platform ... </h2></div>
             }
 
         </div>
-
-        <a href="/Home/Index"><i class="fas fa-chevron-left"></i> Back to Home </a>
     </div>
 
         
