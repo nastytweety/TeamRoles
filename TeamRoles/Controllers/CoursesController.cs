@@ -76,17 +76,21 @@ namespace TeamRoles.Controllers
         // GET: Courses/Details/5
         public ActionResult Details(int? id)
         {
+            
 
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Course course = db.Courses.Find(id);
-                if (course == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(course);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Course course = db.Courses.Find(id);
+            if (course == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.TeacherId = course.Teacher.Id;
+
+            return View(course);
         }
 
 //        // GET: Courses/Create

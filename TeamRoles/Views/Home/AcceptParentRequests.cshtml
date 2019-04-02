@@ -45,61 +45,6 @@
                 </tbody>
             </table>
         </div>
-        <a href="/Home/Index"><i class="fas fa-chevron-left"></i> Back to Home </a>
-
     </div>
 </div>
-
-
-
-
-@*
-@if (Model.Count() != 0)
-{
-    foreach (var req in Model)
-    {
-        <div class="row">
-            <div class="col-md-4"></div>
-
-            <div class="col-md-4">
-                <table class="table table-hover">
-                    <tbody>
-                        <tr>
-                            <td>
-                                @req.User1.UserName
-                            </td>
-                            <td>
-                                @req.User2.UserName
-                            </td>
-                            <td>
-                            <td>
-                                @Html.ActionLink("Accept", "AcceptRequest", "Home", new { id = req.ReqId }, null)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Decline", "DeclineRequest", "Home", new { id = req.ReqId }, null)
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    }
-    @Html.ActionLink("Back To Home", "Index", "Home")
-}
-else
-{
-    <div class="row">
-        <div class="col-md-4">
-        </div>
-
-        <div class="col-md-4">
-            <h2>
-                There are no requests
-            </h2>
-        </div>
-    </div>
-    @Html.ActionLink("Back To Home", "Index", "Home")
-}
-*@
-
 

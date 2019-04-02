@@ -75,6 +75,9 @@ namespace TeamRoles.Controllers
             {
                 Course course = db.Courses.Where(c => c.CourseId == courseid).SingleOrDefault();
                 List<Lecture> lectures = course.Lectures.ToList();
+
+                ViewBag.Id = courseid;
+
                 return View(lectures);
             }
             else

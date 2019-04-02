@@ -1,7 +1,7 @@
 ﻿@model TeamRoles.Models.Course
 
 <div class="container">
-    <div class="row padding-top-30">
+    <div class="row padding-top-40">
 
         <!-------- COURSE PIC ----------->
         <div class="col-md-3 text-center align-content-center well">
@@ -56,8 +56,11 @@
                 </tbody>
             </table>
         </div>
+
         <!-- BACK TO BUTTONS -->
-        <a href="/Courses/Index_ToSelect/@Model.Teacher.Id"><i class="fas fa-chevron-left"></i> Back to Teachers </a>
+        <div class="padding-top-20">
+            <a href="/Courses/Index_ToSelect/@ViewBag.TeacherId"><i class="fas fa-chevron-left"></i> Back to Course </a>
+        </div>
     </div>
 </div>
 

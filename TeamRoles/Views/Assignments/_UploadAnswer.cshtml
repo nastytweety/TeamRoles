@@ -1,0 +1,75 @@
+﻿@model TeamRoles.Models.Assignment
+
+
+@*<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Upload File</button>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <h5>Upload your file here</h5>
+
+            @using (Html.BeginForm("UploadAnswear", "UploadFiles", FormMethod.Post, new {enctype = "multipart/form-data"}))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.Hidden("coursename", Model.Course.CourseName)
+                    @Html.Hidden("teachername", Model.Course.Teacher.UserName)
+                    @Html.Hidden("assignment", Model.AssignmentName)
+                    <div class="col-md-10">
+                        <input type="file" name="file" required/>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Submit File" class="btn btn-primary"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>*@
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#testingformodal">
+    Upload File
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="testingformodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            @using (Html.BeginForm("UploadAnswear", "UploadFiles", FormMethod.Post, new {enctype = "multipart/form-data"}))
+            {
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        @Html.Hidden("coursename", Model.Course.CourseName)
+                        @Html.Hidden("teachername", Model.Course.Teacher.UserName)
+                        @Html.Hidden("assignment", Model.AssignmentName)
+                        <div class="col-md-10">
+                            <input type="file" name="file" required/>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Submit File" class="btn btn-primary"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Upload</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
