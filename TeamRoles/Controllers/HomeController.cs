@@ -59,13 +59,15 @@ namespace TeamRoles.Controllers
 
         public ActionResult TeacherNavbar()
         {
-            ViewBag.messages = db.Requests.Where(m => m.Type == "JoinCourse").Count();
+            var userId = User.Identity.GetUserId();
+            ViewBag.messages = db.Requests.Where(m => m.User1id == userId).Count();
             return PartialView("_TeacherNavbar");
         }
 
         public ActionResult StudentNavbar()
         {
-            ViewBag.messages = db.Requests.Where(m => m.Type == "ParentStudent").Count();
+            var userId = User.Identity.GetUserId();
+            ViewBag.messages = db.Requests.Where(m => m.User2id == userId && m.Type =="ParentStudent").Count();
             return PartialView("_StudentNavbar");
         }
 
@@ -143,10 +145,10 @@ namespace TeamRoles.Controllers
             {
                 ApplicationUser parent = db.Users.Find(req.User1id);
                 ApplicationUser student = db.Users.Find(req.User2id);
-                Child temp = new Child();
-                temp.Childid = student.Id;
-                temp.Parent.Add(parent);
-                db.Children.Add(temp);
+                Child tobeinserted = new Child();
+                tobeinserted.Childid = student.Id;
+                tobeinserted.Parent.Add(parent);
+                db.Children.Add(tobeinserted);
                 db.Requests.Remove(req);
                 db.SaveChanges();
                 return RedirectToAction("AcceptParentRequests", "Home");
@@ -160,7 +162,7 @@ namespace TeamRoles.Controllers
                     db.Entry(user).State = EntityState.Modified;
                     db.Requests.Remove(req);
                     db.SaveChanges();
-                    UserRepository.BuildEmailTemplate("Your Account was successfully validated!You are allowrd to login!", user.Email);
+                    UserRepository.BuildEmailTemplate("Your Account was successfully validated!You are allowed to login!", user.Email);
                 }
                 catch(Exception e)
                 {
