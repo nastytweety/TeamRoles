@@ -6,12 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using TeamRoles.Models;
-using TeamRoles.Models.ViewModels;
-using TeamRoles.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
+using TeamRoles.Models;
+using TeamRoles.Models.ViewModels;
+using TeamRoles.Repositories;
 
 namespace TeamRoles.Controllers
 {
@@ -49,6 +49,24 @@ namespace TeamRoles.Controllers
             model.TotalLessons = model.User.Courses.Count();
             model.TotalStudents = repository.GetTotalStudents(model.User);
             return View(model);
+        }
+
+        public ActionResult AdminNavbar()
+        {
+            ViewBag.messages = db.Users.Where(m => m.Validated == false).Count();
+            return PartialView("_AdminNavbar");
+        }
+
+        public ActionResult TeacherNavbar()
+        {
+            ViewBag.messages = db.Requests.Where(m => m.Type == "JoinCourse").Count();
+            return PartialView("_TeacherNavbar");
+        }
+
+        public ActionResult StudentNavbar()
+        {
+            ViewBag.messages = db.Requests.Where(m => m.Type == "ParentStudent").Count();
+            return PartialView("_StudentNavbar");
         }
 
         public ActionResult JoinRequests()
@@ -99,7 +117,6 @@ namespace TeamRoles.Controllers
             {
                 Course course = db.Courses.Find(req.Courseid);
                 ApplicationUser student = db.Users.Find(req.User2id);
-                //student.Enrollments.Add(student);
                 db.Courses.Attach(course);
 
                 Enrollment enrol = new Enrollment();
@@ -143,6 +160,7 @@ namespace TeamRoles.Controllers
                     db.Entry(user).State = EntityState.Modified;
                     db.Requests.Remove(req);
                     db.SaveChanges();
+                    UserRepository.BuildEmailTemplate("Your Account was successfully validated!You are allowrd to login!", user.Email);
                 }
                 catch(Exception e)
                 {
