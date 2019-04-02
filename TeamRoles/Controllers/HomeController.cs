@@ -65,7 +65,8 @@ namespace TeamRoles.Controllers
 
         public ActionResult StudentNavbar()
         {
-            ViewBag.messages = db.Requests.Where(m => m.Type == "ParentStudent").Count();
+            var userId = User.Identity.GetUserId();
+            ViewBag.messages = db.Requests.Where(m => m.Type == "ParentStudent" && m.User2id == userId).Count();
             return PartialView("_StudentNavbar");
         }
 

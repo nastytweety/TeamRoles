@@ -1,71 +1,107 @@
 ﻿@using Newtonsoft.Json
-@{
-                /**/
 
-                ViewBag.Title = "ManageUsers";
-}
-<h2>Manage Users</h2>
-@Html.Partial("_Create")
-@Html.Partial("_Delete")
-<h5 style="color:red"> @TempData["sErrMsg"]  </h5>
-@*Html.ActionLink("Create New Role", "Create", null, new { @class = "btn btn-primary" })*@
-@*Html.ActionLink("Delete Role", "Delete", null, new { @class = "btn btn-danger" })*@
-<hr />
-<h2>Role Add to User</h2>
-@using (Html.BeginForm("RoleAddToUser", "Roles"))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+<div class="container">
+   <br />
+    <br />
+    <br />
+    <div class="row text-center align-content-center padding-top-40" >
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md 4"></div>
+                <div class="col-md-4">
+                    @Html.Partial("_Create")
+                    <h5 style="color:red"> @TempData["sErrMsg"] </h5>
+                    <br />
+                    @Html.Partial("_Delete")
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="card-deck">
+                    <div class="col-md-4">
+                        <div class="card border-primary mb-3" style="max-width: 18rem;">
+                            @using (Html.BeginForm("RoleAddToUser", "Roles"))
+                            {
+                                <div class="card-body text-primary">
+                                    <h5 class="card-title">Role Add to User</h5>
+                                    <p class="card-text">
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
 
-    <p>
-        Username : @Html.TextBox("UserName", null, new { required = "required" })
-        Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...", new { required = "required" })
-    </p>
+                                        <div class="col-md 12"> Username : @Html.TextBox("UserName", null, new { required = "required" })</div>
+                                        <div class="col-md 12"> Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...", new { required = "required" })</div>
 
-    <input type="submit" value="Add Role" class="btn btn-success" />
-    <h5 style="color:red"> @ViewBag.Message </h5>
-    <h5 style="color:red"> @ViewBag.RoleMessage </h5>
-}
-<hr />
-<h3>Get Roles for a User</h3>
-@using (Html.BeginForm("GetRoles", "Roles"))
-{
-    @Html.AntiForgeryToken()
-    <p>
-        Username : @Html.TextBox("UserName", null, new { required = "required" })
-    </p>
-    <input type="submit" value="Get Roles" class="btn btn-info" />
-}
-@if (ViewBag.RolesForThisUser != null)
-{
-    <div style="background-color: yellow;">
-        <h3>Roles for this user </h3>
-        <ol>
-            @foreach (string s in ViewBag.RolesForThisUser)
-            {
-                <li>@s</li>
-            }
-        </ol>
+                                        <h5 style="color:red"> @ViewBag.Message </h5>
+                                        <h5 style="color:red"> @ViewBag.RoleMessage </h5>
+                                    </p>
+                                </div>
+                                <div class="card-footer bg-transparent border-primary"> <input type="submit" value="Add Role" class="btn btn-success" /></div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card border-primary mb-3" style="max-width: 18rem;">
+                            @using (Html.BeginForm("GetRoles", "Roles"))
+                            {
+                                <div class="card-body text-primary">
+                                    <h5 class="card-title">Get Roles for a User</h5>
+                                    <p class="card-text">
+                                        @Html.AntiForgeryToken()
+                                        <div class="col-md 12"> Username : @Html.TextBox("UserName", null, new { required = "required" })</div>
+
+                                        @if (ViewBag.RolesForThisUser != null)
+                                        {
+                                            <div class="col-md 12 border-info">
+                                                <ol>
+                                                    @foreach (string s in ViewBag.RolesForThisUser)
+                                                    {
+                                                        <li>@s</li>
+                                                    }
+                                                </ol>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <h5 style="color:red"> @ViewBag.ResultMessage </h5>
+                                        }
+                                    </p>
+                                </div><br />                               
+                                <div class="card-footer bg-transparent border-primary"><input type="submit" value="Get Roles" class="btn btn-info" /></div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-primary mb-3" style="max-width: 18rem;">
+                            @using (Html.BeginForm("DeleteRoleForUser", "Roles"))
+                            {
+                                <div class="card-body text-primary">
+                                    <h5 class="card-title">Delete Role from a User</h5>
+                                    <p class="card-text">
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+
+                                        <div class="col-md 12">Username : @Html.TextBox("UserName", null, new { required = "required" })</div>
+                                        <div class="col-md 12"> Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...", new { required = "required" })</div>
+
+                                        <h5 style="color:red"> @ViewBag.Message1 </h5>
+                                        <h5 style="color:red"> @ViewBag.Message2 </h5>
+                                        <h5 style="color:red"> @ViewBag.Message3 </h5>
+                                    </p>
+                                </div>
+                                <div class="card-footer bg-transparent border-primary"> <input type="submit" value="Delete Role" class="btn btn-danger" /></div>
+                            }
+                        </div>
+                    </div>
+                </div>               
+            </div>
+        </div>
     </div>
-}
-else
-{
-    <h5 style="color:red"> @ViewBag.ResultMessage </h5>
-}
-<hr />
-<h3>Delete A User from a Role</h3>
-@using (Html.BeginForm("DeleteRoleForUser", "Roles"))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+</div>
 
-    <p>
-        Username : @Html.TextBox("UserName", null, new { required = "required" })
-        Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...", new { required = "required" })
-    </p>
 
-    <input type="submit" value="Delete User's Role" class="btn btn-danger" />
-    <h5 style="color:red"> @ViewBag.Message1 </h5>
-    <h5 style="color:red"> @ViewBag.Message2 </h5>
-    <h5 style="color:red"> @ViewBag.Message3 </h5>
-}
+
+
+
