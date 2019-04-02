@@ -34,6 +34,7 @@ namespace TeamRoles.Controllers
         public ActionResult CreateAssignment(Assignment assignment,int CourseId)
         {
             CoursesRepository repository = new CoursesRepository();
+
             if(!repository.CheckIfAssignmentExists(assignment,CourseId))
             {
                 Course course = db.Courses.Where(c => c.CourseId == CourseId).SingleOrDefault();
@@ -44,7 +45,7 @@ namespace TeamRoles.Controllers
                 string fileName = Path.Combine(Server.MapPath("~/Users/" + teacher.UserName + "/" + course.CourseName), assignment.Filename);
                 assignment.AssignmentFile.SaveAs(fileName);
                 assignment.Path = fileName;
-
+                assignment.DueDate = DateTime.Now; 
                 var path = new System.IO.DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory + "Users\\" + teacher.UserName + "\\" + course.CourseName + "\\Submits\\" + assignment.AssignmentName);
                 DirectoryInfo di = Directory.CreateDirectory(path.ToString());
 
@@ -74,10 +75,10 @@ namespace TeamRoles.Controllers
             
         }
 
-        public ActionResult UploadAnswear()
-        {
-            return View();
-        }
+//        public ActionResult UploadAnswear()
+//        {
+//            return View();
+//        }
 
         public ActionResult Delete(int? id)
         {
