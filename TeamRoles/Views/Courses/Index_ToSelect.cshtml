@@ -29,20 +29,20 @@
             </div>
         </div>
     </div>
-
+   
     <div class="row padding-top-10 padding-bottom-20">
         <div class="col-md-12 text-center align-content-center well ">
 
             <!---------- COURSES LIST --------->
-            
+
             <table class="table table-striped text-center">
                 <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Choices</th>
-                </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Choices</th>
+                    </tr>
                 </thead>
 
                 <tbody>
@@ -51,14 +51,13 @@
                     {
                         foreach (var item in Model.Courses)
                         {
-
                             <tr class="table-active">
                                 <td> <img src="~/Users/@item.Teacher.UserName/@item.CourseName/@Url.Content(item.CoursePic)" class="img-circle" height="70" width="70" /></td>
                                 <td> @item.CourseName </td>
                                 <td> @item.CourseDescription </td>
                                 <td>
                                     <a href="@Url.Action("Details", "Courses", new { id = item.CourseId })"><i class="fas fa-info-circle fa-2x"></i></a>
-                                    <a href="@Url.Action("Join", "Courses", new { id = item.CourseId })" onclick="return confirm('Request to Join this Course Has been sent to Teacher')"><i class="fas fa-sign-in-alt fa-2x"></i></a>
+                                    <a href="@Url.Action("Join", "Courses", new { id = item.CourseId })" onclick="return confirm('Request to Join this Course has been sent to Teacher ')"><i class="fas fa-sign-in-alt fa-2x"></i></a>
                                 </td>
                             </tr>
                         }
@@ -79,3 +78,15 @@
     </div>
     <a href="/Teacher/Index"><i class="fas fa-chevron-left"></i> Back to Teachers </a>
 </div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    @if (TempData["Message"] != null)
+    {
+        <script type="text/javascript">
+                    window.onload = function () {
+                        alert('@TempData["Message"]');
+                    };
+        </script>
+    }
+

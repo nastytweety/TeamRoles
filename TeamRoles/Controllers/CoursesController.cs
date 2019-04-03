@@ -116,7 +116,8 @@ namespace TeamRoles.Controllers
                     {
                         if (c.CourseName == course.CourseName)
                         {
-                            return RedirectToAction("Error");
+                            TempData["Message"] = "This name already exists!! Try another";
+                            return RedirectToAction("Index");
                         }
                     }
                     course.Teacher = db.Users.Find(User.Identity.GetUserId());
@@ -140,7 +141,7 @@ namespace TeamRoles.Controllers
                     course.ImageFile.SaveAs(fileName);
                     return RedirectToAction("Index");
             }
-            return RedirectToAction("Error");
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
         public ActionResult Join(int? id)
@@ -154,12 +155,12 @@ namespace TeamRoles.Controllers
                 {
                     CoursesRepository repository = new CoursesRepository();
                     repository.CreateJoinRequest(student, course);
-                    return RedirectToAction("RequestSent", "Courses");
+                    return RedirectToAction("Index_ToSelect", course.Teacher);
                 }
                 else
                 {
-                    ViewBag.Message = "There is already a request for this course!!!";
-                    return View("Error");
+                    TempData["Message"] = "There is already a request for this course!!!";
+                    return RedirectToAction("Index_ToSelect",course.Teacher);
                 }
             }
             else
@@ -284,16 +285,6 @@ namespace TeamRoles.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-        }
-
-        public ActionResult RequestSent()
-        {
-            return View();
-        }
-
-        public ActionResult Error()
-        {
-            return View();
         }
 
         protected override void Dispose(bool disposing)
