@@ -9,6 +9,9 @@ using System.IO;
 using System.Web.Mvc;
 using System.Net.Mail;
 using System.Text;
+using System.Data;
+using System.Data.Entity;
+
 
 namespace TeamRoles.Repositories
 {
@@ -120,6 +123,49 @@ namespace TeamRoles.Repositories
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Checks if a student is a child in db
+        /// </summary>
+        /// <param name="student">the student to be checked</param>
+        /// <returns>The child</returns>
+        public Child CheckIfChildExists(ApplicationUser student)
+        {
+            foreach(var child in db.Children.ToList())
+            {
+                if(child.Childid == student.Id)
+                {
+                    return child;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Accept a parent request and create connection
+        /// </summary>
+        /// <param name="req">the request</param>
+        public void AcceptParentRequest(GenericRequest req)
+        {
+            ApplicationUser parent = db.Users.Find(req.User1id);
+            ApplicationUser student = db.Users.Find(req.User2id);
+            var child = CheckIfChildExists(student);
+            if (child != null)
+            {
+                parent.Children.Add(child);
+            }
+            else
+            {
+                Child tobeinserted = new Child();
+                tobeinserted.Childid = student.Id;
+                parent.Children.Add(tobeinserted);
+                db.Entry(parent).State = EntityState.Modified;
+                db.Children.Add(tobeinserted);
+                db.SaveChanges();
+            }
+            db.Requests.Remove(db.Requests.Find(req.ReqId));
+            db.SaveChanges();
         }
 
         /// <summary>
@@ -323,6 +369,13 @@ namespace TeamRoles.Repositories
             return true;
         }
 
+        /// <summary>
+        /// Check if there is a parentstudent or a joincourse request that matches the new one
+        /// </summary>
+        /// <param name="User2">the student</param>
+        /// <param name="User1">the teacher or parent depending on the request type</param>
+        /// <param name="type">if type of the request is parentstudent then parent is user1 </param>
+        /// <returns>bool</returns>
         public bool checkIfRequestExists(ApplicationUser User2, ApplicationUser User1,string type)
         {
             if(type == "ParentStudent")
@@ -352,6 +405,11 @@ namespace TeamRoles.Repositories
             return false;
         }
 
+        /// <summary>
+        /// Builds an email template to be send in case of validation
+        /// </summary>
+        /// <param name="bodyText">the text of the email</param>
+        /// <param name="sendTo">the receiver</param>
         public static void BuildEmailTemplate(string bodyText, string sendTo)
         {
             string from, to, subject, body;
@@ -370,7 +428,10 @@ namespace TeamRoles.Repositories
             SendEmail(mail);
         }
 
-
+        /// <summary>
+        /// Sends the email.
+        /// </summary>
+        /// <param name="mail">the email</param>
         public static void SendEmail(MailMessage mail)
         {
             SmtpClient client = new SmtpClient();

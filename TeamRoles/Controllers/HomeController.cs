@@ -115,7 +115,8 @@ namespace TeamRoles.Controllers
         public ActionResult AcceptRequest(int? id)
         {
             GenericRequest req = db.Requests.Find(id);
-            if(req.Type == "JoinCourse")
+            UserRepository repository = new UserRepository();
+            if (req.Type == "JoinCourse")
             {
                 Course course = db.Courses.Find(req.Courseid);
                 ApplicationUser student = db.Users.Find(req.User2id);
@@ -143,14 +144,7 @@ namespace TeamRoles.Controllers
             }
             else if(req.Type ==  "ParentStudent")
             {
-                ApplicationUser parent = db.Users.Find(req.User1id);
-                ApplicationUser student = db.Users.Find(req.User2id);
-                Child tobeinserted = new Child();
-                tobeinserted.Childid = student.Id;
-                tobeinserted.Parent.Add(parent);
-                db.Children.Add(tobeinserted);
-                db.Requests.Remove(req);
-                db.SaveChanges();
+                repository.AcceptParentRequest(req);
                 return RedirectToAction("AcceptParentRequests", "Home");
             }
             else
