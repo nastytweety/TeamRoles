@@ -174,7 +174,7 @@ namespace TeamRoles.Repositories
         /// <returns>List of students</returns>
         public List<ApplicationUser> FindAllStudent()
         {
-            List<ApplicationUser> Users = db.Users.ToList();
+            List<ApplicationUser> Users = db.Users.Where(u => u.Validated == true).ToList();
             List<ApplicationUser> usersInRole = new List<ApplicationUser>();
 
             foreach (var user in Users)
@@ -194,7 +194,7 @@ namespace TeamRoles.Repositories
         /// <returns>List of teachers</returns>
         public List<ApplicationUser> FindTeachers()
         {
-            List<ApplicationUser> Users = db.Users.ToList();
+            List<ApplicationUser> Users = db.Users.Where(u=>u.Validated==true).ToList();
             List<ApplicationUser> usersInRole = new List<ApplicationUser>();
 
             foreach (var user in Users)
@@ -282,7 +282,7 @@ namespace TeamRoles.Repositories
         /// <returns>list of parents</returns>
         public List<ApplicationUser> FindParents()
         {
-            List<ApplicationUser> Users = db.Users.ToList();
+            List<ApplicationUser> Users = db.Users.Where(u => u.Validated == true).ToList();
             List<ApplicationUser> usersInRole = new List<ApplicationUser>();
 
             foreach (var user in Users)
@@ -370,13 +370,45 @@ namespace TeamRoles.Repositories
         }
 
         /// <summary>
+        /// Accepts and erases a join request
+        /// </summary>
+        /// <param name="req">the request</param>
+        public void AcceptJoinRequest(GenericRequest req)
+        {
+            GenericRequest request = db.Requests.Find(req.ReqId);
+            Course course = db.Courses.Find(req.Courseid);
+            ApplicationUser student = db.Users.Find(req.User2id);
+            db.Courses.Attach(course);
+
+            Enrollment enrol = new Enrollment();
+            enrol.Grade = -1;
+            enrol.Absences = -1;
+            enrol.CourseId = course.CourseId;
+            enrol.Course = course;
+            enrol.UserId = student.Id;
+            enrol.User = student;
+
+            try
+            {
+                db.Entry(course).State = EntityState.Modified;
+                db.Requests.Remove(request);
+                db.Enrollments.Add(enrol);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
         /// Check if there is a parentstudent or a joincourse request that matches the new one
         /// </summary>
         /// <param name="User2">the student</param>
         /// <param name="User1">the teacher or parent depending on the request type</param>
         /// <param name="type">if type of the request is parentstudent then parent is user1 </param>
         /// <returns>bool</returns>
-        public bool checkIfRequestExists(ApplicationUser User2, ApplicationUser User1,string type)
+        public bool checkIfRequestExists(ApplicationUser User2, ApplicationUser User1,Course course,string type)
         {
             if(type == "ParentStudent")
             {
@@ -395,7 +427,7 @@ namespace TeamRoles.Repositories
                 List<GenericRequest> requests = db.Requests.Where(r => r.Type == "JoinCourse").ToList();
                 foreach (var req in requests)
                 {
-                    if (req.User2id == User2.Id && req.User1id == User1.Id)
+                    if (req.User2id == User2.Id && req.User1id == User1.Id && req.Courseid == course.CourseId)
                     {
                         return true;
                     }

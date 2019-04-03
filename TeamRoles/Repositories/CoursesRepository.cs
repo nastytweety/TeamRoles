@@ -146,7 +146,7 @@ namespace TeamRoles.Repositories
             {
                 ApplicationUser student = db.Users.Find(pstudent.Id);
                 Course course = db.Courses.Find(id);
-                Enrollment enrol = db.Enrollments.Where(e => e.CourseId == id).SingleOrDefault();
+                Enrollment enrol = db.Enrollments.Where(e => e.CourseId == id && e.UserId == pstudent.Id).SingleOrDefault();
                 //student.Enrollments.Remove(enrol);
                 try
                 {

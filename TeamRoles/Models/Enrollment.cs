@@ -14,7 +14,7 @@ namespace TeamRoles.Models
         public int CourseId { get; set; }
         public string UserId { get; set; }
         public double Grade { get; set; }
-
+        public int Absences { get; set; }
 
         [ForeignKey("CourseId")]
         public virtual Course Course { get; set; }

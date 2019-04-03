@@ -163,7 +163,7 @@ namespace TeamRoles.Controllers
             {
                 ApplicationUser student = db.Users.Find(Id);
                 ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
-                if(!repository.checkIfRequestExists(student,parent, "ParentStudent"))
+                if(!repository.checkIfRequestExists(student,parent,null,"ParentStudent"))
                 {
                     if (repository.CreateParentRequest(parent, student))
                     {

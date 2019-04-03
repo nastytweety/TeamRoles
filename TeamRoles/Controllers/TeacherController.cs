@@ -100,6 +100,7 @@ namespace TeamRoles.Controllers
                 try
                 {
                     enrol.Grade = model.NumericGrade;
+                    enrol.Absences = model.Absences;
                     db.Entry(enrol).State = EntityState.Modified;
                     db.SaveChanges();
                 }

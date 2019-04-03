@@ -37,6 +37,7 @@
                 <th>Course Title</th>
                 <th>Teacher</th>
                 <th>Grade</th>
+                <th>Absences</th>
             </tr>
             @foreach (var item in Model.Enrollments)
             {
@@ -55,6 +56,16 @@
                     else
                     {
                         @Html.DisplayFor(modelItem => item.Grade)
+                    }
+                </td>
+                <td>
+                    @if (item.Absences == -1)
+                    {
+                        <p>Not Set</p>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Absences)
                     }
                 </td>
             </tr>
