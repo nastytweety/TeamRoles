@@ -22,11 +22,13 @@
                     <h5>Use a local account to log in.</h5>
 
 
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
                         <p>Been here before? Welcome Back!</p>
 
                         <div class="col-md-12">
+                            <div class="col-md-10 text-center">
+                                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                            </div>
 
                             <div class="row">
                                 @*<label class="col-md-12"></label>*@
@@ -37,7 +39,9 @@
                             @Html.TextBoxFor(m => m.UserName, new {@placeholder = "Username...", @id = "Username"})
 
                             <div class="col-md-12">
+                                @*
                                 @Html.ValidationMessageFor(m => m.UserName, "", new {@class = "text-danger"})
+                            *@
                             </div>
                         </div>
                         
@@ -48,7 +52,9 @@
                         <div class="col-md-12">
                             @Html.PasswordFor(m => m.Password, new { @placeholder = "Password..." })
                             <div class="col-md-12">
+                                @*
                                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            *@
                             </div>
                         </div>
                     </div>
