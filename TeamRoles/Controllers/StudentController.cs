@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity.EntityFramework;
 using TeamRoles.Models;
+using TeamRoles.Models.ViewModels;
 using TeamRoles.Repositories;
 
 namespace TeamRoles.Controllers
@@ -112,12 +113,17 @@ namespace TeamRoles.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser applicationUser = db.Users.Find(id);
-            if (applicationUser == null)
+            ApplicationUser student = db.Users.Find(id);
+            if (student == null)
             {
                 return HttpNotFound();
             }
-            return View(applicationUser);
+            UserRepository repository = new UserRepository();
+            StudentViewModel model = new StudentViewModel();
+            model.AverageGrade = repository.GetAverageGrade(student);
+            model.TotalAbsences = repository.GetTotalAbsences(student);
+            model.student = student;
+            return View(model);
         }
 
         public ActionResult Delete(string id)
@@ -163,7 +169,7 @@ namespace TeamRoles.Controllers
             {
                 ApplicationUser student = db.Users.Find(Id);
                 ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
-                if(!repository.checkIfRequestExists(student,parent, "ParentStudent"))
+                if(!repository.checkIfRequestExists(student,parent,null,"ParentStudent"))
                 {
                     if (repository.CreateParentRequest(parent, student))
                     {

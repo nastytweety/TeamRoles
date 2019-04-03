@@ -30,7 +30,7 @@ namespace TeamRoles.Controllers
         [AllowAnonymous]
         public ActionResult Home(bool? validated)
         {
-            ViewBag.Validated = validated;
+//            ViewBag.Validated = validated;
             return View();
         }
 
@@ -118,28 +118,7 @@ namespace TeamRoles.Controllers
             UserRepository repository = new UserRepository();
             if (req.Type == "JoinCourse")
             {
-                Course course = db.Courses.Find(req.Courseid);
-                ApplicationUser student = db.Users.Find(req.User2id);
-                db.Courses.Attach(course);
-
-                Enrollment enrol = new Enrollment();
-                enrol.Grade = -1;
-                enrol.CourseId = course.CourseId;
-                enrol.Course = course;
-                enrol.UserId = student.Id;
-                enrol.User = student;
-
-                try
-                {
-                    db.Entry(course).State = EntityState.Modified;
-                    db.Requests.Remove(req);
-                    db.Enrollments.Add(enrol);
-                    db.SaveChanges();
-                }
-                catch(Exception e)
-                {
-                    throw e;
-                }
+                repository.AcceptJoinRequest(req);
                 return RedirectToAction("JoinRequests", "Home");
             }
             else if(req.Type ==  "ParentStudent")

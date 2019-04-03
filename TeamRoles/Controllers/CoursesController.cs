@@ -151,7 +151,7 @@ namespace TeamRoles.Controllers
                 Course course = db.Courses.Find(id);
                 ApplicationUser student = db.Users.Find(User.Identity.GetUserId());
                 UserRepository urepository = new UserRepository();
-                if(!urepository.checkIfRequestExists(student,course.Teacher,"JoinCourse"))
+                if(!urepository.checkIfRequestExists(student,course.Teacher,course,"JoinCourse"))
                 {
                     CoursesRepository repository = new CoursesRepository();
                     repository.CreateJoinRequest(student, course);

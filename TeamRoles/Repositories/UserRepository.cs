@@ -132,9 +132,9 @@ namespace TeamRoles.Repositories
         /// <returns>The child</returns>
         public Child CheckIfChildExists(ApplicationUser student)
         {
-            foreach(var child in db.Children.ToList())
+            foreach (var child in db.Children.ToList())
             {
-                if(child.Childid == student.Id)
+                if (child.Childid == student.Id)
                 {
                     return child;
                 }
@@ -174,7 +174,7 @@ namespace TeamRoles.Repositories
         /// <returns>List of students</returns>
         public List<ApplicationUser> FindAllStudent()
         {
-            List<ApplicationUser> Users = db.Users.ToList();
+            List<ApplicationUser> Users = db.Users.Where(u => u.Validated == true).ToList();
             List<ApplicationUser> usersInRole = new List<ApplicationUser>();
 
             foreach (var user in Users)
@@ -194,7 +194,7 @@ namespace TeamRoles.Repositories
         /// <returns>List of teachers</returns>
         public List<ApplicationUser> FindTeachers()
         {
-            List<ApplicationUser> Users = db.Users.ToList();
+            List<ApplicationUser> Users = db.Users.Where(u => u.Validated == true).ToList();
             List<ApplicationUser> usersInRole = new List<ApplicationUser>();
 
             foreach (var user in Users)
@@ -262,7 +262,7 @@ namespace TeamRoles.Repositories
         public void DeleteAsChildren(ApplicationUser student)
         {
             Child toberemoved = db.Children.Find(student.Id);
-            if (toberemoved!=null)
+            if (toberemoved != null)
             {
                 try
                 {
@@ -282,7 +282,7 @@ namespace TeamRoles.Repositories
         /// <returns>list of parents</returns>
         public List<ApplicationUser> FindParents()
         {
-            List<ApplicationUser> Users = db.Users.ToList();
+            List<ApplicationUser> Users = db.Users.Where(u => u.Validated == true).ToList();
             List<ApplicationUser> usersInRole = new List<ApplicationUser>();
 
             foreach (var user in Users)
@@ -348,7 +348,7 @@ namespace TeamRoles.Repositories
         /// <param name="parent">the parent</param>
         /// <param name="student">the student</param>
         /// <returns>true if success</returns>
-        public bool CreateParentRequest(ApplicationUser parent,ApplicationUser student)
+        public bool CreateParentRequest(ApplicationUser parent, ApplicationUser student)
         {
             ApplicationUser stud = db.Users.Find(student.Id);
             GenericRequest req = new GenericRequest();
@@ -370,15 +370,48 @@ namespace TeamRoles.Repositories
         }
 
         /// <summary>
+        /// Accepts and erases a join request
+        /// </summary>
+        /// <param name="req">the request</param>
+        public void AcceptJoinRequest(GenericRequest req)
+        {
+            GenericRequest request = db.Requests.Find(req.ReqId);
+            Course course = db.Courses.Find(req.Courseid);
+            ApplicationUser student = db.Users.Find(req.User2id);
+            db.Courses.Attach(course);
+
+            Enrollment enrol = new Enrollment();
+            enrol.Grade = -1;
+            enrol.Absences = -1;
+            enrol.CourseId = course.CourseId;
+            enrol.Course = course;
+            enrol.UserId = student.Id;
+            enrol.User = student;
+
+            try
+            {
+                db.Entry(course).State = EntityState.Modified;
+                db.Requests.Remove(request);
+                db.Enrollments.Add(enrol);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
         /// Check if there is a parentstudent or a joincourse request that matches the new one
         /// </summary>
         /// <param name="User2">the student</param>
         /// <param name="User1">the teacher or parent depending on the request type</param>
+        /// <param name="Course">the course during the join request</param>
         /// <param name="type">if type of the request is parentstudent then parent is user1 </param>
         /// <returns>bool</returns>
-        public bool checkIfRequestExists(ApplicationUser User2, ApplicationUser User1,string type)
+        public bool checkIfRequestExists(ApplicationUser User2, ApplicationUser User1, Course course, string type)
         {
-            if(type == "ParentStudent")
+            if (type == "ParentStudent")
             {
                 List<GenericRequest> requests = db.Requests.Where(r => r.Type == "ParentStudent").ToList();
                 foreach (var req in requests)
@@ -390,12 +423,12 @@ namespace TeamRoles.Repositories
                 }
                 return false;
             }
-            else if(type == "JoinCourse")
+            else if (type == "JoinCourse")
             {
                 List<GenericRequest> requests = db.Requests.Where(r => r.Type == "JoinCourse").ToList();
                 foreach (var req in requests)
                 {
-                    if (req.User2id == User2.Id && req.User1id == User1.Id)
+                    if (req.User2id == User2.Id && req.User1id == User1.Id && req.Courseid == course.CourseId)
                     {
                         return true;
                     }
@@ -450,6 +483,42 @@ namespace TeamRoles.Repositories
             {
                 throw ex;
             }
+        }
+
+        public double GetAverageGrade(ApplicationUser student)
+        {
+            double average = 0;
+            int count = 0;
+            if (student != null)
+            {
+                List<Enrollment> list = db.Enrollments.Where(u => u.UserId == student.Id).ToList();
+                foreach (var item in list)
+                {
+                    if (item.Grade != -1)
+                    {
+                        average = average + item.Grade;
+                        count++;
+                    }
+                }
+            }
+            return average / count;
+        }
+
+        public int GetTotalAbsences(ApplicationUser student)
+        {
+            int count = 0;
+            if (student != null)
+            {
+                List<Enrollment> list = db.Enrollments.Where(u => u.UserId == student.Id).ToList();
+                foreach (var item in list)
+                {
+                    if (item.Absences != -1)
+                    {
+                        count = count + item.Absences;
+                    }
+                }
+            }
+            return count;
         }
     }
 }

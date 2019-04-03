@@ -39,7 +39,7 @@ namespace TeamRoles.Controllers
                 }
 
                 ViewBag.Message = "Uploaded Filed Saved.";
-                ViewBag.CourseId = repository.FindCourseId(teachername,coursename);
+                ViewBag.CourseId = repository.FindCourseId(coursename,teachername);
                 return View();
             }
             catch

@@ -1,87 +1,111 @@
 ﻿@model TeamRoles.Models.RegisterViewModel
 
-<div class="container">
-    <div class="row margin-top-15">
+<div class="container text-center oblique">
 
-        <div class="col-md-4"></div>
-
-        <div class="col-md-4 align-content-center well">
-            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Create a new account.</h4>
-                <hr />
-                @Html.ValidationSummary("", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "control-label" })
-                    <div class="col-md-12">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @id = "Mail" })
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-2"></label>
-                        <div class="col-sm-10">
-                            <p id="Status1" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
-                    <div class="col-md-12">
-                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @id = "Username" })
-                    </div>
-                    <div class="row">
-                        <label class="col-sm-2"></label>
-                        <div class="col-sm-10">
-                            <p id="Status" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "control-label" })
-                    <div class="col-md-12">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })
-                    <div class="col-md-12">
-                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ProfilePic, new { @class = "control-label" })
-                    <div class="col-md-12">
-                        @Html.TextBoxFor(model => model.ImageFile, new { type = "file", required = "required" })
-                        @Html.ValidationMessageFor(model => model.ProfilePic, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.BirthDay, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        <input type="date" name="BirthDay" id="BirthDay">
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.Label("Your Role", new { @class = "control-label" })
-                    <div class="col-md-12">
-                        @*@Html.DropDownList("Name")*@
-                        @Html.DropDownList("UserRoles", (SelectList)ViewBag.Name, " ")
-                    </div>
-                </div>
-
-                <div class="form-group align-content-lg-center">
-                    <div class="col-md-offset-2 col-md-6">
-                        <input type="submit" class="btn btn-primary" value="Register" />
-                    </div>
-                </div>
-            }
+    <div class="row padding-top-40 ">
+        <div class="col-md-12">
+            <h3> Create your Account... </h3>
         </div>
+    </div>
 
-        <div class="col-md-4"></div>
+    <div class="row">
+        <div class="col-md-2"></div>
 
+        <div class="col-md-8 well">
+            <div class="row">
+
+                <div class="col-md-6 text-center"style="">
+                    <img src="/Images/en-Taxei.gif" id="testing"/>
+                    <h5>Teach More. Learn More.</h5>
+                    <p>Millions of teachers use en-Taxei to engage students, connect with other teachers, and involve parents.</p>
+                </div>
+
+                <div class="col-md-6">
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <!-- EMAIL -->
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @id = "Mail", @placeholder = "Your Email..." })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    <p class="text-center" id="Status1"> </p>
+                        @*<div class="row">
+                           <div class="col-md-12">
+                               <p id="Status1" />
+                           </div>
+                        </div>*@
+                    </div>
+
+                        <!-- USERNAME -->
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @id = "Username", @placeholder = "Your Username..." })
+                                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                            </div>
+                        <p class="text-center" id="Status"></p> 
+                            @*<div class="row">
+                                <div class="col-md-12">
+                                    <p id="Status"/>
+                                </div>
+                            </div>*@
+                        </div>
+
+                        <!-- PASSWORD -->
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Your Password..." })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <!-- CONFIRM PASSWORD -->
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm your Password..." })
+                            </div>
+                        </div>
+
+                        <!-- BIRTHDAY -->
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input type="date" name="BirthDay" id="BirthDay" value="Your Birthday..." class="form-control-file" required="required">
+                            </div>
+                            @Html.ValidationMessageFor(model => model.BirthDay, "", new { @class = "text-danger" })
+                        </div>
+
+                        <!-- ROLE -->
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.DropDownList("UserRoles", (SelectList)ViewBag.Name, "Select your Role...", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.UserRoles, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <!-- PROFILE PIC -->
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(model => model.ImageFile, new { type = "file", required = "required", @placeholder = "Your Profile Photo..." })
+                                @Html.ValidationMessageFor(model => model.ProfilePic, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <!-- SUBMIT -->
+                        <div class="form-group text-center">
+                            <div class="col-md-12">
+                                <input type="submit" class="btn btn-primary btn-lg button" style="" value="Register" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
     </div>
 </div>
-
 
 
 @section Scripts {
@@ -90,53 +114,52 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-   function UserCheck()
-   {
-       $("#Status").html("Checking...");
-       $.post("@Url.Action("CheckUSernameAvailability", "Account")",
+       function UserCheck()
        {
-           userdata: $("#Username").val()
-       },
-       function(data) {
-           if (data == 0)
+           $("#Status").html("Checking...");
+           $.post("@Url.Action("CheckUSernameAvailability", "Account")",
            {
-               $("#Status").html('<font color="Green">Available! You can take it.</font>');
-               $("#Username").css("border-color", "Green");
-           }
-           else
-           {
-               $("#Status").html('<font color="Red">That Name is taken. Try another.</font>');
-               $("#Username").css("border-color", "Red");
-           }
-       });
-   }
-
+               userdata: $("#Username").val()
+           },
+           function(data) {
+               if (data == 0)
+               {
+                   $("#Status").html('<font color="Green">Available! You can take it.</font>');
+                   $("#Username").css("border-color", "Green");
+               }
+               else
+               {
+                   $("#Status").html('<font color="Red">That Name is taken. Try another.</font>');
+                   $("#Username").css("border-color", "Red");
+               }
+           });
+       }
    $(function () {
        $('#Username').on('keyup', UserCheck);
    });
     </script>
 
     <script>
-   function MailCheck()
-   {
-       $("#Status1").html("Checking...");
-       $.post("@Url.Action("CheckMailAvailability", "Account")",
+       function MailCheck()
        {
-           userdata: $("#Mail").val()
-       },
-       function(data) {
-           if (data == 0)
+           $("#Status1").html("Checking...");
+           $.post("@Url.Action("CheckMailAvailability", "Account")",
            {
-               $("#Status1").html('<font color="Green">Available! You can take it.</font>');
-               $("#Mail").css("border-color", "Green");
-           }
-           else
-           {
-               $("#Status1").html('<font color="Red">That Mail is taken. Try another.</font>');
-               $("#Mail").css("border-color", "Red");
-           }
-       });
-   }
+               userdata: $("#Mail").val()
+           },
+           function(data) {
+               if (data == 0)
+               {
+                   $("#Status1").html('<font color="Green">Available! You can take it.</font>');
+                   $("#Mail").css("border-color", "Green");
+               }
+               else
+               {
+                   $("#Status1").html('<font color="Red">That Email is taken. Try another.</font>');
+                   $("#Mail").css("border-color", "Red");
+               }
+           });
+       }
 
    $(function () {
        $('#Mail').on('keyup', MailCheck);

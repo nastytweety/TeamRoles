@@ -353,6 +353,10 @@
     <Compile Include="Migrations\201903311859135_george-models.Designer.cs">
       <DependentUpon>201903311859135_george-models.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904030823398_Absences.cs" />
+    <Compile Include="Migrations\201904030823398_Absences.Designer.cs">
+      <DependentUpon>201904030823398_Absences.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -371,6 +375,7 @@
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\ViewModels\RequestViewModel.cs" />
     <Compile Include="Models\ViewModels\SetGradeViewModel.cs" />
+    <Compile Include="Models\ViewModels\StudentViewModel.cs" />
     <Compile Include="Models\ViewModels\TeacherViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CoursesRepository.cs" />
@@ -495,7 +500,7 @@
     <Content Include="Images\slide-1.jpg" />
     <Content Include="Images\slide-2.jpg" />
     <Content Include="Images\slide-3.jpg" />
-    <Content Include="Images\Untitled-1.gif" />
+    <Content Include="Images\en-Taxei.gif" />
     <Content Include="Scripts\angular-moment.js" />
     <Content Include="Scripts\angular-moment.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -569,7 +574,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -631,8 +635,8 @@
     <Content Include="Views\Assignments\Edit.cshtml" />
     <Content Include="Views\Courses\CourseGrades.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
+    <Content Include="Views\Home\!Chat2.cshtml" />
     <Content Include="Views\Shared\_Carousel.cshtml" />
-    <Content Include="Views\Home\Chat2.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Manage\Edit.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
@@ -770,6 +774,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903311859135_george-models.resx">
       <DependentUpon>201903311859135_george-models.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904030823398_Absences.resx">
+      <DependentUpon>201904030823398_Absences.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

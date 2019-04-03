@@ -25,71 +25,71 @@
 
     <link rel="Shortcut Icon" href="/en-Taxei.ico" type="image/x-icon" />
 
-
+    <!-- FOR CHAT -->
     @RenderSection("styles", required: false)
 
 </head>
 
-  <body style=" background-color: #D3D3D3">
+  <body style=" background-color: #aaabb8"> <!-- TODO STO CSS -->
 
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style=" background: linear-gradient(#526494, #604484); ">
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style=" background: linear-gradient(#25274d, #464866); "> <!-- TODO STO CSS -->
+       
+          <a class="navbar-brand" href="/Home/Index/"><img src="~/Images/en-Taxei.gif" class="img-circle" height="50" width="40" alt="@ViewBag.Title" /></a>
 
-    <a class="navbar-brand" href="/Home/Index/"><img src="~/Images/Untitled-1.gif" class="img-circle" height="50" width="40" alt="@ViewBag.Title"/></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+              <ul class="navbar-nav mr-auto">
 
-    <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto">
+                  @if (!User.Identity.IsAuthenticated)
+                  {
 
-            @if (!User.Identity.IsAuthenticated)
-            {
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/Home/Home"> Home </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/Home/About"> About </a>
-                </li>
-            }
-            else if (User.IsInRole("Teacher"))
-            {
-                @Html.Action("TeacherNavbar", "Home")
-            }
-            else if (User.IsInRole("Student"))
-            {
-                @Html.Action("StudentNavbar", "Home")
-            }
-            else if (User.IsInRole("Admin"))
-            {
-                @Html.Action("AdminNavbar", "Home")
-            }
-            else if (User.IsInRole("Parent"))
-            {
-                @Html.Action("ParentNavbar", "Student")
-            }
-        </ul>
-        <div class="pull-right">
-            @if (Request.IsAuthenticated)
-            {
-                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-nav mr-auto"}))
-                {
-                    @Html.AntiForgeryToken()
-                    <a class="nav-link" href="/Manage/Index">@User.Identity.GetUserName()</a>
-                    <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()"> Log off </a>
-                }
-            }
-            else
-            {
-                <div class="navbar-nav mr-auto">
-                    <a class="nav-link" href="/Account/Register"> Register </a>
-                    <a class="nav-link" href="/Account/Login"> Log in </a>
-                </div>
-            }
-        </div>
-    </div>
-</nav>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/Home/Home"> Home </a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/Home/About"> About </a>
+                      </li>
+                  }
+                  else if (User.IsInRole("Teacher"))
+                  {
+                      @Html.Action("TeacherNavbar", "Home")
+                  }
+                  else if (User.IsInRole("Student"))
+                  {
+                      @Html.Action("StudentNavbar", "Home")
+                  }
+                  else if (User.IsInRole("Admin"))
+                  {
+                      @Html.Action("AdminNavbar", "Home")
+                  }
+                  else if (User.IsInRole("Parent"))
+                  {
+                      @Html.Action("ParentNavbar", "Student")
+                  }
+              </ul>
+              <div class="pull-right">
+                  @if (Request.IsAuthenticated)
+                  {
+                      using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-nav mr-auto" }))
+                      {
+                          @Html.AntiForgeryToken()
+                          <a class="nav-link" href="/Manage/Index">@User.Identity.GetUserName()</a>
+                          <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()"> Log off </a>
+                      }
+                  }
+                  else
+                  {
+                      <div class="navbar-nav mr-auto">
+                          <a class="nav-link" href="/Account/Register"> Register </a>
+                          <a class="nav-link" href="/Account/Login"> Log in </a>
+                      </div>
+                  }
+              </div>
+          </div>
+      </nav>
 
     @RenderBody()
     

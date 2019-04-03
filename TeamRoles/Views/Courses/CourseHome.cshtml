@@ -15,8 +15,11 @@
                     
                     @Html.ActionLink("View Grades", "CourseGrades", "Courses", new { coursename = Model.CourseName, teacherid = Model.Teacher.Id }, new { @class = "btn btn-primary" })
                 }
-                @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { courseid = Model.CourseId }, new { @class = "btn btn-primary" })
-                @Html.ActionLink("View Lectures", "ListLectures", "Lectures", new { courseid = Model.CourseId }, new { @class = "btn btn-primary" })
+                else if (User.IsInRole("Student"))
+                {
+                    @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { courseid = Model.CourseId }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("View Lectures", "ListLectures", "Lectures", new { courseid = Model.CourseId }, new { @class = "btn btn-primary" })
+                }
             </div>
         </div>
     </div>
@@ -70,6 +73,7 @@
                                 else
                                 {
                                     <td></td>
+                                    <td></td>
                                 }
                             </tr>
                         }
@@ -90,11 +94,17 @@
             <!-- BACK TO BUTTONS -->
             @if (User.IsInRole("Teacher"))
             {
-                @Html.ActionLink("Back To Courses", "Index", "Courses")
+                <a href="/Courses/Index/"><i class="fas fa-chevron-left"></i> Back to Courses </a>
+
             }
             else if (User.IsInRole("Student"))
             {
-                @Html.ActionLink("Back To MyCourses", "Index_Selected", "Courses")
+                <a href="/Courses/Index_Selected/"><i class="fas fa-chevron-left"></i> Back to My Courses </a>
             }
+            else if (User.IsInRole("Admin"))
+            {
+                <a href="/Courses/Admin_Index/"><i class="fas fa-chevron-left"></i> Back to Courses </a>
+            }
+
         </div>
 </div>

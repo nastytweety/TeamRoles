@@ -3,7 +3,7 @@
 @model LoginViewModel
 
 
-<div class="container">
+<div class="container oblique">
     <div class="row padding-top-40">
 
         <div class="col-md-4"></div>
@@ -12,31 +12,50 @@
 
             <section id="loginForm">
 
-                @using (Html.BeginForm("Login", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {role = "form"}))
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
                 {
                     @Html.AntiForgeryToken()
 
-                    
-                    <img src="/Images/Untitled-1.gif" alt=" en-Τάξει" id="testing"/>
+
+                    <img src="/Images/en-Taxei.gif" alt=" en-Τάξει" id="testing" />
 
                     <h5>Use a local account to log in.</h5>
-                    
 
-                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+
                     <div class="form-group">
                         <p>Been here before? Welcome Back!</p>
-                        
+
                         <div class="col-md-12">
-                            @Html.TextBoxFor(m => m.UserName, new {@placeholder = "Username... "})
-                            @Html.ValidationMessageFor(m => m.UserName, "", new {@class = "text-danger"})
+                            <div class="col-md-10 text-center">
+                                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                            </div>
+
+                            <div class="row">
+                                @*<label class="col-md-12"></label>*@
+                                <div class="col-md-12">
+                                    <p id="Status"/></div>
+                            </div>
+
+                            @Html.TextBoxFor(m => m.UserName, new {@placeholder = "Username...", @id = "Username"})
+
+                            <div class="col-md-12">
+                                @*
+                                @Html.ValidationMessageFor(m => m.UserName, "", new {@class = "text-danger"})
+                            *@
+                            </div>
                         </div>
+                        
                     </div>
 
                     <div class="form-group">
 
                         <div class="col-md-12">
-                            @Html.PasswordFor(m => m.Password,new {@placeholder = "Password..."})
-                            @Html.ValidationMessageFor(m => m.Password, "", new {@class = "text-danger"})
+                            @Html.PasswordFor(m => m.Password, new { @placeholder = "Password..." })
+                            <div class="col-md-12">
+                                @*
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            *@
+                            </div>
                         </div>
                     </div>
 
@@ -50,7 +69,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <input type="submit" value="Log in" class="btn btn-primary"/>
+                            <input type="submit" value="Log in" class="btn btn-primary button" />
                         </div>
                     </div>
 
@@ -71,28 +90,41 @@
     </div>
 </div>
 
-
-
-
-@*<script type="text/javascript">
-    
-    document.getElementById("btnClick").onclick = function() {
-        document.getElementById("Alert").style.display = "block";
-    }
-
-    function myFunction() {
-        var x = document.getElementById("myDIV");
-        if (@Model.Validated === true ) {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-    }
-
-</script>*@
-
-
-@*
 @section Scripts {
+
+
     @Scripts.Render("~/bundles/jqueryval")
-}*@
+
+    <script>
+        function UserCheck() {
+            $("#Status").html(/*"Checking..."*/);
+            $.post("@Url.Action("CheckUserValidated", "Account")",
+                {
+                    username: $("#Username").val()
+                },
+                function(data) {
+//                    if (data === 0)
+//                    {
+//                        $("#Status").html('<font color="red">You must Register First...</font>');
+//                        $("#Username").css("border-color", "Red");
+//                    }
+                    if (data === 1)
+                    {
+                        $("#Status").html('<font color="Red">You are not Validated yet...</font>');
+                        $("#Username").css("border-color", "Red");
+                    }
+                    else
+                    {
+                        $("#Status").html('<font color="green">You are Validated</font>');
+                        $("#Username").css("border-color", "Green");
+                    }
+                });
+        }
+
+        $(function() {
+            $('#Username').on('keyup', UserCheck);
+        });
+    </script>
+
+}
+

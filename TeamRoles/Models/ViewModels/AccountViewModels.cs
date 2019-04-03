@@ -78,6 +78,7 @@ namespace TeamRoles.Models
         [Display(Name = "Username")]
         public string UserName { get; set; }
 
+        
         [Display(Name = "Profile Picture")]
         public string ProfilePic { get; set; }
 
