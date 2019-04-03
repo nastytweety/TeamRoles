@@ -495,7 +495,7 @@
     <Content Include="Images\slide-1.jpg" />
     <Content Include="Images\slide-2.jpg" />
     <Content Include="Images\slide-3.jpg" />
-    <Content Include="Images\Untitled-1.gif" />
+    <Content Include="Images\en-Taxei.gif" />
     <Content Include="Scripts\angular-moment.js" />
     <Content Include="Scripts\angular-moment.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -569,7 +569,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -633,8 +632,7 @@
     <Content Include="Views\Assignments\Edit.cshtml" />
     <Content Include="Views\Courses\CourseGrades.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
-    <Content Include="Views\Shared\_Carousel.cshtml" />
-    <Content Include="Views\Home\Chat2.cshtml" />
+    <Content Include="Views\Home\!Chat2.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Manage\Edit.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
