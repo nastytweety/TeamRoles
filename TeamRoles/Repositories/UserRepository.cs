@@ -132,9 +132,9 @@ namespace TeamRoles.Repositories
         /// <returns>The child</returns>
         public Child CheckIfChildExists(ApplicationUser student)
         {
-            foreach(var child in db.Children.ToList())
+            foreach (var child in db.Children.ToList())
             {
-                if(child.Childid == student.Id)
+                if (child.Childid == student.Id)
                 {
                     return child;
                 }
@@ -194,7 +194,7 @@ namespace TeamRoles.Repositories
         /// <returns>List of teachers</returns>
         public List<ApplicationUser> FindTeachers()
         {
-            List<ApplicationUser> Users = db.Users.Where(u=>u.Validated==true).ToList();
+            List<ApplicationUser> Users = db.Users.Where(u => u.Validated == true).ToList();
             List<ApplicationUser> usersInRole = new List<ApplicationUser>();
 
             foreach (var user in Users)
@@ -262,7 +262,7 @@ namespace TeamRoles.Repositories
         public void DeleteAsChildren(ApplicationUser student)
         {
             Child toberemoved = db.Children.Find(student.Id);
-            if (toberemoved!=null)
+            if (toberemoved != null)
             {
                 try
                 {
@@ -348,7 +348,7 @@ namespace TeamRoles.Repositories
         /// <param name="parent">the parent</param>
         /// <param name="student">the student</param>
         /// <returns>true if success</returns>
-        public bool CreateParentRequest(ApplicationUser parent,ApplicationUser student)
+        public bool CreateParentRequest(ApplicationUser parent, ApplicationUser student)
         {
             ApplicationUser stud = db.Users.Find(student.Id);
             GenericRequest req = new GenericRequest();
@@ -406,11 +406,12 @@ namespace TeamRoles.Repositories
         /// </summary>
         /// <param name="User2">the student</param>
         /// <param name="User1">the teacher or parent depending on the request type</param>
+        /// <param name="Course">the course during the join request</param>
         /// <param name="type">if type of the request is parentstudent then parent is user1 </param>
         /// <returns>bool</returns>
-        public bool checkIfRequestExists(ApplicationUser User2, ApplicationUser User1,Course course,string type)
+        public bool checkIfRequestExists(ApplicationUser User2, ApplicationUser User1, Course course, string type)
         {
-            if(type == "ParentStudent")
+            if (type == "ParentStudent")
             {
                 List<GenericRequest> requests = db.Requests.Where(r => r.Type == "ParentStudent").ToList();
                 foreach (var req in requests)
@@ -422,7 +423,7 @@ namespace TeamRoles.Repositories
                 }
                 return false;
             }
-            else if(type == "JoinCourse")
+            else if (type == "JoinCourse")
             {
                 List<GenericRequest> requests = db.Requests.Where(r => r.Type == "JoinCourse").ToList();
                 foreach (var req in requests)
@@ -482,6 +483,42 @@ namespace TeamRoles.Repositories
             {
                 throw ex;
             }
+        }
+
+        public double GetAverageGrade(ApplicationUser student)
+        {
+            double average = 0;
+            int count = 0;
+            if (student != null)
+            {
+                List<Enrollment> list = db.Enrollments.Where(u => u.UserId == student.Id).ToList();
+                foreach (var item in list)
+                {
+                    if (item.Grade != -1)
+                    {
+                        average = average + item.Grade;
+                        count++;
+                    }
+                }
+            }
+            return average / count;
+        }
+
+        public int GetTotalAbsences(ApplicationUser student)
+        {
+            int count = 0;
+            if (student != null)
+            {
+                List<Enrollment> list = db.Enrollments.Where(u => u.UserId == student.Id).ToList();
+                foreach (var item in list)
+                {
+                    if (item.Absences != -1)
+                    {
+                        count = count + item.Absences;
+                    }
+                }
+            }
+            return count;
         }
     }
 }

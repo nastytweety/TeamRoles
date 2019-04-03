@@ -1,5 +1,4 @@
-﻿@model TeamRoles.Models.ApplicationUser
-
+﻿@model TeamRoles.Models.ViewModels.StudentViewModel
 @{
     ViewBag.Title = "Details";
 }
@@ -10,67 +9,81 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.ProfilePic)
+            @Html.DisplayNameFor(model => model.student.ProfilePic)
         </dt>
 
         <dd>
-            <img src="~/Users/@Model.UserName/@Url.Content(Model.ProfilePic)" width="100" height="100"/>
+            <img src="~/Users/@Model.student.UserName/@Url.Content(Model.student.ProfilePic)" width="100" height="100" />
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.student.Email)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Email)
+            @Html.DisplayFor(model => model.student.Email)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.UserName)
+            @Html.DisplayNameFor(model => model.student.UserName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.UserName)
+            @Html.DisplayFor(model => model.student.UserName)
+        </dd>
+        <dt>
+            Average Grade
+        </dt>
+
+        <dd>
+            @Model.AverageGrade
+        </dd>
+        <dt>
+            Total Absences
+        </dt>
+
+        <dd>
+            @Model.TotalAbsences
         </dd>
         <dd>
-        <table class="table">
-            <tr>
-                <th>Course Title</th>
-                <th>Teacher</th>
-                <th>Grade</th>
-                <th>Absences</th>
-            </tr>
-            @foreach (var item in Model.Enrollments)
-            {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Course.CourseName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Course.Teacher.UserName)
-                </td>
-                <td>
-                    @if (item.Grade == -1)
-                    {
-                        <p>Not Set</p>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.Grade)
-                    }
-                </td>
-                <td>
-                    @if (item.Absences == -1)
-                    {
-                        <p>Not Set</p>
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.Absences)
-                    }
-                </td>
-            </tr>
-            }
-        </table>
+            <table class="table">
+                <tr>
+                    <th>Course Title</th>
+                    <th>Teacher</th>
+                    <th>Grade</th>
+                    <th>Absences</th>
+                </tr>
+                @foreach (var item in Model.student.Enrollments)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Course.CourseName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Course.Teacher.UserName)
+                        </td>
+                        <td>
+                            @if (item.Grade == -1)
+                            {
+                                <p>Not Set</p>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.Grade)
+                            }
+                        </td>
+                        <td>
+                            @if (item.Absences == -1)
+                            {
+                                <p>Not Set</p>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.Absences)
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
         </dd>
     </dl>
 
