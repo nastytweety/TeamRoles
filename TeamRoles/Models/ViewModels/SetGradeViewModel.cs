@@ -11,5 +11,6 @@ namespace TeamRoles.Models
         public string TeacherName { get; set; }
         public string CourseName { get; set; }
         public double NumericGrade { get; set; }
+        public int Absences { get; set; }
     }
 }
