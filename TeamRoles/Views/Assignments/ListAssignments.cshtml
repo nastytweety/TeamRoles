@@ -4,8 +4,8 @@
 @model IEnumerable<TeamRoles.Models.Assignment>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-12 text-center padding-top-30">
+    <div class="row text-center padding-top-10">
+        <div class="col-md-12 ">
 
             <table class="table">
                 <thead>
@@ -16,70 +16,76 @@
                     <th>Points</th>
                     <th>Course</th>
                     <th>Teacher</th>
+                    <th>Options</th>
+                    
                 </tr>
                 </thead>
 
                 <tbody>
-                @if (Model.Count() != 0)
-                {
-                    foreach (var item in Model)
+
+                    @if (Model.Count() != 0)
                     {
-                    <tr class="table-active">
-                        <td>@item.AssignmentName</td>
-                        <td>@Html.ActionLink("Download", "DownloadFile", "UploadFiles", new { filename = item.Filename, coursename = item.Course.CourseName, username = item.Course.Teacher.UserName, filefolder = item.AssignmentName, mode = "assignments" }, null)</td>
-                        <td>@item.DueDate</td>
-                        <td>@item.Points</td>
-                        <td>@item.Course.CourseName</td>
-                        <td>@item.Course.Teacher.UserName</td>
-
-                        @if (User.IsInRole("Teacher"))
+                        foreach (var item in Model)
                         {
-                            <td>@Html.ActionLink("Delete", "Delete", new { id = item.AssignmentId })</td>
-                            <td>@Html.ActionLink("View Student Submits", "GetSubmits", "UploadFiles", new { coursename = item.Course.CourseName, username = item.Course.Teacher.UserName, assignment = item.AssignmentName }, null)</td>
-                        }
-                        else if (User.IsInRole("Student"))
-                        {
-                        <td>
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_@item.AssignmentId">
-                                Upload File
-                            </button>
+                            <tr class="table-active">
+                                <td>@item.AssignmentName</td>
+                                <td>@Html.ActionLink("Download", "DownloadFile", "UploadFiles", new {filename = item.Filename, coursename = item.Course.CourseName, username = item.Course.Teacher.UserName, filefolder = item.AssignmentName, mode = "assignments"}, new { @class = "black-text" })</td>
+                                <td>@item.DueDate</td>
+                                <td>@item.Points</td>
+                                <td>@item.Course.CourseName</td>
+                                <td>@item.Course.Teacher.UserName</td>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="modal_@item.AssignmentId" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        @using (Html.BeginForm("UploadAnswear", "UploadFiles", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                        {
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
+                                @if (User.IsInRole("Teacher"))
+                                {
+                                    <td>
+                                        @Html.ActionLink("View Student Submits", "GetSubmits", "UploadFiles", new {coursename = item.Course.CourseName, username = item.Course.Teacher.UserName, assignment = item.AssignmentName}, new{ @class = "black-text"}) |
+                                        @Html.ActionLink("Delete", "Delete", new {id = item.AssignmentId},new{ @class="black-text"})
 
-                                            <div class="modal-body">
+                                    </td>
+                                }
+                                else if (User.IsInRole("Student"))
+                                {
+                                    <td>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_@item.AssignmentId">
+                                            Upload File
+                                        </button>
 
-                                                @Html.Hidden("coursename", item.Course.CourseName)
-                                                @Html.Hidden("teachername", item.Course.Teacher.UserName)
-                                                @Html.Hidden("assignment", item.AssignmentName)
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modal_@item.AssignmentId" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    @using (Html.BeginForm("UploadAnswear", "UploadFiles", FormMethod.Post, new {enctype = "multipart/form-data"}))
+                                                    {
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
 
-                                                <div class="col-md-12">
-                                                    <input type="file" name="file" required />
+                                                        <div class="modal-body">
+
+                                                            @Html.Hidden("coursename", item.Course.CourseName)
+                                                            @Html.Hidden("teachername", item.Course.Teacher.UserName)
+                                                            @Html.Hidden("assignment", item.AssignmentName)
+
+                                                            <div class="col-md-12">
+                                                                <input type="file" name="file" required/>
+                                                            </div>
+
+                                                            <div class="col-md-12">
+                                                                <input type="submit" value="Submit File" class="btn btn-primary"/>
+                                                            </div>
+
+                                                        </div>
+                                                    }
                                                 </div>
-
-                                                <div class="col-md-12">
-                                                    <input type="submit" value="Submit File" class="btn btn-primary" />
-                                                </div>
-
                                             </div>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
+                                        </div>
+                                    </td>
+                                }
+                            </tr>
                         }
-                    </tr>
-                    }
                 }
                 else
                 {
@@ -96,7 +102,7 @@
             </table>
         </div>
 
-        <a href="/Courses/CourseHome/@ViewBag.CourseId"><i class="fas fa-chevron-left"></i> Back to Course </a>
+        <a href="/Courses/CourseHome/@ViewBag.CourseId"><i class="fas fa-chevron-left padding-top-10"></i> Back to Course </a>
 
     </div>
 </div>

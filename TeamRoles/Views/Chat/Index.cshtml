@@ -5,8 +5,8 @@
 @model IEnumerable<ApplicationUser>
 
 
-<div class="container-fluid main-body">
-    <div class="row row-broken">
+<div class="container">
+    <div class="row padding-top-40 padding-left-40">
         <div class="col-sm-3 col-xs-12">
             <div class="col-inside-lg decor-default chat border-design" style="outline: none;" tabindex="5000">
                 <h2 class="chat-users-header">Users</h2>
@@ -63,12 +63,14 @@
                 console.log(avatar);
                 var initialConversationDiv = `<div class="initial_div"> You entered Conversation with user ${username}</div>`;
                 chatBodyElement.append(initialConversationDiv);
-                // to be https in Azure
+
+                 //to be https in Azure
                 let url = "http://" +
                     window.location.host +
-                    "@Url.Action("GetMessages", "MessageRepository")" +
+                     "@Url.Action("GetMessages", "MessageRepository")" +
                     "/?username=" +
                     username;
+
                 $.get(url).then((response) => {
                     console.log(response);
                     response.messages.allMessages.map(message => {
@@ -107,15 +109,16 @@
                     });
                 });
             });
-            //ta jub jekinane edw
+
+
             var privateChatHub = $.connection.privateChatHub;
             console.log("ok connected");
             privateChatHub.client.sendConnectedUsers = function(response) {
                 console.log(response);
                 var result = $.parseJSON(response);
                 console.log(result);
-                for (malakas in result) {
-                    console.log(malakas);
+                for (infos in result) {
+                    console.log(infos);
                 }
 
 

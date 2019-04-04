@@ -1,0 +1,1 @@
+Copying file bin\Antlr3.Runtime.pdb to obj\Release\Package\PackageTmp\bin\Antlr3.Runtime.pdb failed. Could not find file 'bin\Antlr3.Runtime.pdb'.

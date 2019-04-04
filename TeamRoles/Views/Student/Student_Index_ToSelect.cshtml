@@ -2,90 +2,86 @@
 @using TeamRoles.Models.Extensions;
 @model IEnumerable<TeamRoles.Models.ApplicationUser>
 
-@{
-    ViewBag.Title = "Index";
-}
+<div class="container">
+    <div class="row padding-top-30">
+        
+        <h5> @ViewBag.Message </h5>
 
-<h2>Index</h2>
+        @if (Model.Count() != 0)
+        {
+            <div class="card-deck">
+                @foreach (var item in Model)
+                {
+                    <div class="txt-center">
+                        <div class="card" style="width: 250px; height: 450px; padding: 15px; margin: 15px">
 
+                            <img src="~/Users/@item.UserName/@item.ProfilePic" class="card-img-top" height="200" width="200" style="object-fit: contain" alt="...">
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ProfilePic)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
-        </th>
-        <th>
-            Options
-        </th>
-    </tr>
+                            <div class="card-body">
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                <img src="~/Users/@item.UserName/@Url.Content(item.ProfilePic)" width="100" height="100" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
+                                <h5 class="card-title">@item.UserName </h5>
 
-            @if (User.IsInRole("Parent"))
-            {
-                <td>
-                    @*Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                <p class="card-text">@item.Email </p>
 
-                        @*Html.ActionLink("Request Connection", "ParentConnect", new { id = item.Id })*@
-                    <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal_@item.Id">Request Connection</button>
+                            </div>
 
-                    <div id="myModal_@item.Id" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                @using (Html.BeginForm("ParentConnect", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                {
-                                    @Html.AntiForgeryToken()
+                            <div class="card-footer">
 
-                                    <div class="form-horizontal">
-                                        <h4>Birthday Validation</h4>
-                                        <hr />
-                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                        <div class="form-group">
-                                            <p>Enter your child's Birthday</p>
-                                            <div class="col-md-10">
-                                                <input type="date" name="BirthDay" id="BirthDay">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_@item.Id">
+                                    Request Connection
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal_@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+
+                                        <div class="modal-content">
+
+                                            <div class="modal-body">
+                                                @using (Html.BeginForm("ParentConnect", "Student", FormMethod.Post, new {enctype = "multipart/form-data"}))
+                                                {
+                                                    @Html.AntiForgeryToken()
+
+                                                    <div class="form-horizontal">
+                                                        <h4>Birthday Validation</h4>
+                                                        <hr/>
+                                                        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                                                        <div class="form-group">
+                                                            <p>Enter your child's Birthday</p>
+                                                            <div class="col-md-12">
+                                                                <input type="date" name="BirthDay" id="BirthDay">
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" value="@item.Id" id="Id" name="Id"/>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <input type="submit" value="Submit" class="btn btn-primary"/>
+                                                        </div>
+                                                    </div>
+                                                }
                                             </div>
                                         </div>
-                                        <input type="hidden" value="@item.Id" id="Id" name="Id" />
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10">
-                                            <input type="submit" value="Submit" class="btn btn-primary" />
-                                        </div>
-                                    </div>
-                                }
+                                </div>
 
+                            
                             </div>
                         </div>
                     </div>
-                </td>
-            }
-            else
-            {
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.Id })
-                </td>
-            }
-        </tr>
-    }
-</table>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center align-content-center"><h2 style="color: red"> There are no Students in the platform ... </h2></div>
+        }
+
+    </div>
+</div>
+            
 
 @if (TempData["Message"] != null)
 {

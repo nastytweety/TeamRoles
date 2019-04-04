@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNet.Identity;
+﻿@using System.ServiceModel.Configuration
+@using Microsoft.AspNet.Identity;
 @using TeamRoles.Models.Extensions;
 @using TeamRoles.Models;
 
@@ -12,15 +13,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title> @ViewBag.Title </title> 
+    <title> @ViewBag.Title </title>
 
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Site.css")
     @Scripts.Render("~/bundles/modernizr")
-    
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" 
-          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" 
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
           crossorigin="anonymous">
 
     <link rel="Shortcut Icon" href="/en-Taxei.ico" type="image/x-icon" />
@@ -30,71 +31,79 @@
 
 </head>
 
-  <body style=" background-color: #aaabb8"> <!-- TODO STO CSS -->
 
-      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style=" background: linear-gradient(#25274d, #464866); "> <!-- TODO STO CSS -->
-       
-          <a class="navbar-brand" href="/Home/Index/"><img src="~/Images/en-Taxei.gif" class="img-circle" height="50" width="40" alt="@ViewBag.Title" /></a>
 
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
+<body class="Back-Ground-Color">
 
-          <div class="collapse navbar-collapse" id="navbarText">
-              <ul class="navbar-nav mr-auto">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top NavBar-Color">
 
-                  @if (!User.Identity.IsAuthenticated)
-                  {
+        <a class="navbar-brand" href="/Home/Index/"><img src="~/Images/en-Taxei.gif" class="img-circle" height="50" width="40" alt="@ViewBag.Title" /></a>
 
-                      <li class="nav-item">
-                          <a class="nav-link" href="/Home/Home"> Home </a>
-                      </li>
-                      <li class="nav-item">
-                          <a class="nav-link" href="/Home/About"> About </a>
-                      </li>
-                  }
-                  else if (User.IsInRole("Teacher"))
-                  {
-                      @Html.Action("TeacherNavbar", "Home")
-                  }
-                  else if (User.IsInRole("Student"))
-                  {
-                      @Html.Action("StudentNavbar", "Home")
-                  }
-                  else if (User.IsInRole("Admin"))
-                  {
-                      @Html.Action("AdminNavbar", "Home")
-                  }
-                  else if (User.IsInRole("Parent"))
-                  {
-                      @Html.Action("ParentNavbar", "Student")
-                  }
-              </ul>
-              <div class="pull-right">
-                  @if (Request.IsAuthenticated)
-                  {
-                      using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-nav mr-auto" }))
-                      {
-                          @Html.AntiForgeryToken()
-                          <a class="nav-link" href="/Manage/Index">@User.Identity.GetUserName()</a>
-                          <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()"> Log off </a>
-                      }
-                  }
-                  else
-                  {
-                      <div class="navbar-nav mr-auto">
-                          <a class="nav-link" href="/Account/Register"> Register </a>
-                          <a class="nav-link" href="/Account/Login"> Log in </a>
-                      </div>
-                  }
-              </div>
-          </div>
-      </nav>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+
+                @if (!User.Identity.IsAuthenticated)
+                {
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Home"> Home </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/About"> About </a>
+                    </li>
+                }
+                else if (User.IsInRole("Teacher"))
+                {
+                    @Html.Action("TeacherNavbar", "Home")
+                }
+                else if (User.IsInRole("Student"))
+                {
+                    @Html.Action("StudentNavbar", "Home")
+                }
+                else if (User.IsInRole("Admin"))
+                {
+                    @Html.Action("AdminNavbar", "Home")
+                }
+                else if (User.IsInRole("Parent"))
+                {
+                    @Html.Action("ParentNavbar", "Student")
+                }
+            </ul>
+            <div class="pull-right">
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-nav mr-auto" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <a class="nav-link" href="/Manage/Index">@User.Identity.GetUserName()</a>
+                        <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()"> Log off </a>
+                    }
+                }
+                else
+                {
+                    <div class="navbar-nav mr-auto">
+                        <a class="nav-link" href="/Account/Register"> Register </a>
+                        <a class="nav-link" href="/Account/Login"> Log in </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </nav>
 
     @RenderBody()
-    
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+   
 </body>
 </html>
+
+
+
+

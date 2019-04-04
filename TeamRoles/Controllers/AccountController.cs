@@ -238,7 +238,6 @@ namespace TeamRoles.Controllers
             {
                 return Json(1);
             }
-
             else
             {
                 return Json(2);

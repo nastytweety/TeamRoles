@@ -8,7 +8,8 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System.IO;   
+using System.IO;
+using System.Linq;
 using TeamRoles.Models;
 using TeamRoles.Repositories;
 
@@ -73,7 +74,11 @@ namespace TeamRoles.Controllers
                 model.coursename = coursename;
                 model.assignmentname = assignment;
                 model.mode = "submits";
-                return View(model);
+                ApplicationUser teacher = db.Users.Where(u => u.UserName == username).SingleOrDefault();
+                Course course = teacher.Courses.SingleOrDefault(c => c.CourseName == coursename);
+                ViewBag.CourseId = course.CourseId;
+                   
+                return View(model); 
             }
             catch
             {

@@ -1,4 +1,5 @@
-﻿@model TeamRoles.Models.Course
+﻿@using System.Diagnostics.Eventing.Reader
+@model TeamRoles.Models.Course
 
 <div class="container">
     <div class="row padding-top-40">
@@ -59,7 +60,14 @@
 
         <!-- BACK TO BUTTONS -->
         <div class="padding-top-20">
-            <a href="/Courses/Index_ToSelect/@ViewBag.TeacherId"><i class="fas fa-chevron-left"></i> Back to Course </a>
+            @if (User.IsInRole("Student"))
+            {
+                <a href="/Courses/Index_ToSelect/@ViewBag.TeacherId"><i class="fas fa-chevron-left"></i> Back to Course </a>
+            }
+            else if (User.IsInRole("Teacher"))
+            {
+                <a href="/Courses/CourseHome/@ViewBag.TeacherId"><i class="fas fa-chevron-left"></i> Back to Course </a>
+            }
         </div>
     </div>
 </div>
