@@ -617,10 +617,6 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Courses\CourseHome.cshtml" />
     <Content Include="Views\Roles\ManageUsers.cshtml" />
-    <Content Include="Views\Courses\Request.cshtml" />
-    <Content Include="Views\Home\!Requests.cshtml" />
-    <Content Include="Views\Courses\RequestSent.cshtml" />
-    <Content Include="Views\Student\RequestSent.cshtml" />
     <Content Include="Views\Home\JoinRequests.cshtml" />
     <Content Include="Views\Home\AcceptParentRequests.cshtml" />
     <Content Include="Views\Student\Parent_Index.cshtml" />
@@ -635,7 +631,6 @@
     <Content Include="Views\Assignments\Edit.cshtml" />
     <Content Include="Views\Courses\CourseGrades.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
-    <Content Include="Views\Shared\_Carousel.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Manage\Edit.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />

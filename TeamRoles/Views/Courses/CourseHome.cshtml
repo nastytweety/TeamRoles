@@ -10,6 +10,7 @@
             <div class="btn-group" role="group">
                 @if (User.IsInRole("Teacher"))
                 {
+
                     @Html.Partial("_CreateAssignments", new ViewDataDictionary<Assignment>() { { "CourseId", Model.CourseId } })
                     @Html.Partial("_CreateLecture", new ViewDataDictionary<Lecture>() { { "CourseId", Model.CourseId } })
 
@@ -23,23 +24,25 @@
         </div>
     </div>
     <div class="row">
+
         <!-------- COURSE PIC ----------->
         <div class="col-md-3 text-center align-content-center well">
-                <img alt="@Model.Teacher.UserName"
-                     img src="/Users/@Model.Teacher.UserName/@Model.CourseName/@Url.Content(Model.CoursePic)"
-                     class="rounded"
-                     width="200"
-                     height="200" />
-                <h6> @Model.CourseName</h6>
-                <dl>
-                    <dt>Teacher Name:</dt>
-                    <dd>@Model.Teacher.UserName</dd>
-                    <dt>Description:</dt>
-                    <dd>@Model.CourseDescription</dd>
-                </dl>
-            </div>
-            <div class="col-md-1"></div>
-            <!----- STUDENTS LIST ------->
+            <img alt="@Model.Teacher.UserName"
+                 img src="/Users/@Model.Teacher.UserName/@Model.CourseName/@Url.Content(Model.CoursePic)"
+                 class="rounded"
+                 width="200"
+                 height="200"/>
+
+            <h6> @Model.CourseName</h6>
+            <dl>
+                <dt>Teacher Name:</dt>
+                <dd>@Model.Teacher.UserName</dd>
+                <dt>Description:</dt>
+                <dd>@Model.CourseDescription</dd>
+            </dl>
+        </div>
+        <div class="col-md-1"></div>
+        <!----- STUDENTS LIST ------->
         <div class="col-md-8 text-center well">
             <table class="table table-striped">
                 <thead>
@@ -48,69 +51,71 @@
                     <th>Student Name</th>
                     <th>Joined Courses</th>
                     <th>Options</th>
+                    @if (User.IsInRole("Teacher"))
+                    {
+                        <th> Set Grade</th>
+                    }
                 </tr>
+
                 </thead>
                 <tbody>
 
-                    @if (Model.Enrollments.Count() != 0)
+                @if (Model.Enrollments.Count() != 0)
+                {
+                    foreach (var enroll in Model.Enrollments)
                     {
-                        foreach (var enroll in Model.Enrollments)
-                        {
-                            <tr class="table-active">
-                                <td><img class="img-circle" src="~/Users/@enroll.User.UserName/@Url.Content(enroll.User.ProfilePic)" height="40" width="40" alt="@enroll.User.UserName" /></td>
-                                <td>@enroll.User.UserName</td>
-                                <td>@enroll.User.Enrollments.Count()</td>
+                        <tr class="table-active">
+                            <td><img class="img-circle" src="~/Users/@enroll.User.UserName/@Url.Content(enroll.User.ProfilePic)" height="40" width="40" alt="@enroll.User.UserName"/></td>
+                            <td>@enroll.User.UserName</td>
+                            <td>@enroll.User.Enrollments.Count()</td>
 
-                                @if (User.IsInRole("Teacher"))
-                                {
+                            @if (User.IsInRole("Teacher"))
+                            {
                                 <td>
-                                    @Html.ActionLink("Details", "Details", "Student", new { id = enroll.User.Id }, null) |
-                                    @Html.ActionLink("Delete", "RemoveFromCourse", "Student", new { id = enroll.User.Id, coursename = Model.CourseName }, null)|
-                                    @*Html.ActionLink("Set Grade", "SetGrades", "Teacher", new { id = enroll.User.Id, coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)|*@
-                                    @Html.Partial("_SetGrades", new ViewDataDictionary(new SetGradeViewModel() { StudentName = enroll.User.UserName,TeacherName = Model.Teacher.UserName , CourseName = Model.CourseName}))
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Details", "Student", new { id = enroll.User.Id })"><i class="fas fa-info-circle fa-2x"></i></a>
-                                    
-                                    <a href="@Url.Action("RemoveFromCourse", "Student", new { id = enroll.User.Id, coursename = Model.CourseName })"><i class="fas fa-user-slash fa-2x"></i></a>
+                                    <a href="@Url.Action("Details", "Student", new {id = enroll.User.Id})"><i class="fas fa-info-circle fa-2x"></i></a>
+
+                                    <a href="@Url.Action("RemoveFromCourse", "Student", new {id = enroll.User.Id, coursename = Model.CourseName})"><i class="fas fa-user-slash fa-2x"></i></a>
 
                                 </td>
-                                }
-                                else
-                                {
-                                    <td></td>
-                                    <td></td>
-                                }
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr class="table-danger">
-                            <td></td>
-                            <td>There are no subscribed students!</td>
-                            <td></td>
-                            <td></td>
+                                <td>
+                                    @Html.Partial("_SetGrades", new ViewDataDictionary(new SetGradeViewModel() {StudentName = enroll.User.UserName, TeacherName = Model.Teacher.UserName, CourseName = Model.CourseName}))
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+                            }
                         </tr>
                     }
+                }
+                else
+                {
+                    <tr class="table-danger">
+                        <td></td>
+                        <td>There are no subscribed students!</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
                 </tbody>
             </table>
         </div>
 
-            <!-- BACK TO BUTTONS -->
-            @if (User.IsInRole("Teacher"))
-            {
-                <a href="/Courses/Index/"><i class="fas fa-chevron-left"></i> Back to Courses </a>
+        <!-- BACK TO BUTTONS -->
+        @if (User.IsInRole("Teacher"))
+        {
+            <a href="/Courses/Index/"><i class="fas fa-chevron-left"></i> Back to Courses </a>
 
-            }
-            else if (User.IsInRole("Student"))
-            {
-                <a href="/Courses/Index_Selected/"><i class="fas fa-chevron-left"></i> Back to My Courses </a>
-            }
-            else if (User.IsInRole("Admin"))
-            {
-                <a href="/Courses/Admin_Index/"><i class="fas fa-chevron-left"></i> Back to Courses </a>
-            }
+        }
+        else if (User.IsInRole("Student"))
+        {
+            <a href="/Courses/Index_Selected/"><i class="fas fa-chevron-left"></i> Back to My Courses </a>
+        }
+        else if (User.IsInRole("Admin"))
+        {
+            <a href="/Courses/Admin_Index/"><i class="fas fa-chevron-left"></i> Back to Courses </a>
+        }
 
-        </div>
+    </div>
 </div>

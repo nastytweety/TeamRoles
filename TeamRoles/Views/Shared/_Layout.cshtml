@@ -33,10 +33,9 @@
 
 
 
-<body id="BackColor" class="Back-Ground-Color">
+<body class="Back-Ground-Color">
 
-    <nav id="NavColor" class="navbar navbar-expand-lg navbar-dark fixed-top NavBar-Color">
-        <!-- TODO STO CSS -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top NavBar-Color">
 
         <a class="navbar-brand" href="/Home/Index/"><img src="~/Images/en-Taxei.gif" class="img-circle" height="50" width="40" alt="@ViewBag.Title" /></a>
 
@@ -101,17 +100,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
-    @if (User.IsInRole("Admin"))
-    {
-        <script>
-            $("#BackColor").addClass("Admin-Color-Background").removeClass("Back-Ground-Color");
-        </script>
-
-        <script>
-            $("#NavColor").addClass("Admin-Color-Navbar").removeClass("NavBar-Color");
-        </script>
-    }
-
+   
 </body>
 </html>
 
