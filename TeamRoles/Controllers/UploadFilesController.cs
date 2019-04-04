@@ -35,6 +35,7 @@ namespace TeamRoles.Controllers
             {
                 if (file.ContentLength > 0)
                 {
+                    
                     string filename = Path.GetFileName(file.FileName);
                     string filepath = Path.Combine(Server.MapPath("~/Users\\" + teachername + "\\" + coursename +"\\Submits\\" + assignment), filename);
                     file.SaveAs(filepath);

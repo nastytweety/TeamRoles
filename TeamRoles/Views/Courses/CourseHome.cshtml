@@ -78,7 +78,11 @@
 
                                 </td>
                                 <td>
-                                    @Html.Partial("_SetGrades", new ViewDataDictionary(new SetGradeViewModel() {StudentName = enroll.User.UserName, TeacherName = Model.Teacher.UserName, CourseName = Model.CourseName}))
+
+                                    @Html.ActionLink("Details", "Details", "Student", new { id = enroll.User.Id }, null) |
+                                    @Html.ActionLink("Delete", "RemoveFromCourse", "Student", new { id = enroll.User.Id, courseid = Model.CourseId }, null)|
+                                    @Html.Partial("_SetGrades", new ViewDataDictionary(new SetGradeViewModel() { StudentName = enroll.User.UserName,TeacherName = Model.Teacher.UserName , CourseName = Model.CourseName}))
+
                                 </td>
                             }
                             else

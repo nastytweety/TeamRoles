@@ -143,16 +143,21 @@ namespace TeamRoles.Controllers
             return RedirectToAction("Admin_Index");
         }
 
-        public ActionResult RemoveFromCourse(string id, string coursename)
+        public ActionResult RemoveFromCourse(string id, int? courseid)
         {
-            if(id!=null && coursename!=null)
+            if(id!=null && courseid!=null)
             {
-                ApplicationUser student = db.Users.Find(id);
-                Course course = db.Courses.FirstOrDefault(c => c.CourseName == coursename);
-                student.Courses.Remove(course);
+                ApplicationUser student = db.Users.Include(e => e.Enrollments).SingleOrDefault(st => st.Id == id);
+                Course course = db.Courses.Find(courseid);
+                Enrollment enroll = student.Enrollments.Where(e => e.CourseId == courseid).SingleOrDefault();
+                Enrollment dbenroll = db.Enrollments.Find(enroll.EnrollmentId);
+                student.Enrollments.Remove(enroll);
+                course.Enrollments.Remove(enroll);
                 try
                 {
                     db.Entry(student).State = EntityState.Modified;
+                    db.Entry(course).State = EntityState.Modified;
+                    db.Enrollments.Remove(dbenroll);
                     db.SaveChanges();
                 }
                 catch(Exception e)
@@ -160,7 +165,7 @@ namespace TeamRoles.Controllers
                     throw e;
                 }
             }
-            return RedirectToAction("CourseHome", "Courses", new { id = db.Courses.FirstOrDefault(c => c.CourseName == coursename).CourseId });
+            return RedirectToAction("CourseHome", "Courses", new { id = courseid });
         }
 
         public ActionResult ParentConnect(string Id,DateTime BirthDay)
