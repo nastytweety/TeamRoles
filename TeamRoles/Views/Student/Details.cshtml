@@ -52,7 +52,7 @@
             <!-------- COURSE PIC ----------->
             <div class="row">
                 <div class="col-md-12 text-center align-content-center well">
-
+                    
                     <img alt="@Model.student.UserName"
                          img src="/Users/@Model.student.UserName/@Url.Content(Model.student.ProfilePic)"
                          class="rounded"
@@ -75,9 +75,25 @@
 
             <!---------- COURSES LIST --------->
 
+        <dd>
+            @Model.TotalAbsences
+        </dd>
+        <dt>
+            Age
+        </dt>
+        <dd>
+            @Model.Age
+        </dd>
+        <dd>
+            <table class="table">
             <table class="table table-striped text-center">
                 <thead>
                 <tr>
+                    <th>Course Title</th>
+                    <th>Teacher</th>
+                    <th>Grade</th>
+                    <th>Absences</th>
+                    <th>Age</th>
                     <th>#</th>
                     <th>Title</th>
                     <th>Description</th>

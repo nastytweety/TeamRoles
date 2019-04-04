@@ -122,6 +122,7 @@ namespace TeamRoles.Controllers
             StudentViewModel model = new StudentViewModel();
             model.AverageGrade = repository.GetAverageGrade(student);
             model.TotalAbsences = repository.GetTotalAbsences(student);
+            model.Age = repository.GetAge(student);
             model.student = student;
             return View(model);
         }
@@ -164,32 +165,35 @@ namespace TeamRoles.Controllers
 
         public ActionResult ParentConnect(string Id,DateTime BirthDay)
         {
+            ApplicationUser student = db.Users.Find(Id);
+            ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
             UserRepository repository = new UserRepository();
             if(repository.CheckIfBirthDaysMatch(Id,BirthDay))
             {
-                ApplicationUser student = db.Users.Find(Id);
-                ApplicationUser parent = db.Users.Find(User.Identity.GetUserId());
+               
                 if(!repository.checkIfRequestExists(student,parent,null,"ParentStudent"))
                 {
                     if (repository.CreateParentRequest(parent, student))
                     {
-                        return View("RequestSent");
+                        TempData["Request"] = "Your request has been sent";
+                        return RedirectToAction("Student_Index_ToSelect", student);
                     }
                     else
                     {
-                        ViewBag.Message = "Something Went Wrong Processing your request!";
-                        return View("Error");
+                        TempData["Error"] = "Something went Wrong. Processing your request!";
+                        return RedirectToAction("Student_Index_ToSelect", student);
                     }
                 }
                 else
                 {
-                    ViewBag.Message = "You have already sent a request to this user!";
-                    return View("Error");
+                    TempData["ErrorMessage"] = "You have already sent a request to this user!";
+                    return RedirectToAction("Student_Index_ToSelect", student);                    
                 }
             }
             else
             {
-                return View("Error");
+                TempData["Message"] = "Wrong BirthDate. Try again";
+                return RedirectToAction("Student_Index_ToSelect", student);
             }
         }
 

@@ -29,20 +29,20 @@
             </div>
         </div>
     </div>
-
+   
     <div class="row padding-top-10 padding-bottom-20">
         <div class="col-md-12 text-center align-content-center well ">
 
             <!---------- COURSES LIST --------->
-            
+
             <table class="table table-striped text-center">
                 <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Choices</th>
-                </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Choices</th>
+                    </tr>
                 </thead>
 
                 <tbody>
@@ -91,3 +91,15 @@
         <a href="/Teacher/Admin_Index"><i class="fas fa-chevron-left"></i> Back to Teachers </a>
     }
 </div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+    @if (TempData["Message"] != null)
+    {
+        <script type="text/javascript">
+                    window.onload = function () {
+                        alert('@TempData["Message"]');
+                    };
+        </script>
+    }
+
