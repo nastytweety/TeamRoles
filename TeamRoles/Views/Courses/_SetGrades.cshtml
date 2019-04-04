@@ -1,0 +1,52 @@
+﻿@model TeamRoles.Models.SetGradeViewModel
+@{
+    ViewBag.Title = "Grades";
+}
+
+<!-- Button trigger modal -->
+<a href="" data-target="#Set_@Model.StudentName" data-toggle="modal"><i class="fas fa-edit fa-2x"></i></a>
+
+<!-- Modal -->
+<div class="modal fade" id="Set_@Model.StudentName" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header text-center">
+                <h5 class="modal-title" id="exampleModalLabel"> Edit This Course </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            @using (Html.BeginForm("SetGrades", "Teacher", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <h4>Set Grade.</h4>
+                <hr />
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <div class="form-group">
+                    @*Html.DisplayFor(m => m.CourseName, new { @class = "col-md-2 control-label" })*@
+                    @Html.HiddenFor(model => model.CourseName)
+                    @*Html.DisplayFor(m => m.TeacherName, new { @class = "col-md-2 control-label" })*@
+                    @Html.HiddenFor(model => model.TeacherName)
+                    @*Html.DisplayFor(m => m.StudentName, new { @class = "col-md-2 control-label" })*@
+                    @Html.HiddenFor(model => model.StudentName)
+                    @Html.LabelFor(m => m.NumericGrade, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.NumericGrade, new { @class = "form-control" })
+                    </div>
+                    @Html.LabelFor(m => m.Absences, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Absences, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

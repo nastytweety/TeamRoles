@@ -12,14 +12,13 @@
                 {
                     @Html.Partial("_CreateAssignments", new ViewDataDictionary<Assignment>() { { "CourseId", Model.CourseId } })
                     @Html.Partial("_CreateLecture", new ViewDataDictionary<Lecture>() { { "CourseId", Model.CourseId } })
-                    
-                    @Html.ActionLink("View Grades", "CourseGrades", "Courses", new { coursename = Model.CourseName, teacherid = Model.Teacher.Id }, new { @class = "btn btn-primary" })
+
+
                 }
-                else if (User.IsInRole("Student"))
-                {
-                    @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { courseid = Model.CourseId }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("View Lectures", "ListLectures", "Lectures", new { courseid = Model.CourseId }, new { @class = "btn btn-primary" })
-                }
+
+                @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { courseid = Model.CourseId }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("View Lectures", "ListLectures", "Lectures", new { courseid = Model.CourseId }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("View Grades", "CourseGrades", "Courses", new { coursename = Model.CourseName, teacherid = Model.Teacher.Id }, new { @class = "btn btn-primary" })
             </div>
         </div>
     </div>
@@ -64,11 +63,12 @@
 
                                 @if (User.IsInRole("Teacher"))
                                 {
-                                    <td>
-                                        @Html.ActionLink("Details", "Details", "Student", new { id = enroll.User.Id }, null) |
-                                        @Html.ActionLink("Delete", "RemoveFromCourse", "Student", new { id = enroll.User.Id, coursename = Model.CourseName }, null)|
-                                        @Html.ActionLink("Set Grade", "SetGrades", "Teacher", new { id = enroll.User.Id, coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)
-                                    </td>
+                                <td>
+                                    @Html.ActionLink("Details", "Details", "Student", new { id = enroll.User.Id }, null) |
+                                    @Html.ActionLink("Delete", "RemoveFromCourse", "Student", new { id = enroll.User.Id, coursename = Model.CourseName }, null)|
+                                    @*Html.ActionLink("Set Grade", "SetGrades", "Teacher", new { id = enroll.User.Id, coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)|*@
+                                    @Html.Partial("_SetGrades", new ViewDataDictionary(new SetGradeViewModel() { StudentName = enroll.User.UserName,TeacherName = Model.Teacher.UserName , CourseName = Model.CourseName}))
+                                </td>
                                 }
                                 else
                                 {

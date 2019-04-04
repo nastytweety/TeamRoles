@@ -637,7 +637,6 @@
     <Content Include="Views\Assignments\Edit.cshtml" />
     <Content Include="Views\Courses\CourseGrades.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
-    <Content Include="Views\Home\!Chat2.cshtml" />
     <Content Include="Views\Shared\_Carousel.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Manage\Edit.cshtml" />
@@ -662,6 +661,7 @@
     <Content Include="Views\Home\_TeacherNavbar.cshtml" />
     <Content Include="Views\Student\_ParentNavbar.cshtml" />
     <Content Include="Views\Assignments\_UploadAnswer.cshtml" />
+    <Content Include="Views\Courses\_SetGrades.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
