@@ -71,6 +71,7 @@ namespace TeamRoles.Controllers
                 model.coursename = coursename;
                 model.assignmentname = assignment;
                 model.mode = "submits";
+                
                 return View(model);
             }
             catch

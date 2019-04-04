@@ -1,0 +1,12 @@
+Alliance For Digital Employability (AFDEmp, www.afdemp.org)
+
+AFDEmp Coding Bootcamp, Java/C#
+
+Explanation: 500 hours of intensive training in Software Development, organized by PeopleCert (www.peoplecert.org) and HEPIS (www.hepis.gr). 
+Developed under the academic supervision of the Athens University of Business and Economics (AUEB).
+
+Certifications
+
+PeopleCert Software Developer, Java or C#(Foundation Level)
+
+PeopleCert Software Developer, Java or C# (Advanced Level)

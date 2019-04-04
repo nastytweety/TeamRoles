@@ -1,8 +1,48 @@
 ﻿@model IEnumerable<TeamRoles.Models.ApplicationUser>
-@{
-    ViewBag.Title = "Parent_Index";
-}
 
+<div class="container">
+    <div class="row padding-top-30">
+
+        @if (Model.Count() != 0)
+        {
+            <div class="card-deck">
+                @foreach (var item in Model)
+                {
+                    <div class="txt-center">
+                        <div class="card" style="width: 250px; height: 450px; padding: 15px; margin: 15px">
+
+                            <img src="~/Users/@item.UserName/@item.ProfilePic" class="card-img-top" height="200" width="200" style="object-fit: contain" alt="...">
+
+                            <div class="card-body">
+
+                                <h5 class="card-title">@item.UserName </h5>
+
+                                <p class="card-text">@item.Email </p>
+
+                            </div>
+                            <div class="card-footer">
+
+                                <a href="/Student/Details/@item.Id"><i class="fas fa-info-circle fa-2x"></i></a>
+
+                                <a href="/Student/DeleteFromChild/@item.Id" onclick="return confirm('Are you sure, do you want to delete your child?')"><i class="fas fa-trash-alt fa-2x"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center align-content-center"><h2 style="color: red"> You have no connected children yet... </h2></div>
+        }
+
+    </div>
+</div>
+
+
+
+@*
 @if (Model.Count() != 0)
 {
 <h2>Parent_Index</h2>
@@ -47,5 +87,6 @@ else
 {
     <h2>You have no connected children yet</h2>
 }
+*@
 
 

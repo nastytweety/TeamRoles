@@ -5,7 +5,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12 padding-top-20">
+        <div class="col-md-12 padding-top-10 text-center">
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -27,8 +27,8 @@
                             <td>@req.User1.UserName</td>
                             <td>@req.User2.UserName</td>
                             <td>
-                                <a href="@Url.Action("AcceptRequest", "Home", new {id = req.ReqId})"><i class="fas fa-check fa-2x"></i></a>
-                                <a href="@Url.Action("DeclineRequest", "Home", new {id = req.ReqId})"><i class="fas fa-ban fa-2x"></i></a>
+                                <a href="@Url.Action("AcceptRequest", "Home", new {id = req.ReqId})"><i class="fas fa-check fa-2x green"></i></a>
+                                <a href="@Url.Action("DeclineRequest", "Home", new {id = req.ReqId})"><i class="fas fa-ban fa-2x red"></i></a>
                             </td>
                         </tr>
                     }

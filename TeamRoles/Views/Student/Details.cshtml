@@ -1,98 +1,132 @@
 ﻿@model TeamRoles.Models.ViewModels.StudentViewModel
-@{
-    ViewBag.Title = "Details";
-}
 
-<h2>Details</h2>
+<div class="container">
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.student.ProfilePic)
-        </dt>
+    <div class="row padding-top-20">
 
-        <dd>
-            <img src="~/Users/@Model.student.UserName/@Url.Content(Model.student.ProfilePic)" width="100" height="100" />
-        </dd>
+        <!-- STUDENT STATISTICS-->
+        <div class="col-md-12 text-center align-content-center">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.student.Email)
-        </dt>
+            <div class="row">
 
-        <dd>
-            @Html.DisplayFor(model => model.student.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.student.UserName)
-        </dt>
+                <div class="col-md-4">
+                    <div class="box">
+                        <div class="box__body">
+                            <div class="stats stats--main">
+                                <div class="stats__amount"> @Model.student.Courses.Count() </div>
+                                <div class="stats__caption"> Course Joined </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="box">
+                        <div class="box__body">
+                            <div class="stats stats--main">
+                                <div class="stats__amount"> @Model.AverageGrade</div>
+                                <div class="stats__caption"> Average Grade </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.student.UserName)
-        </dd>
-        <dt>
-            Average Grade
-        </dt>
+                <div class="col-md-4">
+                    <div class="box">
+                        <div class="box__body">
+                            <div class="stats stats--main">
+                                <div class="stats__amount">@Model.TotalAbsences</div>
+                                <div class="stats__caption">Total Absences </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <dd>
-            @Model.AverageGrade
-        </dd>
-        <dt>
-            Total Absences
-        </dt>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row padding-top-20">
 
-        <dd>
-            @Model.TotalAbsences
-        </dd>
-        <dd>
-            <table class="table">
+        <div class="col-md-3">
+            <!-------- COURSE PIC ----------->
+            <div class="row">
+                <div class="col-md-12 text-center align-content-center well">
+
+                    <img alt="@Model.student.UserName"
+                         img src="/Users/@Model.student.UserName/@Url.Content(Model.student.ProfilePic)"
+                         class="rounded"
+                         width="200"
+                         height="200"/>
+                    <h6> @Model.student.UserName</h6>
+                    <dl>
+                        <dt>Email:</dt>
+                        <dd>@Model.student.Email</dd>
+                        <dt>Age:</dt>
+                        <dd>@Model.student.BirthDay</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1"></div>
+
+        <div class="col-md-8 text-center align-content-center well ">
+
+            <!---------- COURSES LIST --------->
+
+            <table class="table table-striped text-center">
+                <thead>
                 <tr>
-                    <th>Course Title</th>
-                    <th>Teacher</th>
-                    <th>Grade</th>
-                    <th>Absences</th>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Choices</th>
                 </tr>
-                @foreach (var item in Model.student.Enrollments)
+                </thead>
+
+                <tbody>
+
+                @if (Model.student.Courses.Count() != 0)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Course.CourseName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Course.Teacher.UserName)
-                        </td>
-                        <td>
-                            @if (item.Grade == -1)
-                            {
-                                <p>Not Set</p>
-                            }
-                            else
-                            {
-                                @Html.DisplayFor(modelItem => item.Grade)
-                            }
-                        </td>
-                        <td>
-                            @if (item.Absences == -1)
-                            {
-                                <p>Not Set</p>
-                            }
-                            else
-                            {
-                                @Html.DisplayFor(modelItem => item.Absences)
-                            }
-                        </td>
+                    foreach (var item in Model.student.Courses)
+                    {
+
+                        <tr class="table-active">
+                            <td> <img src="~/Users/@item.Teacher.UserName/@item.CourseName/@Url.Content(item.CoursePic)" class="img-circle" height="70" width="70"/></td>
+                            <td> @item.CourseName </td>
+                            <td> @item.CourseDescription </td>
+                            <td>
+                                <a href="@Url.Action("Details", "Courses", new {id = item.CourseId})"><i class="fas fa-info-circle fa-2x"></i></a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="table-danger">
+                        <td></td>
+                        <td>This Student has no Courses Yet</td>
+                        <td> </td>
+                        <td></td>
                     </tr>
                 }
+
+                </tbody>
             </table>
-        </dd>
-    </dl>
-
-
-</div>
-<p>
-    @if (User.IsInRole("Student"))
+        </div>
+    </div>
+    @if (User.IsInRole("Admin"))
     {
-        @Html.ActionLink("Courses", "Index_Selected", "Courses") 
+        <a href="/Teacher/Admin_Index"><i class="padding-top-20 fas fa-chevron-left"></i> Back to Teachers </a>
     }
-    @Html.ActionLink("Home", "Index", "Home")
-</p>
+    else if(User.IsInRole("Parent"))
+    {
+        <a href="/Student/Parent_Index"><i class="padding-top-20 fas fa-chevron-left"></i> Back to Students </a>
+    }
+    @*else
+    {
+        <a href="/Courses/CourseHome/@Model.student.Courses.FirstOrDefault().Teacher.Id"><i class="padding-top-20 fas fa-chevron-left"></i> Back to Students </a>
+    }*@
+</div>
+

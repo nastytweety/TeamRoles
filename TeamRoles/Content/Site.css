@@ -102,13 +102,17 @@ textarea {
     padding-top: 10px;
 }
 
-/* ------- TEACHER STATISTICS ------------ */
+.padding-left-40 {
+    padding-left: 40px
+}
 
+/* ------- STATISTICS ------------ */
 .box {
     background: linear-gradient(#526494, #604484);
     margin: 15px auto 0;
     border-radius: 5px;
     width: 250px;
+    height: 95px;
 }
 
 .box__body {
@@ -142,4 +146,32 @@ textarea {
 
 .oblique {
     font-style: oblique;
+}
+
+.red {
+    color:red
+}
+
+.green {
+    color: green
+}
+
+.black-text {
+    color:black
+}
+
+.NavBar-Color {
+    background: linear-gradient(#25274d, #464866);
+}
+
+.Back-Ground-Color {
+    background-color: #aaabb8;
+}
+
+.Admin-Color-Background {
+    background-color: #895061;
+}
+
+.Admin-Color-Navbar {
+    background: linear-gradient(#2D4159,#0677A1)
 }

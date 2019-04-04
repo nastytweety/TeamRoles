@@ -229,12 +229,11 @@ namespace TeamRoles.Controllers
         {
             var searchData = db.Users.SingleOrDefault(x => x.UserName == username);
 
-            //            if (searchData == null)
-            //            {
-            //                return Json(0);
-            //            }
-            /*else */
-            if (searchData.Validated != true)
+            if (searchData == null)
+            {
+                return Json(0);
+            }
+            else if (searchData.Validated == false)
             {
                 return Json(1);
             }

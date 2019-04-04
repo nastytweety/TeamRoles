@@ -8,18 +8,19 @@
         <!-- VERTICAL BUTTONS-->
         <div class="col-md-8 padding-top-40 text-center">
             <div class="btn-group" role="group">
+
                 @if (User.IsInRole("Teacher"))
                 {
-                    @Html.Partial("_CreateAssignments", new ViewDataDictionary<Assignment>() { { "CourseId", Model.CourseId } })
-                    @Html.Partial("_CreateLecture", new ViewDataDictionary<Lecture>() { { "CourseId", Model.CourseId } })
-                    
-                    @Html.ActionLink("View Grades", "CourseGrades", "Courses", new { coursename = Model.CourseName, teacherid = Model.Teacher.Id }, new { @class = "btn btn-primary" })
+                    @Html.Partial("_CreateAssignments", new ViewDataDictionary<Assignment>() {{"CourseId", Model.CourseId}})
+                    @Html.Partial("_CreateLecture", new ViewDataDictionary<Lecture>() {{"CourseId", Model.CourseId}})
+
                 }
-                else if (User.IsInRole("Student"))
-                {
-                    @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new { courseid = Model.CourseId }, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("View Lectures", "ListLectures", "Lectures", new { courseid = Model.CourseId }, new { @class = "btn btn-primary" })
-                }
+                
+                @Html.ActionLink("View Grades", "CourseGrades", "Courses", new {coursename = Model.CourseName, teacherid = Model.Teacher.Id}, new {@class = "btn btn-primary"})
+
+                @Html.ActionLink("View Assignments", "ListAssignments", "Assignments", new {courseid = Model.CourseId}, new {@class = "btn btn-primary"})
+                @Html.ActionLink("View Lectures", "ListLectures", "Lectures", new {courseid = Model.CourseId}, new {@class = "btn btn-primary"})
+
             </div>
         </div>
     </div>
@@ -41,7 +42,7 @@
             </div>
             <div class="col-md-1"></div>
             <!----- STUDENTS LIST ------->
-        <div class="col-md-8 well">
+        <div class="col-md-8 text-center well">
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -64,11 +65,12 @@
 
                                 @if (User.IsInRole("Teacher"))
                                 {
-                                    <td>
-                                        @Html.ActionLink("Details", "Details", "Student", new { id = enroll.User.Id }, null) |
-                                        @Html.ActionLink("Delete", "RemoveFromCourse", "Student", new { id = enroll.User.Id, coursename = Model.CourseName }, null)|
-                                        @Html.ActionLink("Set Grade", "SetGrades", "Teacher", new { id = enroll.User.Id, coursename = Model.CourseName, teacherid = Model.Teacher.Id }, null)
-                                    </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Student", new { id = enroll.User.Id })"><i class="fas fa-info-circle fa-2x"></i></a>
+                                    
+                                    <a href="@Url.Action("RemoveFromCourse", "Student", new { id = enroll.User.Id, coursename = Model.CourseName })"><i class="fas fa-user-slash fa-2x"></i></a>
+
+                                </td>
                                 }
                                 else
                                 {

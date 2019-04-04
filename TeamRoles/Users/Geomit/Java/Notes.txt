@@ -1,0 +1,104 @@
+
+MVC 
+
+Clien Server Montelo 
+==========================================================================================================================
+
+Scaffolding .. ( sto peripou ) 
+Otan perigrafoume kati , sto Visual ti theloume .. kai genaei Automata kwdika 
+Ftiaxame Empty Project me to tik MVC kai eftiakse ta vasika. 
+Ta fernei ola o scaffolder. 
+
+===========================================================================================================================
+
+ViewBag  einai dynamic data type 
+O compiler den xerei ti periexei, mono sto runtime kseroume ti periexei kai tsekarete an einai swsto 
+Einai duskolo na kseroume sta ViewBag ta prop pou exei mesa.
+
+===========================================================================================================================
+
+ViewData = Einai san Dictionari pou apla exoun ena kleidi pou isoute me kati ...
+
+===========================================================================================================================
+
+Starup class , einai pleon diadedomeno na exoume mia tetoia class kai ekei na dhlwnoume ti tha kanei 
+h efarmogh kai ti plhrofories tha pernei otan ksekinaei 
+
+
+============================================================================================================================
+
+100 multiple choice 
+
+2.3 hours
+
+65/10 pass mark 
+
+tautotita mazi
+katharos xwros , oxi vivlia
+mia selida A4 
+
+kalo internet 
+
+==============================================================================================================================
+
+33.125 , -22.547 pws tha xekarw thn eisodo tou xrhsth . To spaw se mikra kommatia elegxou.
+		 Prepei na ksekinaei me 2 psifia
+ 
+^-?\d{0,3}\.\d{3}  pattern  (\d{1,3} \.\d{3},?){2}$  
+
+Gia na psaxnoume ena string an moiazei me to format pou theloume --- REGULAR EXPRESION (?)
+
+\d - Mporw ena exw ta pshfia 0-9 einai isodunamo.
+\s - einai to keno (" ") [ \t]
+\w - [a-z A-Z 0-9] 
+
+^ \d+,\s \d+ $ -- h alliws -- ^( <?x> \d+ ) , \s (?<y> \d+) $ 
+	                          <x> me auto tou einai to onoma x 
+
+===============================================================================================================================
+
+Gia na testarei to Inpun an einai idio ... 
+
+var input = "afdemp@afdemp.org";
+
+            var mailregex = new Regex("[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\\.[a-zA-Z0-9_-]{2,3}$"); Me to Dollario teleiwnei thn grammh
+											      Psaxnei 2-3 pshfia kai an to vrei stop
+
+            Console.WriteLine(mailregex.IsMatch(input));                   True
+            Console.WriteLine(mailregex.IsMatch("afdemp@afdemp.org.gr"));  False 
+		
+
+===============================================================================================================================	    
+
+UserID , Username , Password , Role , Rank , UserSignUp(Time) 
+
+-| Check with DateTime.Now |-
+
+- Sto Inbox only unread 
+
+- Chatbox with LinQ 
+
+
+===============================================================================================================================	    
+
+
+Static Exei ena monadiko Shmeio sthn ram gia thn methodo . Kathe fora pou trexei to app exei diaforetiki thesh.
+
+
+A constructor is a member function in a class that has the same name as its class. 
+The Constructor is automatically invoked whenever an object
+is created. Its Constructs the values of data members while initializing the class.
+
+
+
+===============================================================================================================================	    
+
+
+owin security system web -- Authentication 
+
+
+===============================================================================================================================	    
+
+Angular - React 
+
+
