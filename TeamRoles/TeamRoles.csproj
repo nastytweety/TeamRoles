@@ -653,6 +653,7 @@
     <Content Include="Views\Home\_TeacherNavbar.cshtml" />
     <Content Include="Views\Student\_ParentNavbar.cshtml" />
     <Content Include="Views\Assignments\_UploadAnswer.cshtml" />
+    <Content Include="Views\Courses\_SetGrades.cshtml" />
     <Content Include="Views\Home\_EditPost.cshtml" />
   </ItemGroup>
   <ItemGroup>

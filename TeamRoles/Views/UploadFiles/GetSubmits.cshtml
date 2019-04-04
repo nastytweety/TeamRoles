@@ -22,8 +22,8 @@
             @Html.DisplayFor(modelItem => item)
         </td>
         <td>
-            @Html.ActionLink("Download", "DownloadFile", new { filename=item , coursename = Model.coursename, username = Model.username, assignment = Model.assignmentname, mode = Model.mode }) |
-            @Html.ActionLink("Delete", "DeleteFile", new { filename= item , coursename = Model.coursename, username = Model.username, assignment = Model.assignmentname, mode = Model.mode })
+            @Html.ActionLink("Download", "DownloadFile", new { filename=item , coursename = Model.coursename, username = Model.username, filefolder = Model.assignmentname, mode = Model.mode }) |
+            @Html.ActionLink("Delete", "DeleteFile", new { filename= item , coursename = Model.coursename, username = Model.username, filefolder = Model.assignmentname, mode = Model.mode })
         </td>
     </tr>
 }

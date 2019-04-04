@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -126,7 +127,7 @@ namespace TeamRoles.Controllers
 
             System.IO.File.Delete(path + filename);
 
-            return RedirectToAction("ListAssignments","Assignments",new { courseid = repository.FindCourseId(username, coursename)});
+            return RedirectToAction("ListAssignments","Assignments",new { courseid = repository.FindCourseId(coursename, username)});
         }
 
         /// <summary>
