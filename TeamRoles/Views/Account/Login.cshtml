@@ -104,19 +104,19 @@
                 },
                 function(data) {
                    if (data === 0)
-                  {
+                   {
                         $("#Status").html('<font color="red">You must Register First...</font>');
                        $("#Username").css("border-color", "Red");
                    }
-                    if (data === 2)
-                    {
-                        $("#Status").html('<font color="Red">You are not Validated yet...</font>');
-                        $("#Username").css("border-color", "Red");
-                    }
-                    else
+                    if (data === 1)
                     {
                         $("#Status").html('<font color="green">You are Validated</font>');
                         $("#Username").css("border-color", "Green");
+                    }
+                    else if(data == 2)
+                    {
+                        $("#Status").html('<font color="Red">You are not Validated yet...</font>');
+                        $("#Username").css("border-color", "Red");
                     }
                 });
         }

@@ -227,7 +227,7 @@ namespace TeamRoles.Controllers
         [AllowAnonymous]
         public JsonResult CheckUserValidated(string username)
         {
-            var searchData = db.Users.SingleOrDefault(x => x.UserName == username);
+           var searchData = db.Users.SingleOrDefault(x => x.UserName == username);
 
             //            if (searchData == null)
             //            {
