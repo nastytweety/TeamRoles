@@ -234,7 +234,11 @@ namespace TeamRoles.Controllers
             //                return Json(0);
             //            }
             /*else */
-            if (searchData.Validated != true)
+            if (searchData==null)
+            {
+                return Json(0);
+            }
+            else if(searchData!=null&&searchData.Validated == true)
             {
                 return Json(1);
             }

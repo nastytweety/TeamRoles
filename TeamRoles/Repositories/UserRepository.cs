@@ -485,6 +485,11 @@ namespace TeamRoles.Repositories
             }
         }
 
+        /// <summary>
+        /// Returns the average grade of a student
+        /// </summary>
+        /// <param name="student">the student</param>
+        /// <returns>the grade in double</returns>
         public double GetAverageGrade(ApplicationUser student)
         {
             double average = 0;
@@ -504,6 +509,11 @@ namespace TeamRoles.Repositories
             return average / count;
         }
 
+        /// <summary>
+        /// Returns the total absences of a student
+        /// </summary>
+        /// <param name="student">the student</param>
+        /// <returns>the number of absences as int</returns>
         public int GetTotalAbsences(ApplicationUser student)
         {
             int count = 0;

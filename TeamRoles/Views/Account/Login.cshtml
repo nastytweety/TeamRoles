@@ -103,12 +103,12 @@
                     username: $("#Username").val()
                 },
                 function(data) {
-//                    if (data === 0)
-//                    {
-//                        $("#Status").html('<font color="red">You must Register First...</font>');
-//                        $("#Username").css("border-color", "Red");
-//                    }
-                    if (data === 1)
+                   if (data === 0)
+                  {
+                        $("#Status").html('<font color="red">You must Register First...</font>');
+                       $("#Username").css("border-color", "Red");
+                   }
+                    if (data === 2)
                     {
                         $("#Status").html('<font color="Red">You are not Validated yet...</font>');
                         $("#Username").css("border-color", "Red");
