@@ -97,18 +97,18 @@
 
     <script>
         function UserCheck() {
-            $("#Status").html(/*"Checking..."*/);
+            $("#Status").html("Checking...");
             $.post("@Url.Action("CheckUserValidated", "Account")",
                 {
                     username: $("#Username").val()
                 },
                 function(data) {
-//                    if (data === 0)
-//                    {
-//                        $("#Status").html('<font color="red">You must Register First...</font>');
-//                        $("#Username").css("border-color", "Red");
-//                    }
-                    if (data === 1)
+                    if (data == 0)
+                    {
+                        $("#Status").html('<font color="red">You must Register First...</font>');
+                        $("#Username").css("border-color", "Red");
+                    }
+                    else if (data == 1)
                     {
                         $("#Status").html('<font color="Red">You are not Validated yet...</font>');
                         $("#Username").css("border-color", "Red");

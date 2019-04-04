@@ -27,65 +27,103 @@
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            <img src="~/Users/@item.UserName/@Url.Content(item.ProfilePic)" width="100" height="100" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-
-        @if (User.IsInRole("Parent"))
-        {
+        <tr>
             <td>
-                @*Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                <img src="~/Users/@item.UserName/@Url.Content(item.ProfilePic)" width="100" height="100" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
 
-                @*Html.ActionLink("Request Connection", "ParentConnect", new { id = item.Id })*@
-                <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal_@item.Id">Request Connection</button>
+            @if (User.IsInRole("Parent"))
+            {
+                <td>
+                    @*Html.ActionLink("Details", "Details", new { id = item.Id }) |
 
-                <div id="myModal_@item.Id" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            @using (Html.BeginForm("ParentConnect", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                            {
-                                @Html.AntiForgeryToken()
+                        @*Html.ActionLink("Request Connection", "ParentConnect", new { id = item.Id })*@
+                    <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal_@item.Id">Request Connection</button>
 
-                            <div class="form-horizontal">
-                                <h4>Birthday Validation</h4>
-                                <hr />
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                <div class="form-group">
-                                    <p>Enter your child's Birthday</p>
-                                    <div class="col-md-10">
-                                        <input type="date" name="BirthDay" id="BirthDay">
+                    <div id="myModal_@item.Id" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                @using (Html.BeginForm("ParentConnect", "Student", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-horizontal">
+                                        <h4>Birthday Validation</h4>
+                                        <hr />
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            <p>Enter your child's Birthday</p>
+                                            <div class="col-md-10">
+                                                <input type="date" name="BirthDay" id="BirthDay">
+                                            </div>
+                                        </div>
+                                        <input type="hidden" value="@item.Id" id="Id" name="Id" />
                                     </div>
-                                </div>
-                                <input type="hidden" value="@item.Id" id="Id" name="Id"  />
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Submit" class="btn btn-primary" />
+                                        </div>
+                                    </div>
+                                }
+
                             </div>
-                                <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-10">
-                                        <input type="submit" value="Submit" class="btn btn-primary" />
-                                    </div>
-                                </div>
-                            }
-
                         </div>
                     </div>
-                </div>
-            </td>
-        }
-        else
-        {
-            <td>
-            @Html.ActionLink("Details", "Details", new { id = item.Id })
-            </td>
-        }
-     </tr>
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.Id })
+                </td>
+            }
+        </tr>
     }
 </table>
+
+@if (TempData["Message"] != null)
+{
+    <script type="text/javascript">
+                    window.onload = function () {
+                        alert('@TempData["Message"]');
+                    };
+    </script>
+}
+
+@if (TempData["Request"] != null)
+{
+    <script type="text/javascript">
+                    window.onload = function () {
+                        alert('@TempData["Request"]');
+                    };
+    </script>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <script type="text/javascript">
+                    window.onload = function () {
+                        alert('@TempData["ErrorMessage"]');
+                    };
+    </script>
+}
+
+@if (TempData["Error"] != null)
+{
+    <script type="text/javascript">
+                    window.onload = function () {
+                        alert('@TempData["Error"]');
+                    };
+    </script>
+}
+
+
 
 
 

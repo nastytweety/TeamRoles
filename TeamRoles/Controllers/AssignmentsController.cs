@@ -34,10 +34,10 @@ namespace TeamRoles.Controllers
         public ActionResult CreateAssignment(Assignment assignment,int CourseId)
         {
             CoursesRepository repository = new CoursesRepository();
-
-            if(!repository.CheckIfAssignmentExists(assignment,CourseId))
+            Course course = db.Courses.Where(c => c.CourseId == CourseId).SingleOrDefault();
+            if (!repository.CheckIfAssignmentExists(assignment,CourseId))
             {
-                Course course = db.Courses.Where(c => c.CourseId == CourseId).SingleOrDefault();
+                
                 ApplicationUser teacher = db.Users.Find(course.Teacher.Id);
                 List<Assignment> assignments = course.Assignments.ToList();
 
@@ -56,7 +56,8 @@ namespace TeamRoles.Controllers
             }
             else
             {
-                return RedirectToAction("Error");
+                TempData["Error"] = "Assignment already exists! Try again";
+                return RedirectToAction("CourseHome", "Courses", course);
             }
         }
 

@@ -78,4 +78,22 @@
     </script>
 }
 
+@if (TempData["Error"] != null)
+{
+    <script type="text/javascript">
+                    window.onload = function () {
+                        alert('@TempData["Error"]');
+                    };
+    </script>
+}
+
+@if (TempData["Errormsg"] != null)
+{
+    <script type="text/javascript">
+                    window.onload = function () {
+                        alert('@TempData["Errormsg"]');
+                    };
+    </script>
+}
+
 

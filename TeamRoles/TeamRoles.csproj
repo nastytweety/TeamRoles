@@ -617,9 +617,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Courses\CourseHome.cshtml" />
     <Content Include="Views\Roles\ManageUsers.cshtml" />
-    <Content Include="Views\Courses\Request.cshtml" />
     <Content Include="Views\Home\Requests.cshtml" />
-    <Content Include="Views\Student\RequestSent.cshtml" />
     <Content Include="Views\Home\JoinRequests.cshtml" />
     <Content Include="Views\Home\AcceptParentRequests.cshtml" />
     <Content Include="Views\Student\Parent_Index.cshtml" />
@@ -627,7 +625,6 @@
     <Content Include="Views\Home\AdminRoleRequests.cshtml" />
     <Content Include="Views\Teacher\SetGrades.cshtml" />
     <Content Include="Views\Student\Student_Index_ToSelect.cshtml" />
-    <Content Include="Views\Assignments\Error.cshtml" />
     <Content Include="Views\Assignments\ListAssignments.cshtml" />
     <Content Include="Views\UploadFiles\UploadAnswear.cshtml" />
     <Content Include="Views\UploadFiles\GetSubmits.cshtml" />
@@ -635,20 +632,16 @@
     <Content Include="Views\Assignments\Edit.cshtml" />
     <Content Include="Views\Courses\CourseGrades.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
-    <Content Include="Views\Home\!Chat2.cshtml" />
     <Content Include="Views\Shared\_Carousel.cshtml" />
     <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Manage\Edit.cshtml" />
     <Content Include="Views\Home\Home.cshtml" />
     <Content Include="Views\Posts\Edit.cshtml" />
-    <Content Include="Views\Posts\Delete.cshtml" />
     <Content Include="Views\Lectures\Create.cshtml" />
-    <Content Include="Views\Lectures\Error.cshtml" />
     <Content Include="Views\Lectures\ListLectures.cshtml" />
     <Content Include="Views\Lectures\Delete.cshtml" />
     <Content Include="Views\Courses\_Create.cshtml" />
     <Content Include="Views\Courses\_Edit.cshtml" />
-    <Content Include="Views\Student\Error.cshtml" />
     <Content Include="Views\Courses\_CreateAssignments.cshtml" />
     <Content Include="Views\Parent\Admin_Index.cshtml" />
     <Content Include="Views\Parent\Details.cshtml" />
@@ -660,6 +653,7 @@
     <Content Include="Views\Home\_TeacherNavbar.cshtml" />
     <Content Include="Views\Student\_ParentNavbar.cshtml" />
     <Content Include="Views\Assignments\_UploadAnswer.cshtml" />
+    <Content Include="Views\Home\_EditPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
