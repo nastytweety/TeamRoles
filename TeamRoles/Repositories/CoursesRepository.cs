@@ -256,10 +256,10 @@ namespace TeamRoles.Repositories
         /// </summary>
         /// <param name="lecture">The lecture</param>
         /// <returns>boolean</returns>
-        public bool CheckIfLectureExists(Lecture lecture)
+        public bool CheckIfLectureExists(Lecture lecture,int CourseId)
         {
-            Course course = db.Courses.SingleOrDefault(c => c.CourseId == lecture.Course.CourseId);
-            List<Lecture> lectures = db.Lectures.Where(l=>l.LectureId==lecture.LectureId).ToList();
+            Course course = db.Courses.SingleOrDefault(c => c.CourseId == CourseId);
+            List<Lecture> lectures = course.Lectures.ToList();
             foreach (var l in lectures)
             {
                 if (l.LectureName == lecture.LectureName)

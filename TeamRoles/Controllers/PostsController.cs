@@ -77,19 +77,52 @@ namespace TeamRoles.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "PostId,PostText,PostDate")] Post post)
         {
-            Post posttobeupdated = db.Posts.Find(post.PostId);
-            posttobeupdated.PostText = post.PostText;
-            posttobeupdated.PostDate = post.PostDate;
-            if (ModelState.IsValid)
+            if (post.PostId != 0)
             {
+                Post posttobeupdated = db.Posts.Find(post.PostId);
+                if (post.PostText != null)
+                {
+                    posttobeupdated.PostText = post.PostText;
+                }
+                if (post.PostDate != null)
+                {
+                    posttobeupdated.PostDate = post.PostDate;
+                }
                 db.Entry(posttobeupdated).State = EntityState.Modified;
                 db.SaveChanges();
+
+                return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Index", "Home");
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+
+
+
+            
         }
 
-        // GET: Posts/Delete/5
-        public ActionResult Delete(int? id)
+        //// GET: Posts/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Post post = db.Posts.Find(id);
+        //    if (post == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(post);
+        //}
+
+        //POST: Posts/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Delete(int id)
         {
             if (id == null)
             {
@@ -99,16 +132,7 @@ namespace TeamRoles.Controllers
             if (post == null)
             {
                 return HttpNotFound();
-            }
-            return View(post);
-        }
-
-        // POST: Posts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Post post = db.Posts.Find(id);
+            }            
             db.Posts.Remove(post);
             db.SaveChanges();
             return RedirectToAction("Index","Home");
